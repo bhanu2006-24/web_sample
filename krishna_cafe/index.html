@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Krishna’s Café — Premium one-page (PNG assets, living sections)
+    Heroes:      img/hero1.png, img/hero2.png, img/hero3.png, img/hero4.png, img/hero5.png
+    Menu pages:  img/bvg1.png, img/bvg-hot.png, img/food-chi.png, img/food-chat.png
+    Signatures:  img/sig1.png … img/sig12.png
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Krishna’s Café & Bakery | Mansarovar, Jaipur</title>
+  <meta name="description" content="Pure‑veg comfort, specialty coffee, and a cozy Mansarovar vibe near ISKCON Temple. Open 12 PM–10 PM." />
+  <meta name="theme-color" content="#0b0c0f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#0b0c0f; --text:#e9eaec; --muted:#a5a8ae; --gold:#f1c40f; --accent:#ffd66b;
+      --card:#121317; --max:1180px; --radius:16px; --border:rgba(255,255,255,.08); --shadow:rgba(0,0,0,.55);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    a{color:var(--gold);text-decoration:none}
+
+    /* Navigation */
+    .nav{position:fixed;inset:0 0 auto 0;background:rgba(9,10,12,.6);backdrop-filter:saturate(140%) blur(10px);z-index:1000;border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:var(--max);margin:0 auto;padding:.9rem 1rem;display:flex;gap:1rem;align-items:center;justify-content:space-between}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+
+    .brand-logo {
+      width: 52px;       /* ← Double the original 26px */
+      height: auto;      /* Maintain aspect ratio */
+      border-radius: 12px; /* Optional: soft corners (or remove for full PNG) */
+      object-fit: contain;
+      display: block;
+      } 
+   .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+    .nav-links a{color:#fff;opacity:.9;font-weight:600}
+    .nav-links a:hover{color:var(--gold);opacity:1}
+
+    /* Sections */
+    .section{max-width:var(--max);margin:0 auto;padding:4.8rem 1.25rem}
+    h2{text-align:center;color:var(--gold);margin:0 0 1.4rem;font-size:clamp(1.6rem,3vw,2.4rem)}
+    .lead{text-align:center;color:var(--muted);max-width:900px;margin:0 auto 2rem}
+
+    /* Hero (parallax) */
+    .hero{height:92vh;min-height:540px;display:grid;place-items:center;position:relative;overflow:hidden;background-position:center;background-size:cover;background-attachment:fixed}
+    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.85))}
+    .hero-c{position:relative;text-align:center;padding:1rem;max-width:920px}
+    .hero h1{font-size:clamp(2.4rem,5vw,4.4rem);margin:0 0 .5rem;text-shadow:0 10px 40px var(--shadow)}
+    .hero p{color:var(--accent);margin:.4rem 0 1.2rem}
+    .cta{display:inline-flex;gap:.6rem;align-items:center;padding:.9rem 1.3rem;border-radius:999px;background:var(--gold);color:#151515;font-weight:700;box-shadow:0 12px 30px rgba(241,196,15,.25)}
+    .cta:hover{transform:translateY(-2px)}
+
+    /* Cards base (for marquee content blocks) */
+    .card-mini{min-width:360px;background:#0f1217;border:1px solid var(--border);border-radius:12px;padding:1rem;box-shadow:0 10px 26px var(--shadow)}
+    @media (max-width:640px){.card-mini{min-width:280px}}
+
+    /* Marquee track generic */
+    .track-wrap{position:relative;border:1px solid var(--border);border-radius:14px;background:#0e1015;overflow:hidden;padding:.7rem}
+    .track{display:flex;gap:12px;will-change:transform}
+    .menu-carousel-wrapper {
+      position: relative;
+    }
+
+      .menu-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--gold);
+        color: #151515;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        font-weight: bold;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 10;
+        transition: background 0.2s, transform 0.2s;
+      }
+
+      .menu-arrow.left {
+        left: -20px;
+      }
+
+      .menu-arrow.right {
+        right: -20px;
+      }
+
+      .menu-arrow:hover {
+        background: #e0b50c;
+        transform: translateY(-50%) scale(1.05);
+      }
+
+
+    /* Menu written lists */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.2rem}
+    .card{background:var(--card);border-radius:var(--radius);padding:1.2rem;border:1px solid var(--border);box-shadow:0 12px 32px var(--shadow)}
+    .card h3{margin:0 0 .6rem;color:var(--gold)}
+    .price-list{list-style:none;margin:.6rem 0 0;padding:0}
+    .price-list li{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px dashed var(--border)}
+    .price{color:var(--accent);font-weight:700}
+    .menu-next-all{display:flex;justify-content:center;margin-top:1rem}
+    .btn{display:inline-flex;gap:.4rem;align-items:center;padding:.7rem 1.1rem;border-radius:999px;background:#0f1217;border:1px solid rgba(255,255,255,.12);color:#fff;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--gold);color:#151515;border:none;box-shadow:0 12px 30px rgba(241,196,15,.22)}
+
+.menu-frame-wrapper {
+  position: relative;
+  max-width: 98%; /* slightly wider */
+  width: 98%;
+  margin: 2.5rem auto 0;
+}
+
+.menu-frame {
+  position: relative; /* so arrows are positioned relative to this */
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 16px; /* slightly more rounded */
+  overflow: hidden;
+  background: #0f1116;
+  box-shadow: 0 12px 32px var(--shadow);
+  height: clamp(440px, 88vh, 760px); /* slightly taller */
+}
+
+.menu-cell {
+  width: 50%;
+}
+
+.menu-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Arrow buttons — now positioned inside .menu-frame */
+.menu-arrow.left {
+  left: 16px;
+}
+.menu-arrow.right {
+  right: 16px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .menu-frame {
+    display: block;
+    height: clamp(440px, 88vh, 640px); /* taller on mobile too */
+  }
+
+  .menu-cell {
+    width: 100%;
+    height: 100%;
+  }
+
+  .menu-cell:last-child {
+    display: none;
+  }
+
+  .menu-arrow.left,
+  .menu-arrow.right {
+    top: auto;
+    bottom: 16px;
+    transform: none;
+  }
+}
+
+/* Signatures (3 marquee rows of images) */
+    .sig-row{display:flex;gap:12px;overflow:hidden;border:1px solid var(--border);border-radius:14px;background:#0e1015;padding:.7rem;margin-bottom:12px}
+    .sig-track{display:flex;gap:12px;will-change:transform}
+    .sig-card{min-width:300px;background:#0f1116;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+    .sig-card img{width:100%;height:220px;object-fit:cover;display:block}
+    @media (max-width:640px){.sig-card{min-width:240px}.sig-card img{height:200px}}
+
+    /* Reviews (3 rows) */
+    .review-card{min-width:360px;background:#0f1217;border:1px solid var(--border);border-radius:12px;padding:1rem;box-shadow:0 10px 26px var(--shadow)}
+    .stars{color:#ffd66b;font-weight:800;letter-spacing:2px;margin-bottom:.4rem}
+    @media (max-width:640px){.review-card{min-width:280px}}
+
+    /* Footer */
+    footer{background:#000;color:#90949a;text-align:center;padding:2rem 1rem;border-top:1px solid var(--border)}
+    footer p{margin:.25rem 0}
+    .footer-links{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.6rem}
+    .map-wrapper{display:flex;justify-content:center;margin-top:1rem}
+    .map{border:0;width:min(90%, 600px);height:360px;border-radius:14px;border:1px solid var(--border);box-shadow:0 10px 26px var(--shadow)}
+  /* Hamburger menu styles */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  width: 32px;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  align-items: center;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+@media (max-width: 767px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(9,10,12,0.95);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 1.2rem;
+    gap: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: clip-path 0.3s ease-in-out;
+  }
+
+  .nav-links.active {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .nav-links a {
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+  }
+}
+.menu-spread {
+  display: flex;              /* put children side by side */
+  justify-content: center;    /* center the whole spread */
+  align-items: flex-start;    /* align both at the top */
+  gap: 20px;                  /* space between pages */
+  width: 90%;                 /* spread covers 90% of screen */
+  margin: 0 auto;             /* center horizontally */
+}
+
+.page {
+  flex: 1;                    /* each takes equal space */
+  max-width: 45%;             /* each ~45% of screen */
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.page img {
+  width: 100%;                /* fill container width */
+  height: auto;               /* keep proportions */
+  object-fit: contain;        /* no stretching */
+  border-radius: 8px;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+<!-- NAV -->
+<header class="nav" role="banner" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <div class="brand">
+      <img src="img/logo.png" alt="Krishna’s Café Logo" class="brand-logo" />
+      <span>Krishna’s Café & Bakery</span>
+    </div>
+
+    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#signatures">Signatures</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#footer">Contact</a>
+    </nav>
+  </div>
+</header>
+
+  <!-- HERO 1 -->
+  <section class="hero" style="background-image:url('img/hero1.png')" aria-label="Top hero">
+    <div class="hero-c">
+      <h1>Pure‑veg comfort • Specialty coffee • Cozy ambience</h1>
+      <p>Near ISKCON Temple, Mansarovar — 12 PM to 10 PM</p>
+      <a class="cta" href="#menu">Explore the menu</a>
+    </div>
+  </section>
+
+  <!-- ABOUT (2 marquee rows, staggered) -->
+  <section id="about" class="section" aria-labelledby="about-title">
+    <h2 id="about-title">About Krishna Café</h2>
+    <p class="lead">
+      Nestled close to the tranquil waters of Lake Sarovar, Krishna Café radiates comfort for students, families, and friends alike.
+      Famous for refreshing mango lassi, flavorful fusion wraps, and the joy of chess nights — Krishna Café is not just a spot for food, it’s a feeling.
+    </p>
+    </p>
+
+    <div class="track-wrap" aria-label="About row A">
+      <div class="track" id="aboutA">
+        <div class="card-mini"><h3>Specialty coffee</h3><p>Iced signatures, latte art, layered brews.</p></div>
+        <div class="card-mini"><h3>Fusion comfort</h3><p>Alfredo, tandoori, mac, momos, wraps, fries.</p></div>
+        <div class="card-mini"><h3>Cozy ambience</h3><p>Warm lighting, board games, friendly service.</p></div>
+        <div class="card-mini"><h3>Easy visit</h3><p>Dine‑in, takeaway, delivery, quick directions.</p></div>
+        <!-- duplicates -->
+        <div class="card-mini"><h3>Specialty coffee</h3><p>Iced signatures, latte art, layered brews.</p></div>
+        <div class="card-mini"><h3>Fusion comfort</h3><p>Alfredo, tandoori, mac, momos, wraps, fries.</p></div>
+      </div>
+    </div>
+
+    <div class="track-wrap" aria-label="About row B" style="margin-top:12px">
+      <div class="track" id="aboutB">
+        <div class="card-mini"><h3>Neighborhood hub</h3><p>Students, families, and friends gather here.</p></div>
+        <div class="card-mini"><h3>Pure‑veg comfort</h3><p>Crafted, familiar, and satisfying.</p></div>
+        <div class="card-mini"><h3>Photo‑friendly</h3><p>Warm corners, cozy vibes, clean plating.</p></div>
+        <div class="card-mini"><h3>Friendly service</h3><p>Welcoming team with a smile.</p></div>
+        <!-- duplicates -->
+        <div class="card-mini"><h3>Neighborhood hub</h3><p>Students, families, and friends gather here.</p></div>
+        <div class="card-mini"><h3>Pure‑veg comfort</h3><p>Crafted, familiar, and satisfying.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU HERO -->
+  <section class="hero" style="background-image:url('img/hero2.png')" aria-label="Menu hero">
+    <div class="hero-c">
+      <h1>Comfort plates • Crafted brews • Warm lighting</h1>
+      <p>Browse the menu — curated & clear</p>
+      <a class="cta" href="#menu">View menu</a>
+    </div>
+  </section>
+
+<!-- MENU -->
+<section id="menu" class="section" aria-labelledby="menu-title">
+  <h2 id="menu-title">Complete Menu</h2>
+  <p class="lead">Swipe through all categories — updated & complete.</p>
+
+  <!-- Wrapper for carousel + overlay arrows -->
+  <div class="menu-carousel-wrapper" style="position:relative; margin-top:1.5rem;">
+    <div class="grid" id="menuCarousel">
+      <!-- Columns injected by JS -->
+    </div>
+
+    <!-- Left arrow -->
+    <button class="menu-arrow left" id="menuArrowLeft" aria-label="Previous menu categories"><</button>
+    <!-- Right arrow -->
+    <button class="menu-arrow right" id="menuArrowRight" aria-label="Next menu categories">></button>
+  </div>
+
+
+
+  <!-- Book-style menu spread - CORRECTED VERSION -->
+  <div class="menu-frame-wrapper mt-8">
+    <div class="menu-frame">
+      <!-- Left page -->
+      <div class="menu-cell">
+        <img id="menuLeft" 
+             src="img/bvg1.png" 
+             alt="Beverage Menu" 
+             class="menu-cell-img">
+      </div>
+      
+      <!-- Right page -->
+      <div class="menu-cell">
+        <img id="menuRight" 
+             src="img/food-chi.png" 
+             alt="Food Menu" 
+             class="menu-cell-img">
+      </div>
+          <!-- Navigation arrows INSIDE the wrapper -->
+    <button id="menuImgLeft" aria-label="Previous menu images" class="menu-arrow left"><</button>
+    <button id="menuImgRight" aria-label="Next menu images" class="menu-arrow right">></button>
+    </div>
+  </div>
+
+
+</section>
+
+</section>
+
+<!-- SIGNATURES HERO -->
+  <section class="hero" style="background-image:url('img/hero3.png')" aria-label="Signatures hero">
+    <div class="hero-c">
+      <h1>Signature items • Curated for the pitch</h1>
+      <p>Crafted coffees • Comfort plates • Cozy corners</p>
+      <a class="cta" href="#signatures">See signatures</a>
+    </div>
+  </section>
+
+  <!-- SIGNATURES (3 marquee rows, staggered) -->
+  <section id="signatures" class="section" aria-labelledby="sig-title">
+    <h2 id="sig-title">Signature items</h2>
+    <p class="lead">A curated set that feels endless (no captions).</p>
+
+    <!-- Row 1 -->
+    <div class="sig-row" aria-label="Signatures row 1">
+      <div class="sig-track" id="sigRow1">
+        <div class="sig-card"><img src="img/sig1.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig2.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig3.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig4.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig5.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig6.png" alt="Signature item"></div>
+        <!-- duplicates -->
+        <div class="sig-card"><img src="img/sig1.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig2.png" alt="Signature item"></div>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="sig-row" aria-label="Signatures row 2">
+      <div class="sig-track" id="sigRow2">
+        <div class="sig-card"><img src="img/sig7.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig8.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig9.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig10.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig11.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig12.png" alt="Signature item"></div>
+        <!-- duplicates -->
+        <div class="sig-card"><img src="img/sig7.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig8.png" alt="Signature item"></div>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="sig-row" aria-label="Signatures row 3">
+      <div class="sig-track" id="sigRow3">
+        <div class="sig-card"><img src="img/sig13.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig14.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig15.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig16.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig17.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig18.png" alt="Signature item"></div>
+        <!-- duplicates -->
+        <div class="sig-card"><img src="img/sig13.png" alt="Signature item"></div>
+        <div class="sig-card"><img src="img/sig14.png" alt="Signature item"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS HERO -->
+  <section class="hero" style="background-image:url('img/hero4.png')" aria-label="Reviews hero">
+    <div class="hero-c">
+      <h1>Real words from regulars</h1>
+      <p>Kind notes that keep us brewing</p>
+      <a class="cta" href="#reviews">See reviews</a>
+    </div>
+  </section>
+
+  <!-- REVIEWS (3 marquee rows, staggered) -->
+  <section id="reviews" class="section" aria-labelledby="reviews-title">
+    <h2 id="reviews-title">What people say</h2>
+    <p class="lead">Three rows, moving independently — feels endless.</p>
+
+    <div class="track-wrap" aria-label="Reviews row 1">
+      <div class="track" id="reviewsRow1">
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Aishwarya</strong><p>Love the vibe, games, and iced coffee.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Manish</strong><p>Perfect coffee, super service, positive atmosphere.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Neha</strong><p>Tandoori pasta & momos — best. Friendly owner.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Amit</strong><p>Delicious wraps and iced coffee; great value.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Arti</strong><p>Quality, hygiene, welcoming. Highly recommended.</p></div>
+        <!-- duplicates -->
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Aishwarya</strong><p>Love the vibe, games, and iced coffee.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Manish</strong><p>Perfect coffee, super service, positive atmosphere.</p></div>
+      </div>
+    </div>
+
+    <div class="track-wrap" aria-label="Reviews row 2" style="margin-top:12px">
+      <div class="track" id="reviewsRow2">
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Dinesh</strong><p>Coffee awesome. Lovely place. Comfort.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Parth</strong><p>Good food, affordable, lovely ambiance, personalized service.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Sunam</strong><p>Amazing vibe; board games; ice coffee & momos.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Manish</strong><p>Positive atmosphere, perfect brew, super service.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Arti</strong><p>Quality, hygiene, welcoming. Highly recommended.</p></div>
+        <!-- duplicates -->
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Dinesh</strong><p>Coffee awesome. Lovely place. Comfort.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Parth</strong><p>Good food, affordable, lovely ambiance, personalized service.</p></div>
+      </div>
+    </div>
+
+    <div class="track-wrap" aria-label="Reviews row 3" style="margin-top:12px">
+      <div class="track" id="reviewsRow3">
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Anita</strong><p>Lovely ambience; iced coffee hits the spot.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Rahul</strong><p>Go‑to place for pasta and coffee dates.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Kavya</strong><p>Friendly staff, cozy corners, photo‑perfect.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Ravi</strong><p>Great value, delicious wraps, clean space.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Mona</strong><p>Warm lighting and comfort plates, love it.</p></div>
+        <!-- duplicates -->
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Anita</strong><p>Lovely ambience; iced coffee hits the spot.</p></div>
+        <div class="review-card"><div class="stars">★★★★★</div><strong>Rahul</strong><p>Go‑to place for pasta and coffee dates.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER HERO -->
+  <section class="hero" style="background-image:url('img/hero5.png')" aria-label="Footer hero">
+    <div class="hero-c">
+      <h1>Visit, sip, and unwind</h1>
+      <p>Near ISKCON Temple — easy directions</p>
+      <a class="cta" href="#footer">Get in touch</a>
+    </div>
+  </section>
+
+  <!-- FOOTER (expanded + centered dynamic map) -->
+  <footer id="footer" role="contentinfo" aria-labelledby="footer-title">
+    <h2 id="footer-title" style="margin:0 0 .6rem; color:var(--gold)">Krishna’s Café & Bakery</h2>
+    <p>Plot 61, Krishna Sarovar, Near ISKCON Temple, Mansarovar, Jaipur</p>
+    <p>Open daily: 12:00 PM – 10:00 PM</p>
+    <p><strong>Phone:</strong> +91 8949731495</p>
+
+    <div class="footer-links" aria-label="Quick links">
+      <a class="btn primary" href="tel:+918949731495">Call now</a>
+      <a class="btn" href="https://maps.app.goo.gl/tNeEc82gzNPhitRG6" target="_blank" rel="noopener">Directions</a>
+      <a class="btn" href="https://www.zomato.com/jaipur/gangaur-palace-1-jhotwara" target="_blank" rel="noopener">Zomato</a>
+      <a class="btn" href="https://www.swiggy.com/menu/450997" target="_blank" rel="noopener">Swiggy</a>
+      <a class="btn" href="https://www.instagram.com/krishna_websites/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+
+    <div class="map-wrapper">
+    <iframe
+      class="map"
+      title="Krishna Café on Google Maps"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.1617044843137!2d75.8214898!3d26.9288389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db4324eeda797%3A0x2260d13cd55e605c!2sTHIKANA%20MANDIR%20SRI%20GOVINDDEVJI%20%2C%20JAIPUR!5e0!3m2!1sen!2sin!4v1696920000000!5m2!1sen!2sin"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    </div>
+
+    <p style="margin-top:.8rem">© 2025 Krishna’s Café & Bakery — Vrindavan</p>
+    <p>Designed in Jaipur</p>
+  </footer>
+
+  <!-- Scripts: staggered marquees + menu pagination + menu image shift -->
+  <script>
+    // Generic staggered marquee with initial offset
+function marquee(trackId, speed, delayMs, startOffsetPx) {
+  const el = document.getElementById(trackId);
+  if (!el) return;
+
+  // Ensure enough duplicates for seamless loop
+  const originalContent = el.innerHTML;
+  const trackWidth = el.scrollWidth;
+  const containerWidth = el.parentElement.clientWidth;
+
+  // Keep duplicating until content is at least 2x container width
+  while (el.scrollWidth < containerWidth * 2.2) {
+    el.innerHTML += originalContent;
+  }
+
+  // Use provided start offset or random one
+  let x = startOffsetPx !== undefined ? startOffsetPx : -Math.random() * 300;
+
+  function loop() {
+    x -= speed;
+    el.style.transform = `translateX(${x}px)`;
+
+    // Reset when *entire original content* has scrolled out
+    if (Math.abs(x) > trackWidth) {
+      x += trackWidth;
+    }
+
+    requestAnimationFrame(loop);
+  }
+
+  setTimeout(loop, delayMs || 0);
+}
+
+// About rows (staggered + offset)
+marquee('aboutA', 0.28,   0,   -100);
+marquee('aboutB', 0.32, 1800, -220);
+
+// Signatures rows
+marquee('sigRow1', 0.30,   0,  -150);
+marquee('sigRow2', 0.34, 1600, -300);
+marquee('sigRow3', 0.26, 2800, -250);
+
+// Reviews rows
+marquee('reviewsRow1', 0.30,   0,  -180);
+marquee('reviewsRow2', 0.35, 2000, -320);
+marquee('reviewsRow3', 0.27, 3200, -260);
+// === NEW MENU CATEGORIES DATA ===
+const fullMenu = {
+  "Chinese": [
+    ["Steam Momos", "₹80"],
+    ["Fried Momos", "₹100"],
+    ["Chilli Momos", "₹120"],
+    ["Smokey Creamy Momos", "₹150"],
+    ["Chilly Garlic Noodles", "₹130"],
+    ["Singapuri Noodles", "₹140"],
+    ["Momo Noodles", "₹140"]
+  ],
+  "Pasta": [
+    ["Macroni", "₹140"],
+    ["White Snowflake Pasta", "₹160"],
+    ["Pinky the Pooh Pasta", "₹200"],
+    ["Nacho's Cheesy Pasta", "₹200"],
+    ["Tandoori Pasta", "₹220"]
+  ],
+  "Sandwiches": [
+    ["Grilled Cheese Sandwich", "₹160"],
+    ["Veg Grilled Cheese Sandwich", "₹180"]
+  ],
+  "Chatarpatar": [
+    ["Masala Maggi", "₹80"],
+    ["Vegetable Maggi", "₹100"],
+    ["Cheese Maggi", "₹120"],
+    ["Schezwan Maggi", "₹130"],
+    ["Chipotle Maggi", "₹130"],
+    ["French Fries", "₹90"],
+    ["Peri-Peri Fries", "₹120"],
+    ["Cheesy Nugget Fries", "₹160"]
+  ],
+  "Pizza & Garlic Bread": [
+    ["Plain Garlic Bread", "₹100"],
+    ["Cheesy Garlic Bread", "₹130"],
+    ["Spicy Garlic Bread", "₹140"],
+    ["OTC Pizza", "₹200"],
+    ["Smokey Paneer Pizza", "₹230"],
+    ["Spicy Peri-Peri Pizza", "₹230"]
+  ],
+  "Burger & Wraps": [
+    ["Aloo Tikki Burger", "₹80"],
+    ["Mexican Veggie Burger", "₹100"],
+    ["Secret Sauce Burger", "₹120"],
+    ["Aloo Chatkara Wrap", "₹120"],
+    ["Farm Cheesy Wrap", "₹140"],
+    ["Spicy Paneer Wrap", "₹180"]
+  ],
+  "Hot Coffee": [
+    ["Espresso Shot (60ml)", "₹80"],
+    ["Espresso Macchiato", "₹90"],
+    ["Americano", "₹90"],
+    ["Cappuccino", "₹90"],
+    ["Latte", "₹90"],
+    ["Flat White", "₹90"],
+    ["Mocha", "₹120"],
+    ["Irish Latte", "₹120"],
+    ["Hazelnut Latte", "₹120"],
+    ["Caramel Latte", "₹120"]
+  ],
+  "Chocoholic": [
+    ["Hot Chocolate", "₹110"],
+    ["Premium Dark Hot Chocolate", "₹130"],
+    ["Double Dark Hot Chocolate", "₹150"]
+  ],
+  "Stir Before Sip (Iced Coffee)": [
+    ["Espresso on the Rocks", "₹80"],
+    ["Iced Americano", "₹100"],
+    ["Iced Coffee", "₹100"],
+    ["American Bean Iced Coffee", "₹130"],
+    ["Iced Mocha", "₹140"],
+    ["Iced Irish", "₹160"],
+    ["Iced Caramel", "₹160"],
+    ["Iced Hazelnut", "₹160"]
+  ],
+  "Shakes": [
+    ["Strawberry Shake", "₹120"],
+    ["Chocolate Shake", "₹120"],
+    ["Black Current Shake", "₹150"],
+    ["Blueberry Shake", "₹150"],
+    ["Mud Pie Shake", "₹150"],
+    ["Oreo Shake", "₹180"],
+    ["Starwberry Oreo Shake", "₹180"],
+    ["Espresso Brownie Shake", "₹200"]
+  ],
+  "Cold Coffee": [
+    ["Cold Coffee", "₹120"],
+    ["American Bean Cold Coffee", "₹150"],
+    ["Cold Coffee Frappe", "₹130"],
+    ["American Bean Creamy Frappe", "₹160"],
+    ["Mocha Frappe", "₹130"],
+    ["American Bean Mocha Frappe", "₹160"],
+    ["Caramel Frappe", "₹130"],
+    ["American Bean Caramel Frappe", "₹160"],
+    ["Hazelnut Frappe", "₹140"],
+    ["American Bean Hazelnut Frappe", "₹170"],
+    ["Oreo Frappe", "₹150"],
+    ["Choco Oreo Frappe", "₹180"],
+    ["Double Chocolate Frappe", "₹180"]
+  ],
+  "Mojitos": [
+    ["Mint Mojito", "₹100"],
+    ["Blackcurrent Mojito", "₹120"],
+    ["Strawberry Mojito", "₹120"],
+    ["Blueberry Mojito", "₹120"],
+    ["Kiwi Mojito", "₹120"]
+  ],
+  "Dessert": [
+    ["Brownie", "Price on request"],
+    ["Chocolate Fondue", "₹120"],
+    ["Nutella Fondue", "₹140"],
+    ["Coffee Fondue", "₹140"]
+  ],
+  "Extras": [
+    ["Coffee Shot", "₹40"],
+    ["Water Bottle", "₹20"]
+  ]
+};
+
+// Get category names in order
+const categories = Object.keys(fullMenu);
+let startIndex = 0; // which category is in column 1
+
+function renderMenuColumns() {
+  const container = document.getElementById('menuCarousel');
+  container.innerHTML = '';
+  
+  // Show 4 categories starting from startIndex
+  for (let i = 0; i < 4; i++) {
+    const catIndex = (startIndex + i) % categories.length;
+    const catName = categories[catIndex];
+    const items = fullMenu[catName];
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<h3>${catName}</h3><ul class="price-list"></ul>`;
+    
+    const ul = card.querySelector('.price-list');
+    items.forEach(([name, price]) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span>${name}</span><span class="price">${price}</span>`;
+      ul.appendChild(li);
+    });
+
+    container.appendChild(card);
+  }
+}
+
+// Initialize
+renderMenuColumns();
+
+// Arrow handlers
+document.getElementById('menuArrowRight').addEventListener('click', () => {
+  startIndex = (startIndex + 1) % categories.length;
+  renderMenuColumns();
+});
+
+document.getElementById('menuArrowLeft').addEventListener('click', () => {
+  startIndex = (startIndex - 1 + categories.length) % categories.length;
+  renderMenuColumns();
+});
+
+// === MENU IMAGE FRAME (with < and >) ===
+(function(){
+  const left = document.getElementById('menuLeft');
+  const right = document.getElementById('menuRight');
+  const leftBtn = document.getElementById('menuImgLeft');
+  const rightBtn = document.getElementById('menuImgRight');
+
+  // Update the pages array to match your actual image files
+  const pages = [
+    'img/bvg1.png',     // Beverage menu
+    'img/food-chi.png', // Food menu
+    'img/bvg-hot.png',  // Hot beverages
+    'img/food-chat.png' // Chat items
+  ];
+  let i = 0;
+
+  function showPair(){
+    left.src  = pages[i % pages.length];
+    right.src = pages[(i+1) % pages.length];
+  }
+
+  function next(){ i = (i + 1) % pages.length; showPair(); }
+  function prev(){ i = (i - 1 + pages.length) % pages.length; showPair(); }
+
+  rightBtn.addEventListener('click', next);
+  leftBtn.addEventListener('click', prev);
+
+  // Auto shift every 5s
+  setInterval(next, 5000);
+  showPair();
+})();
+// Mobile hamburger toggle
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+if (hamburger) {
+  hamburger.addEventListener('click', () => {
+    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', !isExpanded);
+    navLinks.classList.toggle('active');
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+  </script>
+</body>
+</html>
