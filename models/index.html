@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celeste | Model Portfolio</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter and a premium Serif font --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <!-- Load Lucide Icons for social links --><script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* Custom styles for premium look and effects */
+        :root {
+            --primary-text: #1a1a1a;
+            --secondary-text: #888;
+            --bg-color: #f7f7f7;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+        }
+
+        /* Hero Parallax Effect - Only applied to the static quote section now */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Styles for the Slideshow IMG */
+        #slideshow-image {
+            object-fit: contain; /* CRITICAL: Ensures the entire image is visible */
+            width: 100%;
+            height: 100%;
+            transition: opacity 1s ease-in-out; 
+            opacity: 0; /* Starts hidden, set to 1 on first image load */
+        }
+
+        /* Marquee Styles (for the top horizontal text ticker) */
+        .marquee-content {
+            white-space: nowrap;
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- Horizontal Infinite Scroll Gallery Styles --- */
+        .horizontal-gallery {
+            /* Create fade-out effect at the edges */
+            -webkit-mask-image: linear-gradient(to right, transparent 5%, black 20%, black 80%, transparent 95%);
+            mask-image: linear-gradient(to right, transparent 5%, black 20%, black 80%, transparent 95%);
+            background-color: var(--bg-color); /* Ensure mask works against background */
+        }
+        .scroll-row {
+            display: flex;
+            width: fit-content; /* Critical: allows content to exceed viewport width */
+            padding: 1rem 0;
+            will-change: transform; /* Hint to the browser for better performance */
+        }
+        .scroll-item {
+            flex-shrink: 0;
+            width: 250px; /* Fixed width for uniformity */
+            height: 350px;
+            margin: 0 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .scroll-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Stronger shadow for drama */
+        }
+        .scroll-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Added smooth corners to match site style */
+            border-radius: 0.75rem; 
+        }
+
+        /* Animations for Infinite Scroll - Using translate3d for better GPU acceleration */
+        @keyframes scroll-left {
+            from { transform: translate3d(0, 0, 0); }
+            to { transform: translate3d(-50%, 0, 0); } 
+        }
+        @keyframes scroll-right {
+            from { transform: translate3d(-50%, 0, 0); }
+            to { transform: translate3d(0, 0, 0); } 
+        }
+
+        /* Apply animations to specific rows */
+        .row-1 { animation: scroll-left 50s linear infinite; }
+        .row-2 { animation: scroll-right 60s linear infinite; } 
+        .row-3 { animation: scroll-left 55s linear infinite; }
+        
+        /* Pause class for Intersection Observer (lag-free fix) */
+        .scroll-row.paused {
+            animation-play-state: paused !important;
+        }
+
+        /* Style for the Campaigns image grid rotation */
+        #high-impact-grid img {
+            transition: opacity 0.3s ease-in-out; /* Smooth transition for swapping images */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Fixed Instagram Button --><a id="insta-float-button" href="https://www.instagram.com/krishna_websites" target="_blank" 
+       class="fixed bottom-6 right-6 z-50 p-4 bg-gray-900 text-white rounded-full shadow-2xl hover:bg-pink-600 transition duration-300 transform hover:scale-105" 
+       aria-label="Instagram Profile Link">
+        <!-- Using inline SVG for immediate visibility --><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram">
+            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+        </svg>
+    </a>
+
+    <!-- Navigation Header --><header class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-sm shadow-lg py-4 px-6 md:px-12 flex justify-between items-center">
+        <h1 class="font-['Playfair_Display'] text-2xl font-extrabold tracking-widest text-gray-900">CELESTE</h1>
+        <nav class="hidden md:flex space-x-8 text-sm font-medium">
+            <a href="#portfolio" class="hover:text-pink-600 transition duration-150">Portfolio</a>
+            <a href="#editorial" class="hover:text-pink-600 transition duration-150">Vision</a>
+            <a href="#campaigns" class="hover:text-pink-600 transition duration-150">Campaigns</a>
+            <a href="#contact" class="hover:text-pink-600 transition duration-150">Connect</a>
+        </nav>
+        <a href="https://www.instagram.com/krishna_websites" target="_blank" class="text-gray-900 hover:text-pink-600 transition duration-150 flex items-center space-x-2 text-sm font-medium">
+            <span class="hidden sm:inline">@krishna_websites</span>
+            <span id="header-insta-icon" class="w-5 h-5"></span>
+        </a>
+    </header>
+
+    <main class="pt-[68px]">
+        
+        <!-- === HERO SLIDESHOW SECTION (7-Image Rotation - FULLY VISIBLE IMAGE) === --><section id="hero-slideshow" class="h-[80vh] flex items-center justify-center text-white shadow-inner relative overflow-hidden bg-gray-200">
+            <!-- Slideshow IMG Container (Controlled by JS, object-fit: contain) --><img id="slideshow-image" src="" alt="Model Hero Image" class="absolute inset-0 max-w-full max-h-full m-auto z-0">
+
+            <!-- Text Overlay (remains perfectly centered regardless of cropping) --><div class="relative z-10 text-center bg-black/40 p-8 rounded-xl backdrop-blur-sm max-w-4xl mx-4 transition duration-500">
+                <p id="slideshow-tagline" class="text-lg md:text-xl font-light tracking-widest uppercase mb-2 transition duration-500 opacity-100">High Fashion Muse</p>
+                <h2 id="slideshow-title" class="font-['Playfair_Display'] text-7xl md:text-9xl font-bold italic tracking-tighter mb-4 transition duration-500 opacity-100">
+                    Celeste.
+                </h2>
+                <p id="slideshow-subtitle" class="text-xl md:text-2xl font-light tracking-widest uppercase text-pink-300 transition duration-500 opacity-100">
+                    Elegance is an attitude. Vision is everything.
+                </p>
+            </div>
+        </section>
+
+        <!-- === MARQUEE SECTION (Infinite Scroll Text) === --><section class="bg-gray-900 overflow-hidden py-4 border-y border-gray-700">
+            <div class="w-full text-white text-3xl md:text-5xl font-extralight uppercase tracking-widest">
+                <div class="marquee-content flex">
+                    <!-- Duplicate content to ensure seamless loop --><span class="mx-8 whitespace-nowrap">Elegance - Fashion - Art - Portfolio -</span>
+                    <span class="mx-8 whitespace-nowrap">Beauty - Style - Vision - Editorial -</span>
+                    <span class="mx-8 whitespace-nowrap">Elegance - Fashion - Art - Portfolio -</span>
+                    <span class="mx-8 whitespace-nowrap">Beauty - Style - Vision - Editorial -</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- === MODEL SCROLL GALLERY (Lag-Free Infinite Horizontal Marquee - 3 ROWS) === --><section id="portfolio" class="py-16 md:py-24 max-w-full overflow-hidden">
+            <h2 class="text-5xl font-['Playfair_Display'] font-bold text-center mb-12 md:mb-16 px-4">The Infinite Collection</h2>
+            
+            <div class="horizontal-gallery space-y-8">
+                <!-- Rows are injected by JavaScript --><div id="scroll-row-1" class="scroll-row row-1 paused"></div>
+                <div id="scroll-row-2" class="scroll-row row-2 paused"></div>
+                <div id="scroll-row-3" class="scroll-row row-3 paused"></div>
+            </div>
+        </section>
+
+        <!-- === NEW EDITORIAL VISION SECTION (Dual Column) === --><section id="editorial" class="bg-white py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left Column: Image --><div class="order-2 md:order-1 rounded-xl shadow-2xl overflow-hidden">
+                    <img src="https://images.pexels.com/photos/19732647/pexels-photo-19732647.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+                         alt="Model Editorial Setup" 
+                         class="w-full h-full object-cover transition duration-500 hover:scale-[1.01]"
+                         onerror="this.onerror=null; this.src='https://placehold.co/600x800/eeeeee/333333?text=Editorial+Vision';"
+                    >
+                </div>
+                
+                <!-- Right Column: Text --><div class="order-1 md:order-2">
+                    <p class="uppercase text-sm tracking-widest text-pink-600 mb-2">Creative Direction</p>
+                    <h2 class="font-['Playfair_Display'] text-5xl font-bold mb-6 leading-tight">
+                        Defining the Narrative.
+                    </h2>
+                    <p class="text-gray-700 text-lg mb-8">
+                        Every photograph in this collection is a collaboration—a narrative crafted between the model, the photographer, and the stylist. We move beyond simple representation, creating visual statements that are bold, evocative, and deeply rooted in contemporary high fashion.
+                    </p>
+                    <p class="font-['Playfair_Display'] text-2xl italic text-gray-900 border-l-4 border-gray-900 pl-4">
+                        "The goal isn't just to be seen, but to be remembered."
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- === HERO SECTION 4 (Mid-Page Parallax Quote) === --><section class="h-[70vh] flex items-center justify-center text-white parallax-bg" 
+                 style="background-image: url('https://images.pexels.com/photos/19447915/pexels-photo-19447915.jpeg'); background-attachment: fixed; background-position: top center;">
+            <div class="text-center bg-black/50 p-8 md:p-12 rounded-lg max-w-2xl mx-4">
+                <h3 class="font-['Playfair_Display'] text-4xl md:text-5xl font-bold italic mb-4">
+                    "Creativity is the greatest rebellion in existence."
+                </h3>
+                <p class="text-lg font-medium tracking-wider uppercase border-t pt-4 mt-4 border-white/50">
+                    Celeste / Muse
+                </p>
+            </div>
+        </section>
+        
+        <!-- === HIGH-IMPACT GRID SECTION (Now called Campaigns - WITH ROTATION) === --><section id="campaigns" class="py-16 md:py-24 bg-gray-50">
+             <h2 class="text-5xl font-['Playfair_Display'] font-bold text-center mb-12 px-4">The Editorial Cut / Campaigns</h2>
+            <div class="max-w-7xl mx-auto px-4 md:px-6">
+                <!-- Grid structure is built on load and image srcs are rotated via JS --><div id="high-impact-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Grid items will be managed by JavaScript --></div>
+            </div>
+        </section>
+
+
+        <!-- === CONNECT/CONTACT CTA SECTION === --><section id="contact" class="py-24 md:py-32 text-center bg-white border-t border-gray-200">
+            <h2 class="text-5xl md:text-6xl font-['Playfair_Display'] font-bold mb-6">Let's Create</h2>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-10 px-4">
+                For commercial bookings, editorial commissions, or collaborations, please reach out via my agency or connect directly on social media.
+            </p>
+            <a href="https://www.instagram.com/krishna_websites" target="_blank" class="inline-flex items-center space-x-3 text-white bg-pink-600 hover:bg-pink-700 transition duration-300 px-8 py-3 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5">
+                <span id="cta-insta-icon" class="w-6 h-6"></span>
+                <span>Follow the Journey: @krishna_websites</span>
+            </a>
+        </section>
+
+    </main>
+
+    <!-- Footer --><footer class="bg-gray-900 text-white py-6 text-center text-sm">
+        <p class="font-['Playfair_Display'] text-xl mb-2">CELESTE</p>
+        <p class="text-gray-400">&copy; 2025 Model Portfolio. All rights reserved.</p>
+        <div class="mt-2">
+            <a href="https://www.instagram.com/krishna_websites" target="_blank" class="text-pink-500 hover:text-pink-400 transition duration-150 text-xs tracking-wider">
+                Managed by @krishna_websites
+            </a>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- SLIDESHOW DATA (7 Slides) ---
+        const slideshowData = [
+            { url: "https://images.pexels.com/photos/16834198/pexels-photo-16834198.jpeg", title: "Celeste.", subtitle: "Elegance is an attitude. Vision is everything." },
+            { url: "https://images.pexels.com/photos/17347492/pexels-photo-17347492.jpeg", title: "Editorial Muse", subtitle: "A story in every frame." },
+            { url: "https://images.pexels.com/photos/19732647/pexels-photo-19732647.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", title: "Creative Cut", subtitle: "Defining the narrative." },
+            { url: "https://images.pexels.com/photos/17347482/pexels-photo-17347482.jpeg", title: "High Fashion", subtitle: "The Signature Look." },
+            { url: "https://images.pexels.com/photos/16834197/pexels-photo-16834197.jpeg", title: "Runway Ready", subtitle: "A timeless perspective." },
+            { url: "https://images.pexels.com/photos/16834211/pexels-photo-16834211.jpeg", title: "The Campaign", subtitle: "Strength in simplicity." },
+            { url: "https://images.pexels.com/photos/17362908/pexels-photo-17362908.jpeg", title: "Modern Goddess", subtitle: "Intensity in every frame." }
+        ];
+
+        let currentSlideIndex = 0;
+
+        const runSlideshow = () => {
+            const slideshowImg = document.getElementById('slideshow-image');
+            const taglineElement = document.getElementById('slideshow-tagline');
+            const titleElement = document.getElementById('slideshow-title');
+            const subtitleElement = document.getElementById('slideshow-subtitle');
+
+            if (!slideshowImg) return; // Check if the image element exists
+
+            const updateSlide = () => {
+                const slide = slideshowData[currentSlideIndex];
+                
+                // Preload image to avoid flash
+                const img = new Image();
+                img.onload = () => {
+                    // Start fading text out and image out
+                    slideshowImg.style.opacity = '0';
+                    taglineElement.classList.add('opacity-0');
+                    titleElement.classList.add('opacity-0');
+                    subtitleElement.classList.add('opacity-0');
+                    
+                    // Wait for fade-out before applying new image and fading text/image in
+                    setTimeout(() => {
+                        slideshowImg.src = slide.url; // Update the image source
+                        
+                        taglineElement.textContent = "High Fashion Muse";
+                        titleElement.textContent = slide.title;
+                        subtitleElement.textContent = slide.subtitle;
+                        
+                        // Fade image and text back in
+                        slideshowImg.style.opacity = '1';
+                        taglineElement.classList.remove('opacity-0');
+                        titleElement.classList.remove('opacity-0');
+                        subtitleElement.classList.remove('opacity-0');
+
+                    }, 500); // Wait 0.5s for text/image to fade out
+                    
+                    // Set initial opacity to 1 after the first image loads
+                    slideshowImg.style.opacity = 1;
+                };
+                img.src = slide.url;
+
+
+                // Move to the next slide
+                currentSlideIndex = (currentSlideIndex + 1) % slideshowData.length;
+            };
+
+            // Initial call to start the sequence
+            updateSlide();
+            
+            // Start the interval (5 seconds between image changes)
+            setInterval(updateSlide, 5000); 
+        };
+        
+        // --- Gallery Image Data ---
+const imageUrls = [
+    "https://images.pexels.com/photos/16834198/pexels-photo-16834198.jpeg",
+    "https://images.pexels.com/photos/16834197/pexels-photo-16834197.jpeg",
+    "https://images.pexels.com/photos/16834211/pexels-photo-16834211.jpeg",
+    "https://images.pexels.com/photos/16834196/pexels-photo-16834196.jpeg",
+    "https://images.pexels.com/photos/16834195/pexels-photo-16834195.jpeg",
+    "https://images.pexels.com/photos/16834203/pexels-photo-16834203.jpeg",
+    "https://images.pexels.com/photos/16834210/pexels-photo-16834210.jpeg",
+    "https://images.pexels.com/photos/16834187/pexels-photo-16834187.jpeg",
+    "https://images.pexels.com/photos/16834189/pexels-photo-16834189.jpeg",
+    "https://images.pexels.com/photos/16834181/pexels-photo-16834181.jpeg",
+    "https://images.pexels.com/photos/16834180/pexels-photo-16834180.jpeg",
+    "https://images.pexels.com/photos/16834185/pexels-photo-16834185.jpeg",
+    "https://images.pexels.com/photos/16834172/pexels-photo-16834172.jpeg",
+    "https://images.pexels.com/photos/16834175/pexels-photo-16834175.jpeg",
+    "https://images.pexels.com/photos/16834176/pexels-photo-16834176.jpeg",
+    "https://images.pexels.com/photos/17362907/pexels-photo-17362907.jpeg",
+    "https://images.pexels.com/photos/17362906/pexels-photo-17362906.jpeg",
+    "https://images.pexels.com/photos/17362899/pexels-photo-17362899.jpeg",
+    "https://images.pexels.com/photos/17362902/pexels-photo-17362902.jpeg",
+    "https://images.pexels.com/photos/17362904/pexels-photo-17362904.jpeg",
+    "https://images.pexels.com/photos/17362892/pexels-photo-17362892.jpeg",
+    "https://images.pexels.com/photos/17362896/pexels-photo-17362896.jpeg",
+    "https://images.pexels.com/photos/17362895/pexels-photo-17362895.jpeg",
+    "https://images.pexels.com/photos/17347492/pexels-photo-17347492.jpeg",
+    "https://images.pexels.com/photos/17347485/pexels-photo-17347485.jpeg",
+    "https://images.pexels.com/photos/17347487/pexels-photo-17347487.jpeg",
+    "https://images.pexels.com/photos/17347483/pexels-photo-17347483.jpeg",
+    "https://images.pexels.com/photos/17347482/pexels-photo-17347482.jpeg",
+    "https://images.pexels.com/photos/17347476/pexels-photo-17347476.jpeg",
+    "https://images.pexels.com/photos/17347474/pexels-photo-17347474.jpeg",
+    "https://images.pexels.com/photos/17347480/pexels-photo-17347480.jpeg",
+    "https://images.pexels.com/photos/17362908/pexels-photo-17362908.jpeg",
+    "https://images.pexels.com/photos/19447920/pexels-photo-19447920.jpeg",
+    "https://images.pexels.com/photos/19447918/pexels-photo-19447918.jpeg",
+    "https://images.pexels.com/photos/19447915/pexels-photo-19447915.jpeg",
+    "https://images.pexels.com/photos/19447914/pexels-photo-19447914.jpeg",
+    "https://images.pexels.com/photos/19447913/pexels-photo-19447913.jpeg",
+    "https://images.pexels.com/photos/19447910/pexels-photo-19447910.jpeg",
+    "https://images.pexels.com/photos/19732663/pexels-photo-19732663.jpeg",
+    "https://images.pexels.com/photos/19732643/pexels-photo-19732643.jpeg",
+    "https://images.pexels.com/photos/19732629/pexels-photo-19732629.jpeg",
+    "https://images.pexels.com/photos/20333054/pexels-photo-20333054.jpeg",
+    "https://images.pexels.com/photos/20333051/pexels-photo-20333051.jpeg",
+    "https://images.pexels.com/photos/20332987/pexels-photo-20332987.jpeg",
+    "https://images.pexels.com/photos/20332985/pexels-photo-20332985.jpeg",
+    "https://images.pexels.com/photos/20332974/pexels-photo-20332974.jpeg",
+    "https://images.pexels.com/photos/20332964/pexels-photo-20332964.jpeg",
+    "https://images.pexels.com/photos/20332962/pexels-photo-20332962.jpeg",
+    "https://images.pexels.com/photos/16834200/pexels-photo-16834200.jpeg",
+    "https://images.pexels.com/photos/16834202/pexels-photo-16834202.jpeg",
+    "https://images.pexels.com/photos/16834199/pexels-photo-16834199.jpeg",
+    "https://images.pexels.com/photos/16834194/pexels-photo-16834194.jpeg",
+    "https://images.pexels.com/photos/16834205/pexels-photo-16834205.jpeg",
+    "https://images.pexels.com/photos/16834204/pexels-photo-16834204.jpeg",
+    "https://images.pexels.com/photos/16834190/pexels-photo-16834190.jpeg",
+    "https://images.pexels.com/photos/16834188/pexels-photo-16834188.jpeg",
+    "https://images.pexels.com/photos/16834186/pexels-photo-16834186.jpeg",
+    "https://images.pexels.com/photos/16834182/pexels-photo-16834182.jpeg",
+    "https://images.pexels.com/photos/16834183/pexels-photo-16834183.jpeg",
+    "https://images.pexels.com/photos/16834173/pexels-photo-16834173.jpeg",
+    "https://images.pexels.com/photos/16834174/pexels-photo-16834174.jpeg",
+    "https://images.pexels.com/photos/16834171/pexels-photo-16834171.jpeg",
+    "https://images.pexels.com/photos/16834177/pexels-photo-16834177.jpeg",
+    "https://images.pexels.com/photos/17362900/pexels-photo-17362900.jpeg",
+    "https://images.pexels.com/photos/17362898/pexels-photo-17362898.jpeg",
+    "https://images.pexels.com/photos/17362901/pexels-photo-17362901.jpeg",
+    "https://images.pexels.com/photos/17362905/pexels-photo-17362905.jpeg",
+    "https://images.pexels.com/photos/17362903/pexels-photo-17362903.jpeg",
+    "https://images.pexels.com/photos/17362897/pexels-photo-17362897.jpeg",
+    "https://images.pexels.com/photos/17362893/pexels-photo-17362893.jpeg",
+    "https://images.pexels.com/photos/17362891/pexels-photo-17362891.jpeg",
+    "https://images.pexels.com/photos/17347490/pexels-photo-17347490.jpeg",
+    "https://images.pexels.com/photos/17347489/pexels-photo-17347489.jpeg",
+    "https://images.pexels.com/photos/17347488/pexels-photo-17347488.jpeg",
+    "https://images.pexels.com/photos/17347484/pexels-photo-17347484.jpeg",
+    "https://images.pexels.com/photos/17347473/pexels-photo-17347473.jpeg",
+    "https://images.pexels.com/photos/17347477/pexels-photo-17347477.jpeg",
+    "https://images.pexels.com/photos/17347478/pexels-photo-17347478.jpeg",
+    "https://images.pexels.com/photos/17347475/pexels-photo-17347475.jpeg",
+    "https://images.pexels.com/photos/17347486/pexels-photo-17347486.jpeg",
+    "https://images.pexels.com/photos/19447919/pexels-photo-19447919.jpeg",
+    "https://images.pexels.com/photos/19447917/pexels-photo-19447917.jpeg",
+    "https://images.pexels.com/photos/19447916/pexels-photo-19447916.jpeg",
+    "https://images.pexels.com/photos/19447912/pexels-photo-19447912.jpeg",
+    "https://images.pexels.com/photos/19447911/pexels-photo-19447911.jpeg",
+    "https://images.pexels.com/photos/19732665/pexels-photo-19732665.jpeg",
+    "https://images.pexels.com/photos/19732647/pexels-photo-19732647.jpeg",
+    "https://images.pexels.com/photos/19732633/pexels-photo-19732633.jpeg",
+    "https://images.pexels.com/photos/20333062/pexels-photo-20333062.jpeg",
+    "https://images.pexels.com/photos/20333057/pexels-photo-20333057.jpeg",
+    "https://images.pexels.com/photos/20332989/pexels-photo-20332989.jpeg",
+    "https://images.pexels.com/photos/20332986/pexels-photo-20332986.jpeg",
+    "https://images.pexels.com/photos/20332975/pexels-photo-20332975.jpeg",
+    "https://images.pexels.com/photos/20332968/pexels-photo-20332968.jpeg",
+    "https://images.pexels.com/photos/20332963/pexels-photo-20332963.jpeg",
+    "https://images.pexels.com/photos/20332958/pexels-photo-20332958.jpeg"
+];        
+        // Function to build the infinite scrolling rows (3 Rows)
+        const buildInfiniteScrollGallery = () => {
+            const galleryRows = [
+                document.getElementById('scroll-row-1'),
+                document.getElementById('scroll-row-2'),
+                document.getElementById('scroll-row-3')
+            ];
+
+            const totalImages = imageUrls.length;
+            const imagesPerRow = Math.ceil(totalImages / galleryRows.length); 
+
+            galleryRows.forEach((row, rowIndex) => {
+                const startIndex = rowIndex * imagesPerRow;
+                const endIndex = Math.min(startIndex + imagesPerRow, totalImages);
+                
+                let rowImages = imageUrls.slice(startIndex, endIndex);
+
+                if (rowIndex === galleryRows.length - 1 && endIndex < totalImages) {
+                    rowImages = imageUrls.slice(startIndex);
+                }
+
+                // CRITICAL: Content must be duplicated to achieve the seamless infinite scroll animation.
+                const infiniteContent = [...rowImages, ...rowImages];
+                
+                const rowContent = infiniteContent.map(url => {
+                    return `
+                        <div class="scroll-item rounded-xl overflow-hidden shadow-lg transition duration-500">
+                            <img 
+                                src="${url}" 
+                                alt="Editorial Model Image" 
+                                class="rounded-xl" 
+                                loading="lazy"
+                                onerror="this.onerror=null; this.src='https://placehold.co/250x350/eeeeee/333333?text=Image+Load+Error';"
+                            >
+                        </div>
+                    `;
+                }).join('');
+
+                row.innerHTML = rowContent;
+            });
+        };
+
+        // Function for performance optimization using Intersection Observer
+        const setupScrollPerformanceObserver = () => {
+            const gallery = document.querySelector('.horizontal-gallery');
+            if (!gallery || !window.IntersectionObserver) {
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const scrollRows = gallery.querySelectorAll('.scroll-row');
+                    if (entry.isIntersecting) {
+                        // Gallery is visible, start/unpause animations
+                        scrollRows.forEach(row => row.classList.remove('paused'));
+                    } else {
+                        // Gallery is NOT visible, pause animations for performance
+                        scrollRows.forEach(row => row.classList.add('paused'));
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.01 // Trigger when even a tiny part is visible
+            });
+
+            observer.observe(gallery);
+        };
+        
+        // --- Image Rotation Logic for Campaigns Section ---
+
+        // Helper function to shuffle and select N images
+        const getRandomUniqueImages = (array, n) => {
+            // Simple shuffle algorithm (creates a shallow copy for shuffling)
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, n);
+        };
+
+        // Function to update the grid with new random images
+        const updateHighImpactGrid = () => {
+            const gridContainer = document.getElementById('high-impact-grid');
+            if (!gridContainer) return;
+
+            // 1. Get 9 unique random images
+            const gridImages = getRandomUniqueImages(imageUrls, 9);
+            
+            // Get existing image elements
+            let existingImages = gridContainer.querySelectorAll('img');
+
+            if (existingImages.length === 9) {
+                // If elements exist, transition out, update src, then transition in
+                existingImages.forEach((img, index) => {
+                    // Start fade out
+                    img.style.opacity = '0'; 
+
+                    setTimeout(() => {
+                        // Swap image source
+                        img.src = gridImages[index];
+                        // Fade back in
+                        img.style.opacity = '1'; 
+                    }, 300); // Match CSS transition duration
+                });
+            } else {
+                // Build the HTML structure if it doesn't exist (initial load)
+                const gridContent = gridImages.map((url, index) => {
+                    return `
+                        <div class="aspect-[2/3] rounded-lg overflow-hidden shadow-xl transition duration-500 hover:shadow-2xl hover:scale-[1.01] cursor-pointer">
+                            <img 
+                                src="${url}" 
+                                alt="Editorial Image ${index + 1}" 
+                                class="w-full h-full object-cover opacity-0" 
+                                loading="lazy"
+                                onerror="this.onerror=null; this.src='https://placehold.co/400x600/333333/ffffff?text=Editorial';"
+                            >
+                        </div>
+                    `;
+                }).join('');
+                gridContainer.innerHTML = gridContent;
+                
+                // Immediately fade them in for the first time
+                // Query again to get the newly created elements
+                existingImages = gridContainer.querySelectorAll('img');
+                setTimeout(() => {
+                    existingImages.forEach(img => img.style.opacity = '1');
+                }, 50); // Small delay to allow DOM render before fade-in
+            }
+        };
+        
+        // NEW RESILIENT FUNCTION: Safely inject Lucide Icons with retry logic (Debugged)
+        const setupLucideIconsResiliently = (retries = 10, delay = 100) => {
+            if (typeof lucide !== 'undefined' && lucide.icons && lucide.icons['instagram']) {
+                // Icons are ready. Inject them now.
+                
+                // 1. Header Instagram Icon (w-5 h-5)
+                const headerIconContainer = document.getElementById('header-insta-icon');
+                if (headerIconContainer) {
+                    headerIconContainer.innerHTML = lucide.icons['instagram'].toSvg({ class: 'w-5 h-5' });
+                }
+                
+                // 2. CTA Instagram Icon (w-6 h-6)
+                const ctaIconContainer = document.getElementById('cta-insta-icon');
+                if (ctaIconContainer) {
+                    ctaIconContainer.innerHTML = lucide.icons['instagram'].toSvg({ class: 'w-6 h-6' });
+                }
+            } else if (retries > 0) {
+                // Not ready yet. Wait and retry.
+                setTimeout(() => setupLucideIconsResiliently(retries - 1, delay), delay);
+            } else {
+                // Fallback (this error should now be very rare)
+                console.error("Lucide icons library not fully loaded or 'instagram' icon is missing.");
+            }
+        };
+
+
+        // Wait for the entire window to fully load
+        window.onload = () => {
+            runSlideshow(); 
+            buildInfiniteScrollGallery();
+            setupScrollPerformanceObserver(); 
+            
+            // Initial call and set interval for the rotating grid (6000ms = 6 seconds)
+            updateHighImpactGrid();
+            setInterval(updateHighImpactGrid, 6000); 
+            
+            setupLucideIconsResiliently();
+        };
+    </script>
+</body>
+</html>

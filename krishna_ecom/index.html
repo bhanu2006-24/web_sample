@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER GOODS | Premium Apparel Store - Next Gen</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the Inter font and dark aesthetic */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #171717; /* Dark background */
+            color: #f5f5f5; /* Light text */
+            scroll-behavior: smooth;
+        }
+        /* Product card subtle glow/lift on hover */
+        .product-card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        .product-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+        }
+        /* Custom scrollbar for better look in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #262626;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Parallax Hero Specific CSS */
+        #parallax-hero {
+            background-attachment: fixed; /* Critical for simple parallax */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        
+        /* Slideshow transition */
+        .slide-fade {
+            transition: opacity 1.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 bg-[#1e1e1e] shadow-2xl shadow-black/50 border-b border-neutral-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo / Home Button -->
+                <button onclick="renderView('home')" class="text-3xl font-extrabold tracking-widest text-white hover:text-amber-400 transition duration-300">
+                    AETHER.
+                </button>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex space-x-10 font-medium text-sm">
+                    <button onclick="renderView('catalog')" class="text-neutral-300 hover:text-white transition duration-150 relative group">
+                        Apparel Catalog
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-amber-400 group-hover:w-full transition-all duration-300"></span>
+                    </button>
+                    <button onclick="renderView('drops')" class="text-neutral-300 hover:text-white transition duration-150 relative group">
+                        The Drop
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-amber-400 group-hover:w-full transition-all duration-300"></span>
+                    </button>
+                    <button onclick="renderView('manifesto')" class="text-neutral-300 hover:text-white transition duration-150 relative group">
+                        Manifesto
+                        <span class="absolute left-0 bottom-0 h-0.5 w-0 bg-amber-400 group-hover:w-full transition-all duration-300"></span>
+                    </button>
+                </nav>
+
+                <!-- Icons (Cart & Drops) -->
+                <div class="flex items-center space-x-4">
+                    <button class="relative p-2 rounded-full hover:bg-neutral-800 transition duration-150 text-white" 
+                            onclick="renderView('drops')">
+                        <i data-lucide="zap" class="w-5 h-5"></i>
+                        <span class="text-xs font-semibold">Drops</span>
+                    </button>
+                    <button class="relative p-2 rounded-full hover:bg-neutral-800 transition duration-150 text-white" 
+                            onclick="renderView('cart')">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        <span id="cart-counter" class="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 rounded-full bg-amber-400 text-neutral-900 text-xs font-bold ring-2 ring-neutral-800">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-container" class="min-h-screen">
+        <!-- Content will be rendered here based on the current view -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-900 text-white py-10 mt-12 border-t border-neutral-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:justify-between md:items-center">
+                <div class="mb-6 md:mb-0">
+                    <p class="text-2xl font-extrabold tracking-widest text-amber-400">AETHER.</p>
+                    <p class="text-sm text-neutral-400 mt-2">Crafting premium, enduring essentials.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <!-- Instagram link now points to krishna_websites -->
+                    <a href="https://www.instagram.com/krishna_websites" target="_blank" class="text-neutral-400 hover:text-white transition duration-150">
+                        <i data-lucide="instagram" class="w-6 h-6"></i>
+                    </a>
+                    <!-- WHATSAPP LINK REPLACEMENT -->
+                    <a href="https://wa.me/918949731495" target="_blank" class="text-neutral-400 hover:text-white transition duration-150" aria-label="WhatsApp to 8949731495">
+                        <i data-lucide="message-square" class="w-6 h-6"></i>
+                    </a>
+                    <!-- Mail link kept for general contact -->
+                    <a href="mailto:krishnawebsites@gmail.com" class="text-neutral-400 hover:text-white transition duration-150"><i data-lucide="mail" class="w-6 h-6"></i></a>
+                </div>
+            </div>
+            <div class="pt-6 mt-6 border-t border-neutral-700 text-center">
+                <p class="text-xs text-neutral-500">&copy; <span id="current-year"></span> Aether Goods. Prices are in Indian Rupee (₹). <span class="text-amber-400 font-bold">Designed by Krishna Website.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Universal Message Modal (Replaces all alerts/pop-ups) -->
+    <div id="message-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" aria-modal="true" role="dialog">
+        <div class="fixed inset-0 bg-neutral-900/70 transition-opacity" onclick="hideMessage()"></div>
+        <div id="modal-content" class="relative bg-neutral-800 rounded-xl p-6 shadow-2xl max-w-sm w-full transition-all transform opacity-0 scale-95 border border-amber-400/30">
+            <div class="flex items-start space-x-4">
+                <i id="modal-icon" data-lucide="info" class="w-6 h-6 text-amber-400 mt-0.5 flex-shrink-0"></i>
+                <div class="flex-grow">
+                    <h3 id="modal-title" class="text-xl font-bold text-white mb-1">Notification</h3>
+                    <p id="modal-message-text" class="text-sm text-neutral-300"></p>
+                </div>
+            </div>
+            <!-- Added container for action buttons like mailto -->
+            <div id="modal-actions" class="mt-4 space-y-2"></div>
+            <button onclick="hideMessage()" class="absolute top-3 right-3 text-neutral-400 hover:text-white transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div id="quick-view-modal" class="fixed inset-0 z-[90] hidden items-center justify-center p-4" aria-modal="true" role="dialog">
+        <div class="fixed inset-0 bg-neutral-900/70 transition-opacity" onclick="hideQuickView()"></div>
+        <div id="quick-view-content" class="relative bg-neutral-800 rounded-xl p-8 shadow-2xl max-w-2xl w-full transition-all transform opacity-0 scale-95 border border-neutral-700 overflow-y-auto max-h-[90vh]">
+            <h3 class="text-2xl font-bold text-white mb-4">Quick View</h3>
+            <div id="quick-view-body">
+                <!-- Product details will be injected here -->
+            </div>
+            <button onclick="hideQuickView()" class="absolute top-3 right-3 text-neutral-400 hover:text-white transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // --- Core Application State and Data ---
+        
+        const SHIPPING_COST = 150; // Fixed shipping cost in Rupees
+
+        // SLIDE IMAGES
+        const slides = [
+            { title: "The Alpha Drop", subtitle: "Zero-Gravity Textiles, Limited Edition.", image: 'img/thealphadrop.png' },
+            { title: "Engineered Essentials", subtitle: "Durability Meets Minimalist Design.", image: 'img/eng-essential.png' },
+            { title: "New Core Collection", subtitle: "Restocked. Re-engineered. Ready.", image: 'img/core-collection.png' }
+        ];
+
+        // PRODUCT IMAGES
+        const products = [
+            { id: 1, name: 'Classic Crewneck Tee', price: 1299, category: 'Tops', image: 'img/crewneck-tee.png' },
+            { id: 2, name: 'Oversized Graphic Tee', price: 1799, category: 'Tops', image: 'img/graphic-tee.png' },
+            { id: 3, name: 'Premium Polo Shirt', price: 2199, category: 'Tops', image: 'img/polo-shirt.png' },
+            { id: 4, name: 'Lightweight Summer Hoodie', price: 2999, category: 'Outerwear', image: 'img/summer-hoodie.png' },
+            { id: 5, name: 'Heavyweight Pullover Hoodie', price: 3499, category: 'Outerwear', image: 'img/pullover-hoodie.png' },
+            { id: 6, name: 'Zip-Up Hoodie', price: 3299, category: 'Outerwear', image: 'img/zip-hoodie.png' },
+            { id: 7, name: 'Classic Denim Jacket', price: 4999, category: 'Jackets', image: 'img/denim-jacket.png' },
+            { id: 8, name: 'Bomber Jacket', price: 5499, category: 'Jackets', image: 'img/bomber-jacket.png' },
+            { id: 9, name: 'Varsity Jacket', price: 5999, category: 'Jackets', image: 'img/varsity-jacket.png' },
+            { id: 10, name: 'Relaxed Fit Sweatpants', price: 2799, category: 'Bottoms', image: 'img/sweatpants.png' },
+            { id: 11, name: 'Slim Fit Joggers', price: 2499, category: 'Bottoms', image: 'img/joggers.png' },
+            { id: 12, name: 'Classic Baseball Cap', price: 999, category: 'Accessories', image: 'img/baseball-cap.png' },
+            { id: 13, name: 'Beanie', price: 899, category: 'Accessories', image: 'img/beanie.png' },
+            { id: 14, name: 'Oversized Flannel Shirt', price: 2299, category: 'Tops', image: 'img/flannel-shirt.png' },
+            { id: 15, name: 'Lightweight Windbreaker', price: 3999, category: 'Outerwear', image: 'img/windbreaker.png' },
+            { id: 16, name: 'Sleeveless Tank Top', price: 1099, category: 'Tops', image: 'img/tank-top.png' },
+            { id: 17, name: 'Classic Chino Shorts', price: 1699, category: 'Bottoms', image: 'img/chino-shorts.png' },
+            { id: 18, name: 'Track Jacket', price: 3799, category: 'Jackets', image: 'img/track-jacket.png' },
+            { id: 19, name: 'Puffer Jacket', price: 6499, category: 'Jackets', image: 'img/puffer-jacket.png' },
+            { id: 20, name: 'Longline Overcoat', price: 7999, category: 'Jackets', image: 'img/overcoat.png' }
+        ];
+
+        let appState = {
+            currentView: 'home',
+            selectedProductId: null,
+            cartItems: [] // { productId: 1, quantity: 2, price: 1299, size: 'M' }
+        };
+
+        // Slideshow state
+        let slideIndex = 0;
+        let slideInterval;
+
+        // --- Utility Functions & State Management ---
+
+        /**
+         * Finds a product by ID.
+         * @param {number} id
+         */
+        function getProductById(id) {
+            return products.find(p => p.id === id);
+        }
+
+        /**
+         * Formats a number as Indian Rupee (₹).
+         * @param {number} amount
+         */
+        function formatRupee(amount) {
+            return `₹${amount.toLocaleString('en-IN')}`;
+        }
+
+        /**
+         * Parallax effect handler for the hero section.
+         */
+        function handleParallaxScroll() {
+            const hero = document.getElementById('parallax-hero');
+            if (hero) {
+                // Adjust background position based on scroll, 0.5 is the parallax speed
+                const scrolled = window.pageYOffset;
+                hero.style.backgroundPositionY = `${scrolled * 0.5}px`;
+            }
+        }
+        
+        // --- Modal/Message Functions ---
+
+        const messageModal = document.getElementById('message-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-message-text');
+        const modalIcon = document.getElementById('modal-icon');
+        const modalActions = document.getElementById('modal-actions');
+
+        /**
+         * Universal function to display a custom modal message.
+         * @param {string} message - The content of the message (can include HTML/formatting).
+         * @param {string} title - The title of the modal.
+         * @param {string} type - 'success', 'error', or 'info'.
+         * @param {string} actionsHtml - HTML for action buttons in the modal.
+         */
+        function showMessage(message, title = 'Notification', type = 'info', actionsHtml = '') {
+            modalTitle.textContent = title;
+            modalText.innerHTML = message;
+            modalActions.innerHTML = actionsHtml;
+
+            modalIcon.classList.remove('text-green-500', 'text-red-500', 'text-amber-400');
+            modalIcon.setAttribute('data-lucide', 'info'); 
+
+            if (type === 'success') {
+                modalIcon.setAttribute('data-lucide', 'check-circle');
+                modalIcon.classList.add('text-green-500');
+            } else if (type === 'error') {
+                modalIcon.setAttribute('data-lucide', 'alert-triangle');
+                modalIcon.classList.add('text-red-500');
+            } else {
+                modalIcon.setAttribute('data-lucide', 'info');
+                modalIcon.classList.add('text-amber-400');
+            }
+            lucide.createIcons();
+
+            messageModal.style.display = 'flex';
+            const content = document.getElementById('modal-content');
+            setTimeout(() => {
+                content.classList.remove('opacity-0', 'scale-95');
+                content.classList.add('opacity-100', 'scale-100');
+            }, 10); 
+
+            clearTimeout(messageModal.timeoutId);
+            if (type === 'success' || type === 'info') {
+                messageModal.timeoutId = setTimeout(hideMessage, 8000); // Longer timeout
+            }
+        }
+
+        function hideMessage() {
+            const content = document.getElementById('modal-content');
+            content.classList.remove('opacity-100', 'scale-100');
+            content.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                messageModal.style.display = 'none';
+            }, 300);
+        }
+
+        // Quick View Modal functions
+        const quickViewModal = document.getElementById('quick-view-modal');
+
+        function showQuickView(productId) {
+            const product = getProductById(productId);
+            if (!product) return;
+
+            const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+            const sizeOptions = sizes.map(size => `
+                <button data-size="${size}" class="quick-size-selector p-2 w-10 h-10 bg-neutral-700 border border-neutral-600 rounded-lg text-neutral-300 hover:border-amber-400 hover:text-white text-sm transition duration-200">
+                    ${size}
+                </button>
+            `).join('');
+            
+            const quickViewBody = document.getElementById('quick-view-body');
+            quickViewBody.innerHTML = `
+                <div class="md:flex md:space-x-6">
+                    <img src="${product.image}" alt="${product.name}" class="w-full md:w-1/2 h-64 object-cover rounded-xl shadow-lg border border-neutral-700 mb-4 md:mb-0">
+                    <div class="md:w-1/2">
+                        <p class="text-sm uppercase tracking-wider text-amber-400 mb-1">${product.category}</p>
+                        <h2 class="text-3xl font-black text-white mb-2">${product.name}</h2>
+                        <p class="text-2xl font-extrabold text-amber-400 mb-4">${formatRupee(product.price)}</p>
+                        <p class="text-neutral-300 text-sm mb-4">
+                            Engineered for immediate comfort and timeless style. Features durable stitching and a temperature-regulating fabric blend.
+                        </p>
+                        
+                        <!-- Size Selector -->
+                        <div class="mb-6">
+                            <p class="text-sm font-semibold text-white mb-2">Select Size</p>
+                            <div id="quick-size-options" class="flex space-x-2">
+                                ${sizeOptions}
+                            </div>
+                        </div>
+
+                        <!-- Add to Cart Button -->
+                        <button onclick="handleQuickAddToCartClick(${product.id})" class="w-full py-3 bg-amber-400 text-neutral-900 font-bold rounded-lg hover:bg-amber-500 transition duration-300">
+                            Quick Add to Cart
+                        </button>
+                        <button onclick="renderView('product-detail', ${product.id}); hideQuickView();" class="w-full mt-2 py-3 border border-neutral-600 text-neutral-300 font-bold rounded-lg hover:bg-neutral-700 transition duration-300">
+                            View Full Details
+                        </button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+            
+            // Setup size selection listener for the Quick View modal
+            setTimeout(() => {
+                document.querySelectorAll('.quick-size-selector').forEach(button => {
+                    button.addEventListener('click', function() {
+                        document.querySelectorAll('.quick-size-selector').forEach(btn => {
+                            btn.classList.remove('ring-2', 'ring-amber-400');
+                        });
+                        this.classList.add('ring-2', 'ring-amber-400');
+                    });
+                });
+            }, 0);
+
+
+            quickViewModal.style.display = 'flex';
+            const content = document.getElementById('quick-view-content');
+            setTimeout(() => {
+                content.classList.remove('opacity-0', 'scale-95');
+                content.classList.add('opacity-100', 'scale-100');
+            }, 10); 
+        }
+
+        function hideQuickView() {
+            const content = document.getElementById('quick-view-content');
+            content.classList.remove('opacity-100', 'scale-100');
+            content.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                quickViewModal.style.display = 'none';
+            }, 300);
+        }
+
+        function handleQuickAddToCartClick(productId) {
+            const selectedSizeButton = document.querySelector('#quick-view-modal .quick-size-selector.ring-2');
+            if (!selectedSizeButton) {
+                return showMessage('Please select a size in the Quick View.', 'Required Selection', 'error');
+            }
+            const selectedSize = selectedSizeButton.dataset.size;
+            addToCart(productId, selectedSize);
+            hideQuickView();
+        }
+
+
+        // --- Cart Logic ---
+
+        function updateCartCount() {
+            const count = appState.cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-counter').textContent = count;
+        }
+        
+        function addToCart(productId, size) {
+            const product = getProductById(productId);
+            if (!product) return showMessage('Product not found.', 'Error', 'error');
+
+            const existingItem = appState.cartItems.find(item => item.productId === productId && item.size === size);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+                showMessage(`${product.name} (${size}) quantity updated.`, 'Cart Update', 'info');
+            } else {
+                appState.cartItems.push({
+                    productId: productId,
+                    quantity: 1,
+                    price: product.price,
+                    size: size
+                });
+                showMessage(`${product.name} (${size}) added to cart.`, 'Item Added', 'success');
+            }
+
+            updateCartCount();
+            if (appState.currentView === 'cart') {
+                renderCart();
+            }
+        }
+
+        function updateQuantity(productId, size, delta) {
+            const itemIndex = appState.cartItems.findIndex(item => item.productId === productId && item.size === size);
+            if (itemIndex === -1) return;
+
+            appState.cartItems[itemIndex].quantity += delta;
+
+            if (appState.cartItems[itemIndex].quantity <= 0) {
+                removeFromCart(productId, size);
+            } else {
+                renderCart();
+            }
+            updateCartCount();
+        }
+
+        function removeFromCart(productId, size) {
+            const product = getProductById(productId);
+
+            appState.cartItems = appState.cartItems.filter(item => !(item.productId === productId && item.size === size));
+            updateCartCount();
+            renderCart();
+            showMessage(`${product.name} (${size}) removed from cart.`, 'Item Removed', 'error');
+        }
+        
+        // --- View Rendering Functions ---
+
+        /**
+         * Renders the entire application based on the current view state.
+         */
+        function renderView(viewName, productId = null) {
+            appState.currentView = viewName;
+            appState.selectedProductId = productId;
+            const container = document.getElementById('app-container');
+            container.innerHTML = '';
+            window.scrollTo(0, 0);
+            
+            // Clear any existing listeners
+            window.removeEventListener('scroll', handleParallaxScroll);
+            clearInterval(slideInterval);
+
+            if (viewName === 'home') {
+                container.innerHTML = renderHomeView();
+                // Add Parallax and Slideshow setup for home view
+                window.addEventListener('scroll', handleParallaxScroll);
+                startSlideshow(); 
+            } else if (viewName === 'catalog') {
+                container.innerHTML = renderCatalogView();
+                renderProducts();
+            } else if (viewName === 'product-detail' && productId) {
+                container.innerHTML = renderProductDetailView(productId);
+                setTimeout(() => {
+                    setupSizeSelection();
+                    setupProductCarousel(); // Setup new carousel feature
+                }, 0);
+            } else if (viewName === 'manifesto') {
+                container.innerHTML = renderManifestoView();
+            } else if (viewName === 'cart') {
+                container.innerHTML = renderCartView();
+                renderCart(); // Call to populate the cart content
+            } else if (viewName === 'checkout') {
+                container.innerHTML = renderCheckoutView();
+            } else if (viewName === 'drops') {
+                container.innerHTML = renderDropsView();
+            }
+            else {
+                container.innerHTML = renderNotFoundView();
+            }
+            lucide.createIcons();
+        }
+
+        // --- Slideshow Logic ---
+
+        function startSlideshow() {
+            const slideshowContainer = document.getElementById('slideshow-content');
+            if (!slideshowContainer) return;
+
+            const updateSlide = () => {
+                const currentSlide = slides[slideIndex];
+                
+                // Fade out current content
+                slideshowContainer.style.opacity = '0'; 
+
+                setTimeout(() => {
+                    // Update content while hidden
+                    slideshowContainer.innerHTML = `
+                        <img src="${currentSlide.image}" alt="${currentSlide.title}" 
+                             class="absolute inset-0 w-full h-full object-cover transition duration-1000"
+                             onerror="this.onerror=null; this.src='https://placehold.co/1600x600/171717/f5f5f5?text=Drop+Img+Error';">
+                        <div class="absolute inset-0 bg-black/40"></div>
+                        <div class="relative p-12 text-center z-10">
+                            <h3 class="text-4xl md:text-6xl font-black text-white mb-3">${currentSlide.title}</h3>
+                            <p class="text-lg md:text-xl text-amber-400 uppercase tracking-widest">${currentSlide.subtitle}</p>
+                            <button onclick="renderView('drops')" class="mt-6 px-6 py-3 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition duration-300">
+                                View Exclusive Drop <i data-lucide="zap" class="w-4 h-4 inline ml-2"></i>
+                            </button>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                    // Fade in new content
+                    slideshowContainer.style.opacity = '1';
+
+                    // Advance index
+                    slideIndex = (slideIndex + 1) % slides.length;
+                }, 1000); // Wait for fade-out time
+
+            };
+
+            // Initial render
+            slideIndex = 0; // Start at 0
+            updateSlide();
+            
+            // Set interval for continuous cycling
+            slideInterval = setInterval(updateSlide, 6000); // Cycles every 6 seconds
+        }
+
+        // --- View HTML ---
+
+        // Expanded Home View with Parallax and Slideshow
+        function renderHomeView() {
+            // UPDATED: Use user-specified local image path for parallax
+            const parallaxImage = 'img/streetwear.png'; 
+            return `
+                <!-- Parallax Hero Section (Uses fixed background attachment) -->
+                <section id="parallax-hero" class="relative h-[80vh] md:h-[90vh] flex items-center shadow-inner"
+                         style="background-image: url('${parallaxImage}');"
+                         onerror="this.style.backgroundImage='url(https://placehold.co/1600x900/171717/f5f5f5?text=Hero+Img+Error)';">
+                    <div class="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm"></div>
+                    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white z-10">
+                        <p class="text-base md:text-xl font-light uppercase tracking-widest text-amber-400 mb-3 drop-shadow-lg">The Future of Fabric</p>
+                        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-6 drop-shadow-xl">
+                            Engineered. Elevated.<br>Essential.
+                        </h1>
+                        <p class="text-lg md:text-2xl font-light mb-10 max-w-xl text-neutral-200 drop-shadow-md">
+                            Premium apparel designed for performance and timeless aesthetics. Uncompromising quality, built to last.
+                        </p>
+                        <button onclick="renderView('catalog')" class="inline-flex items-center justify-center px-10 py-4 border-2 border-amber-400 text-base font-semibold rounded-xl shadow-2xl text-neutral-900 bg-amber-400 hover:bg-amber-500 transition duration-300 transform hover:scale-[1.02]">
+                            Shop Essentials <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- New Image Slideshow Section -->
+                <section class="py-16 md:py-24 bg-neutral-900 border-b border-neutral-700">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 class="text-3xl font-black text-center text-white mb-8">Exclusive Drop Preview</h2>
+                        <!-- UPDATED: Increased height to h-[32rem] (512px) -->
+                        <div id="slideshow-content" class="relative w-full h-[32rem] rounded-xl overflow-hidden shadow-2xl slide-fade opacity-0 flex items-center justify-center border border-neutral-700">
+                            <!-- Slideshow content injected by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Value Proposition Blocks (Retained) -->
+                <section class="py-20 bg-neutral-900/50 border-b border-t border-neutral-700">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                            <div class="p-6 rounded-xl bg-neutral-800 shadow-xl border-t border-amber-400/50">
+                                <i data-lucide="award" class="w-10 h-10 mx-auto text-amber-400 mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2 text-white">Ethically Sourced</h3>
+                                <p class="text-neutral-400">Materials selected for minimal environmental impact and maximum durability.</p>
+                            </div>
+                            <div class="p-6 rounded-xl bg-neutral-800 shadow-xl border-t border-amber-400/50">
+                                <i data-lucide="zap" class="w-10 h-10 mx-auto text-amber-400 mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2 text-white">Precision Fit</h3>
+                                <p class="text-neutral-400">Each garment is engineered for a contemporary, comfortable, and tailored silhouette.</p>
+                            </div>
+                            <div class="p-6 rounded-xl bg-neutral-800 shadow-xl border-t border-amber-400/50">
+                                <i data-lucide="shield-half" class="w-10 h-10 mx-auto text-amber-400 mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2 text-white">Lifetime Support</h3>
+                                <p class="text-neutral-400">Commitment to quality backed by comprehensive repair service.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+        
+        // --- NEW VIEW: THE DROP ---
+        function renderDropsView() {
+            return `
+                <section class="py-12 md:py-20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 class="text-5xl font-black text-center mb-4 text-white uppercase tracking-wider">The Exclusive Drop</h2>
+                        <p class="text-center text-xl text-amber-400 mb-12">Limited run, advanced textiles. Available for 72 hours only.</p>
+
+                        <div class="grid md:grid-cols-2 gap-12 items-center bg-neutral-900 p-8 rounded-xl border border-neutral-700 shadow-2xl">
+                            <!-- Image Prompt: A macro shot of a highly textured, technical fabric in deep space colors (black, navy, deep purple). -->
+                            <div class="h-96 w-full rounded-xl overflow-hidden shadow-xl" style="background-image: url('img/thealphadrop.png'); background-size: cover; background-position: center;">
+                                <div class="w-full h-full bg-black/30 flex items-end p-6">
+                                    <span class="text-xl font-bold text-white bg-amber-400/80 px-3 py-1 rounded-full backdrop-blur-sm">COLLECTION 004 - ORBITAL</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-4xl font-bold text-white mb-4">Introducing: Orbital Shells</h3>
+                                <p class="text-neutral-300 text-lg mb-6">
+                                    Crafted from an aerospace-grade polymer blend, the Orbital collection is our lightest and most resilient drop yet. Water-resistant, UV-proof, and designed with articulated panelling for unrestricted movement. This is the definition of next-generation outerwear.
+                                </p>
+                                <p class="text-sm font-semibold text-red-400 mb-6 flex items-center">
+                                    <i data-lucide="clock" class="w-5 h-5 mr-2"></i> Availability ends in: <span id="drop-timer" class="ml-2 text-red-300 text-base">72:00:00</span>
+                                </p>
+                                <button onclick="renderView('catalog')" class="px-8 py-4 bg-amber-400 text-neutral-900 font-bold rounded-xl text-lg hover:bg-amber-500 transition duration-300">
+                                    Shop The Drop Now <i data-lucide="zap" class="w-5 h-5 inline ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 text-center text-neutral-400 text-sm">
+                            All drop items are final sale. Limit two items per customer.
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        // --- NEW VIEW: MANIFESTO ---
+        function renderManifestoView() {
+            return `
+                <section class="max-w-4xl mx-auto py-12 md:py-20 px-4 sm:px-6 lg:px-8">
+                    <h2 class="text-5xl font-black text-center mb-6 text-white uppercase tracking-wider">Our Manifesto</h2>
+                    <div class="h-1 bg-amber-400 w-24 mx-auto mb-12"></div>
+                    
+                    <div class="bg-neutral-900 p-8 md:p-12 rounded-xl shadow-2xl border border-neutral-700 space-y-8">
+                        <div>
+                            <h3 class="text-3xl font-bold text-amber-400 mb-4">I. The Principle of Endurance</h3>
+                            <p class="text-neutral-300 text-lg">
+                                We reject planned obsolescence. Every AETHER piece is built not just for a season, but for a decade. Our design philosophy prioritizes material integrity, timeless aesthetics, and relentless durability, ensuring your investment is one you won't need to repeat.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-amber-400 mb-4">II. Conscious Creation</h3>
+                            <p class="text-neutral-300 text-lg">
+                                From the source of our fibers to the hands that sew them, every step is transparent and ethical. We partner with certified, sustainable mills and ensure fair labor practices. Style should never come at the cost of the planet or its people.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold text-amber-400 mb-4">III. Minimalist Function</h3>
+                            <p class="text-neutral-300 text-lg">
+                                Clarity is the ultimate design. Our garments are defined by clean lines, essential utility, and a focus on fit. We remove the noise so the garment—and you—can speak for itself. This is clothing engineered to adapt to any environment, effortlessly.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 text-center">
+                        <button onclick="renderView('catalog')" class="inline-flex items-center justify-center px-8 py-3 border-2 border-white text-base font-semibold rounded-xl text-white hover:bg-white hover:text-neutral-900 transition duration-300">
+                            Explore the Collection <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+                        </button>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderCatalogView() {
+            return `
+                <section class="py-12 md:py-20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 class="text-4xl md:text-5xl font-black text-center mb-4 text-white">THE FULL APPAREL LINE</h2>
+                        <p class="text-center text-lg text-neutral-400 mb-12">All 20 essential items, engineered for your wardrobe.</p>
+                        
+                        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                            <!-- Products will be injected here -->
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            if (!grid) return;
+
+            grid.innerHTML = products.map(product => `
+                <div class="bg-neutral-800 rounded-xl overflow-hidden product-card-hover border border-neutral-700">
+                    <button onclick="renderView('product-detail', ${product.id})" class="w-full block"> 
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 sm:h-64 object-cover transition duration-500 hover:scale-110" onerror="this.onerror=null; this.src='https://placehold.co/400x500/171717/f5f5f5?text=Img+Error';">
+                    </button>
+                    
+                    <div class="p-4 sm:p-5">
+                        <p class="text-xs text-amber-400 uppercase font-semibold mb-1">${product.category}</p>
+                        <h3 class="text-sm sm:text-lg font-bold truncate text-white mb-2">${product.name}</h3>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-extrabold text-amber-400">${formatRupee(product.price)}</span>
+                            <!-- Added Quick View Button -->
+                            <button onclick="showQuickView(${product.id})" class="text-xs sm:text-sm px-4 py-2 bg-neutral-700 text-white font-bold rounded-lg hover:bg-neutral-600 transition duration-150 transform hover:scale-105 shadow-lg flex items-center">
+                                Quick View <i data-lucide="search" class="w-4 h-4 inline ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Product Detail View (with Image Carousel)
+        function renderProductDetailView(productId) {
+            const product = getProductById(productId);
+            if (!product) {
+                // Simplified fallback
+                return `<section class="py-20 text-center"><h2 class="text-3xl font-bold text-white">Product Not Found</h2><p class="text-neutral-400 mt-2">The requested apparel item could not be located.</p><button onclick="renderView('catalog')" class="mt-4 text-amber-400 hover:text-white">Go to Catalog</button></section>`;
+            }
+            
+            const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+            const sizeOptions = sizes.map(size => `
+                <button data-size="${size}" class="size-selector p-3 w-12 h-12 bg-neutral-800 border border-neutral-600 rounded-xl text-neutral-300 hover:border-amber-400 hover:text-white transition duration-200">
+                    ${size}
+                </button>
+            `).join('');
+            
+            // Use the single product image for all carousel slots since separate paths were not provided
+            const altImages = [
+                { src: product.image, alt: "Front View" },
+                { src: product.image, alt: "Detail Stitching" },
+                { src: product.image, alt: "Model Fit" }
+            ];
+
+            const imageThumbnails = altImages.map((img, index) => `
+                <button data-img-src="${img.src}" 
+                        class="carousel-thumbnail w-full h-24 object-cover rounded-lg border-2 border-transparent hover:border-amber-400 transition duration-200 ${index === 0 ? 'border-amber-400' : ''}"
+                        onclick="changeProductImage(this.getAttribute('data-img-src'))">
+                    <img src="${img.src}" alt="${img.alt}" class="w-full h-full object-cover rounded-lg" onerror="this.onerror=null; this.src='https://placehold.co/100x120/171717/f5f5f5?text=Img+Error';">
+                </button>
+            `).join('');
+
+
+            return `
+                <section class="py-12 md:py-20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <button onclick="renderView('catalog')" class="flex items-center text-sm text-neutral-400 hover:text-amber-400 mb-8 transition">
+                            <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Back to Catalog
+                        </button>
+                        
+                        <div class="lg:grid lg:grid-cols-2 lg:gap-16">
+                            <!-- Image Gallery (Updated for Carousel) -->
+                            <div class="mb-10 lg:mb-0">
+                                <div class="w-full h-auto mb-4">
+                                    <img id="main-product-image" 
+                                         src="${altImages[0].src}" 
+                                         alt="${product.name} - Front View" 
+                                         class="w-full h-auto object-cover rounded-xl shadow-2xl border border-neutral-700 transition-opacity duration-300"
+                                         onerror="this.onerror=null; this.src='https://placehold.co/800x1000/171717/f5f5f5?text=Img+Error';">
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-3">
+                                    ${imageThumbnails}
+                                </div>
+                            </div>
+
+                            <!-- Details and Purchase -->
+                            <div>
+                                <p class="text-sm uppercase tracking-wider text-amber-400 mb-2">${product.category}</p>
+                                <h1 class="text-4xl md:text-5xl font-black text-white mb-4">${product.name}</h1>
+                                <p class="text-3xl font-extrabold text-amber-400 mb-6">${formatRupee(product.price)}</p>
+
+                                <div class="text-neutral-300 space-y-4 mb-8">
+                                    <p class="text-lg">
+                                        The **${product.name}** is engineered for maximum comfort and minimalist design. 
+                                        Featuring a bespoke blend fabric, it retains its structure and softness wash after wash. 
+                                        An essential piece for the modern wardrobe, offering exceptional drape and feel.
+                                    </p>
+                                    <ul class="list-disc list-inside text-sm text-neutral-400 ml-4">
+                                        <li>Material: 80% Organic Cotton, 20% Recycled Performance Fiber</li>
+                                        <li>Fit: ${product.name.includes('Oversized') ? 'Relaxed' : (product.name.includes('Slim') ? 'Slim Fit' : 'Standard Engineered')}</li>
+                                        <li>Origin: Crafted in Bengaluru, India</li>
+                                        <li>Care: Machine wash cold, dry flat or tumble dry low.</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Size Selector -->
+                                <div class="mb-8">
+                                    <p class="text-lg font-semibold text-white mb-3">Select Size</p>
+                                    <div id="size-options" class="flex space-x-3">
+                                        ${sizeOptions}
+                                    </div>
+                                    <p id="size-error" class="text-red-400 text-sm mt-2 hidden flex items-center">
+                                        <i data-lucide="alert-circle" class="w-4 h-4 mr-1"></i> Please select a size before adding to cart.
+                                    </p>
+                                </div>
+
+                                <!-- Add to Cart Button -->
+                                <button onclick="handleAddToCartClick(${product.id})" class="w-full py-4 bg-amber-400 text-neutral-900 font-bold text-xl rounded-xl shadow-2xl hover:bg-amber-500 transition duration-300 transform hover:scale-[1.01]">
+                                    Add to Cart 
+                                    <i data-lucide="shopping-bag" class="w-5 h-5 inline ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+        
+        // --- Product Carousel Logic ---
+        function changeProductImage(newSrc) {
+            const mainImage = document.getElementById('main-product-image');
+            if (mainImage) {
+                // Remove ring from all thumbnails
+                document.querySelectorAll('.carousel-thumbnail').forEach(btn => {
+                    btn.classList.remove('border-amber-400');
+                    btn.classList.add('border-transparent');
+                });
+                // Add ring to the clicked thumbnail
+                const clickedButton = document.querySelector(`.carousel-thumbnail[data-img-src="${newSrc}"]`);
+                if(clickedButton) {
+                    clickedButton.classList.add('border-amber-400');
+                    clickedButton.classList.remove('border-transparent');
+                }
+
+                // Smooth image transition
+                mainImage.style.opacity = '0';
+                setTimeout(() => {
+                    mainImage.src = newSrc;
+                    mainImage.style.opacity = '1';
+                }, 300);
+            }
+        }
+
+        function setupProductCarousel() {
+            // Re-select the first image to ensure it's correct on initial load
+            const firstThumbnail = document.querySelector('.carousel-thumbnail');
+            if (firstThumbnail) {
+                changeProductImage(firstThumbnail.getAttribute('data-img-src'));
+            }
+        }
+
+
+        function setupSizeSelection() {
+            const sizeError = document.getElementById('size-error');
+            if(sizeError) lucide.createIcons(); 
+
+            document.querySelectorAll('.size-selector').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.size-selector').forEach(btn => {
+                        btn.classList.remove('ring-2', 'ring-amber-400', 'text-white', 'bg-neutral-700');
+                        btn.classList.add('text-neutral-300', 'bg-neutral-800');
+                    });
+                    this.classList.add('ring-2', 'ring-amber-400', 'text-white', 'bg-neutral-700');
+                    this.classList.remove('text-neutral-300', 'bg-neutral-800');
+
+                    if (sizeError) sizeError.classList.add('hidden');
+                });
+            });
+        }
+
+        function handleAddToCartClick(productId) {
+            const selectedSizeButton = document.querySelector('.size-selector.ring-2');
+            const sizeError = document.getElementById('size-error');
+
+            if (!selectedSizeButton) {
+                if (sizeError) sizeError.classList.remove('hidden');
+                return showMessage('Please select a size.', 'Required Selection', 'error');
+            }
+            
+            if (sizeError) sizeError.classList.add('hidden');
+            
+            const selectedSize = selectedSizeButton.dataset.size;
+            addToCart(productId, selectedSize);
+        }
+        
+        // --- CART VIEW STRUCTURE (Needed for initial render) ---
+        function renderCartView() {
+            return `
+                <section class="py-12 md:py-20">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 class="text-4xl font-black text-center mb-10 text-white">Your Shopping Bag</h2>
+                        
+                        <div id="cart-content" class="lg:flex lg:gap-8">
+                            <!-- Cart items list (will be injected by renderCart) -->
+                            <div id="cart-items-list" class="lg:w-2/3 space-y-6">
+                                <!-- Items go here -->
+                            </div>
+                            
+                            <!-- Order Summary (will be injected by renderCart) -->
+                            <div id="cart-summary" class="lg:w-1/3 mt-8 lg:mt-0">
+                                <!-- Summary goes here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+        
+        // --- CART POPULATION LOGIC (Fixes the cart functionality) ---
+        function renderCart() {
+            const listContainer = document.getElementById('cart-items-list');
+            const summaryContainer = document.getElementById('cart-summary');
+            if (!listContainer || !summaryContainer) return;
+
+            if (appState.cartItems.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center p-12 bg-neutral-800 rounded-xl border border-neutral-700">
+                        <i data-lucide="shopping-bag" class="w-16 h-16 mx-auto text-amber-400 mb-4"></i>
+                        <p class="text-xl font-semibold text-white">Your bag is empty.</p>
+                        <p class="text-neutral-400 mt-2">Looks like you haven't added any essentials yet. Start exploring the catalog!</p>
+                        <button onclick="renderView('catalog')" class="mt-6 px-6 py-3 bg-amber-400 text-neutral-900 font-bold rounded-lg hover:bg-amber-500 transition duration-300">
+                            Start Shopping
+                        </button>
+                    </div>
+                `;
+                summaryContainer.innerHTML = ''; // Clear summary if cart is empty
+                lucide.createIcons();
+                return;
+            }
+
+            const subtotal = appState.cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+            const total = subtotal + SHIPPING_COST;
+
+            // Cart Items List
+            listContainer.innerHTML = appState.cartItems.map(item => {
+                const product = getProductById(item.productId);
+                if (!product) return '';
+
+                return `
+                    <div class="flex p-4 bg-neutral-800 rounded-xl shadow-lg border border-neutral-700 items-center">
+                        <img src="${product.image}" alt="${product.name}" class="w-20 h-24 object-cover rounded-lg mr-4 border border-neutral-600" onerror="this.onerror=null; this.src='https://placehold.co/100x120/171717/f5f5f5?text=Img+Error';">
+                        
+                        <div class="flex-grow">
+                            <h3 class="text-lg font-bold text-white">${product.name}</h3>
+                            <p class="text-sm text-neutral-400 mb-2">Size: <span class="font-semibold text-amber-400">${item.size}</span></p>
+                            
+                            <div class="flex items-center space-x-2">
+                                <button onclick="updateQuantity(${item.productId}, '${item.size}', -1)" 
+                                        class="p-1 bg-neutral-700 rounded-full text-white hover:bg-neutral-600 transition">
+                                    <i data-lucide="minus" class="w-4 h-4"></i>
+                                </button>
+                                <span class="text-base font-semibold text-white w-6 text-center">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.productId}, '${item.size}', 1)" 
+                                        class="p-1 bg-neutral-700 rounded-full text-white hover:bg-neutral-600 transition">
+                                    <i data-lucide="plus" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="text-right flex flex-col items-end">
+                            <span class="text-xl font-extrabold text-amber-400 mb-2">${formatRupee(item.quantity * item.price)}</span>
+                            <button onclick="removeFromCart(${item.productId}, '${item.size}')" 
+                                    class="text-red-400 text-xs hover:text-red-500 flex items-center transition">
+                                <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Summary Card
+            summaryContainer.innerHTML = `
+                <div class="bg-neutral-800 p-6 rounded-xl border border-amber-400/50 shadow-xl sticky top-24">
+                    <h3 class="text-xl font-bold mb-4 text-white">Order Summary</h3>
+                    <div class="space-y-3 text-sm border-b border-neutral-700 pb-4 mb-4">
+                        <div class="flex justify-between text-neutral-400">
+                            <span>Subtotal (${appState.cartItems.reduce((sum, item) => sum + item.quantity, 0)} items):</span>
+                            <span class="font-medium">${formatRupee(subtotal)}</span>
+                        </div>
+                        <div class="flex justify-between text-neutral-400">
+                            <span>Shipping:</span>
+                            <span class="font-medium">${formatRupee(SHIPPING_COST)}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between pt-3">
+                        <span class="text-lg font-bold text-white">Estimated Total:</span>
+                        <span class="text-2xl font-extrabold text-amber-400">${formatRupee(total)}</span>
+                    </div>
+
+                    <button onclick="renderView('checkout')" class="w-full mt-6 py-4 bg-amber-400 text-neutral-900 font-bold text-lg rounded-lg shadow-2xl hover:bg-amber-500 transition duration-300">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // Checkout View (updated button handler for email simulation)
+        function renderCheckoutView() {
+            const subtotal = appState.cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+            const total = subtotal + SHIPPING_COST;
+
+            if (appState.cartItems.length === 0) {
+                 return `<section class="py-20 text-center"><h2 class="text-3xl font-bold text-white">Checkout Error</h2><p class="text-neutral-400 mt-2">Cannot proceed to checkout with an empty cart. Please add items to your bag.</p><button onclick="renderView('catalog')" class="mt-4 text-amber-400 hover:text-white">Start Shopping</button></section>`;
+            }
+            
+            return `
+                <section class="py-12 md:py-20">
+                    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h2 class="text-4xl font-black mb-10 text-center text-white">Secure Checkout</h2>
+                        
+                        <div class="flex flex-col lg:flex-row gap-8">
+                            <!-- Shipping/Payment Form (Stub) -->
+                            <div class="lg:w-2/3 bg-neutral-900 p-8 rounded-xl border border-neutral-700 shadow-xl">
+                                <h3 class="text-2xl font-bold text-white mb-6">1. Shipping & Contact Information</h3>
+                                <div class="space-y-4">
+                                    <input type="text" id="full-name" placeholder="Full Name" class="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:ring-amber-400 focus:border-amber-400" required>
+                                    <input type="email" id="email-address" placeholder="Email Address (for order communication)" class="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:ring-amber-400 focus:border-amber-400" required>
+                                    <input type="text" placeholder="Address Line 1" class="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:ring-amber-400 focus:border-amber-400" required>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <input type="text" placeholder="City" class="p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:ring-amber-400 focus:border-amber-400" required>
+                                        <input type="text" placeholder="Pincode" class="p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:ring-amber-400 focus:border-amber-400" required>
+                                    </div>
+                                </div>
+                                
+                                <h3 class="text-2xl font-bold text-white mt-8 mb-6 border-t border-neutral-700 pt-6">2. Payment Confirmation (Simulated)</h3>
+                                <p class="text-neutral-400 mb-4">Aether Goods is a concept store. We will now finalize the order and prepare the data for transfer to the store's WhatsApp number.</p>
+
+                                <!-- UPDATED: Button now calls the order submission function -->
+                                <button onclick="simulateOrderSubmission()" class="w-full mt-6 py-4 bg-green-600 text-white font-bold rounded-lg text-xl hover:bg-green-700 transition duration-300 transform hover:scale-[1.01] flex items-center justify-center">
+                                    <i data-lucide="check-circle" class="w-6 h-6 mr-3"></i> Complete Order - ${formatRupee(total)}
+                                </button>
+                                <p class="text-xs text-neutral-500 mt-2 text-center">Clicking above prepares the order for submission via WhatsApp to **+91 89497 31495**.</p>
+                            </div>
+                            
+                            <!-- Order Summary (Static) -->
+                            <div class="lg:w-1/3">
+                                <div class="bg-neutral-800 p-6 rounded-xl border border-neutral-700 shadow-xl sticky top-24">
+                                    <h3 class="text-xl font-bold mb-4 text-white">Summary (${appState.cartItems.reduce((sum, item) => sum + item.quantity, 0)} Items)</h3>
+                                    <ul class="space-y-3 text-sm border-b border-neutral-700 pb-4 mb-4">
+                                        ${appState.cartItems.map(item => {
+                                            const product = getProductById(item.productId);
+                                            return `<li class="flex justify-between text-neutral-400">
+                                                <span>${item.quantity}x ${product ? product.name : 'Unknown Item'} (${item.size})</span>
+                                                <span class="font-medium">${formatRupee(item.quantity * item.price)}</span>
+                                            </li>`;
+                                        }).join('')}
+                                    </ul>
+
+                                    <div class="space-y-3 text-neutral-300">
+                                        <div class="flex justify-between">
+                                            <span>Subtotal:</span>
+                                            <span class="font-medium">${formatRupee(subtotal)}</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span>Shipping:</span>
+                                            <span class="font-medium">${formatRupee(SHIPPING_COST)}</span>
+                                        </div>
+                                        <div class="flex justify-between pt-3 border-t border-neutral-700 mt-3">
+                                            <span class="text-lg font-bold text-white">Grand Total:</span>
+                                            <span class="text-2xl font-extrabold text-amber-400">${formatRupee(total)}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+        
+        // Generic Not Found View
+        function renderNotFoundView(title = 'Page Not Found', message = 'The page you requested could not be loaded.') {
+            return `
+                <section class="py-20 text-center">
+                    <i data-lucide="frown" class="w-16 h-16 mx-auto text-red-500 mb-4"></i>
+                    <h2 class="text-4xl font-black text-white mb-2">${title}</h2>
+                    <p class="text-neutral-400 mt-2">${message}</p>
+                    <button onclick="renderView('home')" class="mt-6 px-6 py-3 bg-amber-400 text-neutral-900 font-bold rounded-lg hover:bg-amber-500 transition duration-300">
+                        Go Home
+                    </button>
+                </section>
+            `;
+        }
+
+        /**
+         * Simulates order completion and prepares a WhatsApp link.
+         */
+        function simulateOrderSubmission() {
+            // 1. Validate Form Input (Simulated)
+            const fullNameInput = document.getElementById('full-name');
+            const emailInput = document.getElementById('email-address');
+            
+            if (!fullNameInput || !emailInput || !fullNameInput.value || !emailInput.value) {
+                return showMessage('Please fill in required fields (Full Name and Email Address) to finalize the process.', 'Missing Information', 'error');
+            }
+
+            const fullName = fullNameInput.value;
+            const email = emailInput.value;
+            const subtotal = appState.cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+            const total = subtotal + SHIPPING_COST;
+
+            // 2. Prepare Detailed Item List for Console Log
+            const orderDetailsConsole = appState.cartItems.map(item => {
+                const product = getProductById(item.productId);
+                return {
+                    id: item.productId,
+                    name: product.name,
+                    size: item.size,
+                    unitPrice: item.price,
+                    quantity: item.quantity,
+                    lineTotal: item.quantity * item.price
+                };
+            });
+            
+            // 3. Prepare WhatsApp Message Body Content (Plain Text Format)
+            let whatsappBody = "Aether Goods Order Confirmation:\n\n";
+            whatsappBody += `Customer: ${fullName}\n`;
+            whatsappBody += `Email: ${email}\n\n`;
+            whatsappBody += "--- ITEMS ---\n";
+            orderDetailsConsole.forEach(item => {
+                // Using markdown for bolding/emphasis in WhatsApp message
+                whatsappBody += `* ${item.quantity}x ${item.name} (Size: ${item.size}) - ${formatRupee(item.lineTotal)}\n`;
+            });
+            whatsappBody += "\n--- SUMMARY ---\n";
+            whatsappBody += `Subtotal: ${formatRupee(subtotal)}\n`;
+            whatsappBody += `Shipping: ${formatRupee(SHIPPING_COST)}\n`;
+            whatsappBody += `*TOTAL PAYABLE: ${formatRupee(total)}*\n\n`;
+            whatsappBody += "Please confirm availability and payment method. Thank you!";
+
+            // 4. URL-encode the body and create the WhatsApp link
+            const encodedWhatsAppBody = encodeURIComponent(whatsappBody);
+            // Using the wa.me format with country code 91
+            const whatsappLink = `https://wa.me/918949731495?text=${encodedWhatsAppBody}`;
+
+            // 5. Log the Payload (Simulating backend API call)
+            console.groupCollapsed('%c[AETHER ORDER SENT]', 'color: #25D366; font-weight: bold; font-size: 16px;');
+            console.log("--- SIMULATED ORDER PAYLOAD SENT TO WHATSAPP API (CONSOLE LOG) ---");
+            console.log("Payload:", {
+                customer: { fullName, email },
+                orderSummary: { subtotal, shipping: SHIPPING_COST, total },
+                items: orderDetailsConsole,
+                whatsappLink: whatsappLink
+            });
+            console.log("--- WHATSAPP MESSAGE CONTENT ---");
+            console.log(whatsappBody);
+            console.groupEnd();
+
+            // 6. Clear Cart (Simulated post-purchase action)
+            appState.cartItems = [];
+            updateCartCount();
+
+            // 7. Show Confirmation Message to User with WhatsApp Link
+            const confirmationMessage = `
+                Order details are ready! 
+                <br><br>
+                **Click the button below** to open WhatsApp and send the full order details to the store's number: **+91 89497 31495**.
+                A staff member will contact you shortly for payment and shipping confirmation.
+            `;
+            
+            const actionButton = `
+                <a href="${whatsappLink}" target="_blank" onclick="hideMessage()" class="w-full inline-flex items-center justify-center py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">
+                    <i data-lucide="message-square" class="w-5 h-5 mr-2"></i> Send Order via WhatsApp
+                </a>
+                <button onclick="renderView('home'); hideMessage();" class="w-full py-3 bg-neutral-700 text-white font-bold rounded-lg hover:bg-neutral-600 transition">
+                    Continue Shopping
+                </button>
+            `;
+
+            showMessage(confirmationMessage, 'Order Ready for WhatsApp!', 'success', actionButton);
+            lucide.createIcons(); // Re-create icons for the modal button
+        }
+
+        // --- Initialization ---
+        
+        // Start the application on the home view
+        window.onload = () => {
+            renderView('home');
+        };
+    </script>
+</body>
+</html>
