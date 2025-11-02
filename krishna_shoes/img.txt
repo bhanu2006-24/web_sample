@@ -1,0 +1,156 @@
+
+Hero Images (showing many shoes together)
+
+hero1 – "Vibrant rows of canvas shoes in diverse colors, perfect for a hero/section presenting a large collection." – "https://www.pexels.com/photo/assorted-color-footwear-2918534/"
+
+hero2 – "Three multicolored leather sneakers on a shop display, stylish look for hero area." – "https://www.pexels.com/photo/three-unpaired-multicolored-leather-sneakers-on-display-2300334/"
+
+hero3 – "Vintage sneakers piled in a white laundry basket, cool ‘shop collection’ vibe for hero/banner." – "https://www.pexels.com/photo/assorted-unpaired-sneakers-267202/"
+
+hero4 – "Circle of sneakers on cobblestone pavement, symbolizing diversity and urban style." – "https://www.pexels.com/photo/people-forming-round-by-shoes-609771/"
+
+hero5 – "Top-down view of many sneakers in a circle around a DSLR camera on pavement, creative store theme." – "https://www.pexels.com/photo/black-dslr-camera-on-floor-573315/"
+
+Model Images (shoes worn by people/promotional)
+
+model1 – "Woman wearing brown overall and sneakers, promo vibe." – "https://www.pexels.com/photo/woman-wearing-brown-overall-1020488/"
+
+model2 – "Two young adults in jeans and sneakers outdoors, lifestyle promotional." – "https://www.pexels.com/photo/person-s-wearing-white-and-black-low-top-sneakers-981619/"
+
+model3 – "Trendy woman posing against vibrant graffiti wall with sneakers." – "https://www.pexels.com/photo/woman-leaning-on-graffiti-wall-1895943/"
+
+model4 – "Person walking on a wooden path in park, wearing sneakers." – "https://www.pexels.com/photo/person-stands-on-brown-pathway-631986/"
+
+model5 – "Person wearing grey Nike sneakers at sunrise outdoors." – "https://www.pexels.com/photo/person-wearing-grey-nike-sneakers-2729899/"
+
+model6 – "Athlete tying black and white sneakers on street (active, promotional)." – "https://www.pexels.com/photo/person-tying-lace-of-shoes-1040427/"
+
+model7 – "Red-haired woman in casual striped shirt and jeans, indoor model." – "https://www.pexels.com/photo/woman-in-black-and-white-striped-short-sleeve-shirt-and-blue-denim-jeans-3686769/"
+
+model8 – "Woman posing in retro outfit with mirror, sneakers visible." – "https://www.pexels.com/photo/woman-standing-in-front-of-mirror-with-hands-in-pockets-1027160/"
+
+model9 – "Fashionable young woman in pink sneakers and ripped jeans." – "https://www.pexels.com/photo/woman-leaning-on-wall-carry-camouflage-backpack-1346187/"
+
+model10 – "Black woman sitting on chair beside mirror, stylish promo." – "https://www.pexels.com/photo/woman-sitting-on-chair-beside-mirror-1027162/"
+
+model11 – "Couple sitting on ledge in trendy sneakers, promo for pairs." – "https://www.pexels.com/photo/people-wearing-sneakers-1021145/"
+
+model12 – "Confident woman crouching in sunlight, urban sneakers." – "https://www.pexels.com/photo/woman-wearing-black-sport-1972115/"
+
+model13 – "Man at skate park in vibrant red sneakers." – "https://www.pexels.com/photo/man-sitting-on-ledge-1306248/"
+
+model14 – "Woman with tattoos by soccer goal in Moscow." – "https://www.pexels.com/photo/woman-sitting-beside-goalie-net-2726161/"
+
+model15 – "Person wearing Air Jordan 1 on grass." – "https://www.pexels.com/photo/selective-focus-photography-of-air-jordan-1-on-grass-1031955/"
+
+model16 – "Person wearing stylish white sneakers resting foot on yellow rail outdoors." – "https://www.pexels.com/photo/person-wearing-white-nike-shoe-1858404/"
+
+model17 – "Person wearing blue jeans and white sneakers on metal railings." – "https://www.pexels.com/photo/person-in-blue-jeans-and-white-sneakers-standing-on-metal-railings-1858407/"
+
+model18 – "Person in black sneakers walking on street." – "https://www.pexels.com/photo/person-in-black-sneakers-walking-on-street-1153838/"
+
+model19 – "Person standing on arrow in white sneakers, street promo." – "https://www.pexels.com/photo/person-standing-on-arrow-1745766/"
+
+model20 – "Man jumps in air wearing Adidas Superstar shoes (Karachi street)." – "https://www.pexels.com/photo/person-wearing-pair-of-white-adidas-superstar-shoes-1099231/"
+
+Product Images (pairs only, no people, for thumbnail/shop pages)
+
+product1 – "Nike shoes on black background, classic product image." – "https://www.pexels.com/photo/nike-shoes-on-black-backround-1598505/"
+
+product2 – "Pair of gray Adidas Yeezy Boost shoes, direct product." – "https://www.pexels.com/photo/pair-of-gray-adidas-yeezy-boost-350-shoes-1280064/"
+
+product3 – "Pair of white running shoes (above view, clean background)." – "https://www.pexels.com/photo/pair-of-white-running-shoes-1670766/"
+
+product4 – "Black and white macro Nike running shoes." – "https://www.pexels.com/photo/macro-photography-of-pair-of-black-and-white-nike-running-shoes-1124466/"
+
+product5 – "Close-up of red and black Nike running shoe." – "https://www.pexels.com/photo/close-up-photography-of-red-and-black-nike-running-shoe-786003/"
+
+product6 – "White and red sneakers leaning against metal shutter." – "https://www.pexels.com/photo/pair-of-white-and-red-shoes-2759779/"
+
+product7 – "Pair of black and gray Adidas low-top sneakers." – "https://www.pexels.com/photo/pair-of-black-and-gray-adidas-low-top-sneakers-with-box-684152/"
+
+product8 – "Black Vans Old Skool low tops on concrete stairs." – "https://www.pexels.com/photo/person-wearing-pair-of-black-vans-old-skool-low-tops-593163/"
+
+product9 – "Black and pink sneakers beside bouquet." – "https://www.pexels.com/photo/photo-of-sneakers-2731977/"
+
+product10 – "Floating modern sneakers, trendy product composition." – "https://www.pexels.com/photo/photo-of-sneakers-on-white-background-2529148/"
+
+product11 – "Adidas Yeezy sneakers close-up on rustic table." – "https://www.pexels.com/photo/two-unpaired-black-and-gray-adidas-sply-350-v2-1032110/"
+
+product12 – "High-top sneakers in vibrant colors, yellow background." – "https://www.pexels.com/photo/pair-of-nike-shoes-2529157/"
+
+product13 – "White Nike Air sneakers, graffiti wall background." – "https://www.pexels.com/photo/person-wearing-pair-of-white-nike-air-sneakers-1054787/"
+
+product14 – "Yellow Vans sneakers, black background." – "https://www.pexels.com/photo/photo-of-pair-of-vans-sneakers-1598508/"
+
+product15 – "Pair of stylish blue canvas lace-up sneakers." – "https://www.pexels.com/photo/pair-of-blue-lace-up-sneakers-19090/"
+
+product16 – "Modern white and grey sneakers, neutral backdrop." – "https://www.pexels.com/photo/pair-of-white-and-gray-sneakers-3261069/"
+
+product17 – "Pair of black Converse All Star low-tops." – "https://www.pexels.com/photo/converse-all-star-low-top-sneakers-on-brown-wooden-surface-2530912/"
+
+product18 – "Pair of grey and pink sneakers, sandy beach." – "https://www.pexels.com/photo/pair-of-grey-sneakers-1750045/"
+
+product19 – "Modern green sneakers with yellow chains." – "https://www.pexels.com/photo/stylish-sporty-boots-chained-on-green-surface-4462781/"
+
+product20 – "Multicolored low-top sneakers, vibrant patterns." – "https://www.pexels.com/photo/pair-of-multicolored-low-top-sneakers-1580267/"
+
+product21 – "Black and white Adidas sneakers, close-up modern." – "https://www.pexels.com/photo/black-and-white-adidas-sneakers-233312/"
+
+product22 – "Vibrant trendy sneaker, bold design, clean white." – "https://www.pexels.com/photo/close-up-photo-of-sneakers-2529146/"
+
+product23 – "Top view of yellow sneakers on geometric background." – "https://www.pexels.com/photo/top-view-photo-of-sneakers-2529159/"
+
+product24 – "Pair of laced-up black low-top sneakers (studio)." – "https://www.pexels.com/photo/pair-of-laced-up-black-low-top-sneakers-847371/"
+
+product25 – "Colorful pair of sports shoes from above." – "https://www.pexels.com/photo/colorful-fashioned-pair-of-sports-shoes-1456706/"
+
+product26 – "Stylish black trainers with lemons, yellow shoelace theme." – "https://www.pexels.com/photo/stylish-sneakers-with-yellow-shoelaces-arranged-with-ripe-lemons-4462782/"
+
+product27 – "Modern white sneakers, dense neutral texture." – "https://www.pexels.com/photo/grey-sneakers-with-dense-surface-of-texture-for-comfortable-everyday-wearing-1464625/"
+
+product28 – "White and blue high-top sneakers, vibrant blue backdrop." – "https://www.pexels.com/photo/white-and-blue-lace-up-sneakers-2529158/"
+
+product29 – "Red and white hanging sneakers, blue sky background." – "https://www.pexels.com/photo/red-and-white-hanging-sneakers-during-daytime-67800/"
+
+product30 – "Gray and white Adidas low-tops above tattooed hand." – "https://www.pexels.com/photo/gray-and-white-adidas-low-top-sneaker-on-person-s-fingers-1895019/"
+
+product31 – "Classic black Converse, wooden surface." – "https://www.pexels.com/photo/converse-all-star-low-top-sneakers-on-brown-wooden-surface-2530912/"
+
+product32 – "Pair of white Air Jordan 1 basketball sneakers." – "https://www.pexels.com/photo/pair-of-white-air-jordan-1-s-2385477/"
+
+product33 – "Vibrant red canvas sneakers with white laces, outdoor." – "https://www.pexels.com/photo/shallow-focus-photography-of-pair-of-red-low-top-sneakers-1240892/"
+
+product34 – "Pair of black Nike Air Force 1 sneakers (close-up, held)." – "https://www.pexels.com/photo/pair-of-black-nike-air-force-1-low-top-sneakers-3261068/"
+
+product35 – "Stylish sneakers vibrant colors, white background." – "https://www.pexels.com/photo/close-up-photo-of-sneakers-2529147/"
+
+product36 – "High-top black and white sneakers in studio setting." – "https://www.pexels.com/photo/pair-of-laced-up-black-low-top-sneakers-847371/"
+
+product37 – "Pair of trendy sneakers hanging on tree branches." – "https://www.pexels.com/photo/pair-of-white-low-top-shoes-hanging-on-tree-998883/"
+
+product38 – "Pair of Nike Air Huarache black sneakers in urban setting." – "https://www.pexels.com/photo/person-wearing-black-nike-air-huarache-sneaker-1615748/"
+
+product39 – "Pair of black and white Nike sneakers splashing city street." – "https://www.pexels.com/photo/pair-of-black-and-white-nike-sneakers-48262/"
+
+product40 – "Stylish sneaker floating in the air, bold design." – "https://www.pexels.com/photo/close-up-photo-of-sneakers-2529146/"
+
+product41 – "Pair of blue canvas sneakers, white soles." – "https://www.pexels.com/photo/pair-of-blue-lace-up-sneakers-19090/"
+
+product42 – "Pair of white and gray sneakers, neutral holding display." – "https://www.pexels.com/photo/pair-of-white-and-gray-sneakers-3261069/"
+
+product43 – "Pair of stylish yellow Vans sneakers, black background." – "https://www.pexels.com/photo/photo-of-pair-of-vans-sneakers-1598508/"
+
+product44 – "Classic laced-up black low-top sneakers, studio fashion." – "https://www.pexels.com/photo/pair-of-laced-up-black-low-top-sneakers-847371/"
+
+product45 – "Pair of modern grey and pink sneakers, lifestyle theme." – "https://www.pexels.com/photo/pair-of-grey-sneakers-1750045/"
+
+product46 – "Colorful patterned casual sneakers worn by model." – "https://www.pexels.com/photo/pair-of-multicolored-low-top-sneakers-1580267/"
+
+product47 – "Pair of fashionable high-top sneakers on yellow background." – "https://www.pexels.com/photo/pair-of-nike-shoes-2529157/"
+
+product48 – "Stylish blue lace-up sneakers, lifestyle theme." – "https://www.pexels.com/photo/pair-of-blue-lace-up-sneakers-19090/"
+
+product49 – "Pair of black and white Adidas sneakers modern display." – "https://www.pexels.com/photo/black-and-white-adidas-sneakers-233312/"
+
+product50 – "Pair of grey athletic sneakers, everyday theme." – "https://www.pexels.com/photo/pair-of-gray-and-white-athletic-shoes-1183571/"

@@ -1,0 +1,16 @@
+"Intricate henna designs on hand" = "https://www.pexels.com/photo/hands-of-a-person-with-mehandi-8819848/"
+"Elegant bridal mehndi on hands" = "https://www.pexels.com/photo/elegant-mehndi-design-on-hands-in-kathmandu-32010609/"
+"Henna application on hand (artistry close-up)" = "https://www.pexels.com/photo/henna-artistry-in-kathmandu-featuring-traditional-mehandi-32010610/"
+"Mehandi designs with jewelry and floral garlands" = "https://www.pexels.com/photo/traditional-indian-wedding-attire-and-jewelry-32378839/"
+"Decorated hands with wedding rings and henna" = "https://www.pexels.com/photo/a-person-holding-a-wedding-rings-8987914/"
+"Bridal hand with mehndi and gold ornaments" = "https://www.pexels.com/photo/a-woman-s-hands-with-henna-tattoos-and-gold-jewelry-17343894/"
+"Henna tattoo on child's hand (Indian tradition)" = "https://www.pexels.com/photo/a-person-having-a-henna-tattoo-6576295/"
+"Mehndi design on bride's hand" = "https://www.pexels.com/photo/hand-of-bride-with-traditional-henna-17416761/"
+"Henna decorated hand holding candle" = "https://www.pexels.com/photo/person-holding-a-lighted-candle-8819774/"
+"Floral henna art on bride's hand" = "https://www.pexels.com/photo/floral-design-henna-skin-dye-on-a-bride-s-hand-5246790/"
+"Henna tattoos on woman hand, perfect for wedding decor" = "https://www.pexels.com/photo/henna-tattoos-on-woman-hand-21568653/"
+"Intricate mehndi pattern on wedding bride's hands" = "https://www.pexels.com/photo/nepali-wedding-mehendi-ceremony-with-vibrant-decor-31032216/"
+
+ARTIST IMG = 'https://images.pexels.com/photos/1391498/pexels-photo-1391498.jpeg'
+NAME= KRITIKA SHARMA
+INSTA = "krishna_websites"

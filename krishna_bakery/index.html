@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éclat Pâtisserie | Artisan Bakery Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter Font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #F8F8F8; /* Light gray background for contrast */
+        }
+        /* Custom gold accent color for borders/details */
+        .text-eclat-gold { color: #8B735B; }
+        .bg-eclat-gold { background-color: #8B735B; }
+        .border-eclat-gold { border-color: #8B735B; }
+        .hover\:bg-eclat-gold\/90:hover { background-color: #7A6552; }
+        .hover\:shadow-xl-gold:hover { box-shadow: 0 10px 15px -3px rgba(139, 115, 91, 0.3), 0 4px 6px -2px rgba(139, 115, 91, 0.15); }
+        .hero-bg {
+            /* Cake with gold, floral decorations */
+            background-image: url('https://images.pexels.com/photos/3923555/pexels-photo-3923555.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2');
+            background-size: cover;
+            background-position: center;
+        }
+        .text-shadow-light {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        /* Style for the simulated page views */
+        .page-view {
+            display: none;
+            /* Ensures content starts below the fixed header */
+            padding-top: 4rem; 
+        }
+
+        /* Responsive height for the main hero */
+        .main-hero-height {
+            height: calc(100vh - 64px); /* Full viewport minus header height */
+        }
+
+        @media (max-width: 640px) {
+            .main-hero-height {
+                height: 70vh;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+
+    <!-- Navigation Header (Fixed Top, Minimalist) -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <!-- Logo/Brand Name -->
+            <a href="#home" class="text-2xl font-bold tracking-tight text-eclat-gold">ÉCLAT</a>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#home" class="hover:text-eclat-gold transition duration-300">Home</a>
+                <a href="#about" class="hover:text-eclat-gold transition duration-300">Our Craft</a>
+                <a href="#collection" class="hover:text-eclat-gold transition duration-300">Collection</a>
+                <a href="#contact" class="hover:text-eclat-gold transition duration-300">Inquire</a>
+            </div>
+            
+            <!-- CTA Button -->
+            <a href="#contact" class="hidden md:block bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-eclat-gold transition duration-300">
+                Custom Order
+            </a>
+            
+            <!-- Mobile Menu Placeholder (A minimalist, functional placeholder) -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-900 p-2 rounded-lg hover:bg-gray-100 transition duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="min-h-screen">
+        
+        <!-- 1. Home Section (Page View - The full landing page) -->
+        <section id="home" class="page-view bg-white pb-20">
+
+            <!-- 1.1 Main Hero Banner -->
+            <div class="hero-bg main-hero-height flex items-center justify-center relative rounded-b-3xl overflow-hidden mb-16">
+                <!-- Overlay for contrast -->
+                <div class="absolute inset-0 bg-black/50"></div>
+                
+                <div class="relative text-center max-w-5xl px-6 text-white">
+                    <p class="text-sm sm:text-lg font-medium uppercase tracking-widest text-eclat-gold mb-3 text-shadow-light">
+                        Artisan Pâtisserie. European Tradition.
+                    </p>
+                    <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4 text-shadow-light">
+                        The Art of Éclat
+                    </h1>
+                    <p class="text-lg sm:text-xl font-light opacity-95 mb-10 text-shadow-light">
+                        Where ingredients meet imagination. We craft bespoke cakes and refined desserts for every unforgettable celebration.
+                    </p>
+                    <a href="#collection" class="inline-block bg-eclat-gold text-white text-base font-semibold px-8 py-3 rounded-full shadow-xl transition duration-500 transform hover:scale-105 hover:bg-eclat-gold/90 hover:shadow-xl-gold border-2 border-white/50">
+                        Explore Our Collections
+                    </a>
+                </div>
+            </div>
+
+            <!-- 1.2 Core Value Propositions -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <!-- Feature 1 -->
+                    <div class="p-6 bg-gray-50 rounded-xl shadow-lg border-t-4 border-eclat-gold">
+                        <svg class="w-10 h-10 text-eclat-gold mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-xl font-bold mb-2">Bespoke Timing</h3>
+                        <p class="text-gray-600 text-sm">Every order is freshly prepared to your precise event schedule, ensuring peak flavor.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="p-6 bg-gray-50 rounded-xl shadow-lg border-t-4 border-eclat-gold">
+                        <svg class="w-10 h-10 text-eclat-gold mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.583 4.88a1 1 0 00.95.69h5.132c.969 0 1.371 1.24.588 1.83l-4.14 3.012a1 1 0 00-.364 1.118l1.583 4.88c.3.921-.755 1.688-1.542 1.118l-4.14-3.012a1 1 0 00-1.176 0l-4.14 3.012c-.787.57-1.842-.197-1.542-1.118l1.583-4.88a1 1 0 00-.364-1.118L2.09 9.33c-.783-.59-.38-1.83.588-1.83h5.132a1 1 0 00.95-.69l1.583-4.88z"></path></svg>
+                        <h3 class="text-xl font-bold mb-2">Premium Sourcing</h3>
+                        <p class="text-gray-600 text-sm">We use imported French butter, organic eggs, and single-origin chocolate for unmatched quality.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="p-6 bg-gray-50 rounded-xl shadow-lg border-t-4 border-eclat-gold">
+                        <svg class="w-10 h-10 text-eclat-gold mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10m0 0v10m0-10l-4 4m4-4L11 7m-4 7v3m0 0h3m-3 0h-3m3 0a3 3 0 01-3-3v-3m3 3a3 3 0 01-3 3h3zm0 0h3m-3 0v3m0-3h-3m3 3a3 3 0 013-3v-3m-3 3a3 3 0 013 3h-3z"></path></svg>
+                        <h3 class="text-xl font-bold mb-2">Artisan Design</h3>
+                        <p class="text-gray-600 text-sm">From floral garnishes to modern geometry, our designs are true edible works of art.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.3 Hero Foods / Featured Collection Showcase -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+                <div class="text-center mb-12">
+                    <span class="text-sm font-medium uppercase tracking-widest text-eclat-gold mb-3 block">Bestsellers</span>
+                    <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                        Our Signature Éclats
+                    </h2>
+                    <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+                        These three creations embody our dedication to taste, texture, and elegant presentation.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Featured Product 1 (Uses Image 19) -->
+                    <div class="group rounded-2xl overflow-hidden shadow-xl bg-white border border-gray-100 transform hover:scale-[1.03] transition duration-500">
+                        <img src="https://images.pexels.com/photos/5945563/pexels-photo-5945563.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Dark Bloom Torte" class="w-full h-80 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/ffffff?text=Dark+Bloom';">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-bold mb-1 text-gray-900">Dark Bloom Torte</h3>
+                            <p class="text-sm text-eclat-gold mb-3">Decadent Chocolate Series</p>
+                            <p class="text-gray-600 text-base mb-4">A rich, flourless chocolate cake with a delicate mirror glaze and seasonal edible flowers.</p>
+                            <a href="#collection" class="text-eclat-gold font-semibold text-sm hover:underline">View Details →</a>
+                        </div>
+                    </div>
+
+                    <!-- Featured Product 2 (Uses Image 7) -->
+                    <div class="group rounded-2xl overflow-hidden shadow-xl bg-white border border-gray-100 transform hover:scale-[1.03] transition duration-500">
+                        <img src="https://images.pexels.com/photos/10342001/pexels-photo-10342001.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="The Rubus Layer" class="w-full h-80 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/96283b/ffffff?text=Rubus+Layer';">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-bold mb-1 text-gray-900">The Rubus Layer</h3>
+                            <p class="text-sm text-eclat-gold mb-3">Summer Signature</p>
+                            <p class="text-gray-600 text-base mb-4">Light, airy sponge layered with fresh raspberry compote and classic French vanilla crème.</p>
+                            <a href="#collection" class="text-eclat-gold font-semibold text-sm hover:underline">View Details →</a>
+                        </div>
+                    </div>
+
+                    <!-- Featured Product 3 (Uses Image 9) -->
+                    <div class="group rounded-2xl overflow-hidden shadow-xl bg-white border border-gray-100 transform hover:scale-[1.03] transition duration-500">
+                        <img src="https://images.pexels.com/photos/9009965/pexels-photo-9009965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="The Zenith Tart" class="w-full h-80 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/f0f0f0/333333?text=Zenith+Tart';">
+                        <div class="p-6 text-center">
+                            <h3 class="text-2xl font-bold mb-1 text-gray-900">The Zenith Tart</h3>
+                            <p class="text-sm text-eclat-gold mb-3">Signature Cheesecake</p>
+                            <p class="text-gray-600 text-base mb-4">A classic, baked cheesecake with an impossibly creamy texture and fresh forest berry topping.</p>
+                            <a href="#collection" class="text-eclat-gold font-semibold text-sm hover:underline">View Details →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.4 Mini About/Quote Banner (Uses Image 3) -->
+            <div class="relative bg-gray-900 overflow-hidden shadow-xl">
+                <!-- Background Image (Rustic wedding cake on ornate stand) -->
+                <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.pexels.com/photos/3916061/pexels-photo-3916061.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=2');"></div>
+
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center text-white">
+                    <span class="text-sm font-medium uppercase tracking-widest text-eclat-gold mb-4 block">Our Philosophy</span>
+                    <blockquote class="max-w-4xl mx-auto">
+                        <p class="text-2xl sm:text-3xl font-light italic mb-8 leading-relaxed">
+                            "Baking is a conversation between the hand, the ingredient, and the palate. We aim for that conversation to be nothing short of magnificent."
+                        </p>
+                        <footer class="text-lg font-medium text-gray-300">— A. Dumont, Head Pâtissier</footer>
+                    </blockquote>
+                    <a href="#about" class="mt-8 inline-block text-white border-2 border-eclat-gold px-6 py-3 rounded-full text-base font-semibold hover:bg-eclat-gold transition duration-300">
+                        Read Our Full Story
+                    </a>
+                </div>
+            </div>
+
+            <!-- 1.5 Custom Order CTA Banner -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
+                <div class="bg-gray-100 p-8 sm:p-12 rounded-2xl text-center shadow-inner">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-4">Ready for Your Custom Creation?</h3>
+                    <p class="text-lg text-gray-600 mb-8">
+                        Whether a grand wedding or an intimate dinner, let us bring your sweet vision to life.
+                    </p>
+                    <a href="#contact" class="inline-block bg-gray-900 text-white text-lg font-semibold px-10 py-3 rounded-xl shadow-lg transition duration-300 hover:bg-eclat-gold hover:shadow-xl-gold">
+                        Start Your Inquiry
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 2. About Section (Page View - Our Craft) -->
+        <section id="about" class="page-view py-24 sm:py-32 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <span class="text-sm font-medium uppercase tracking-widest text-eclat-gold mb-3 block">Our Craft</span>
+                    <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                        The Pursuit of Perfection in Pastry.
+                    </h2>
+                </div>
+                <div class="lg:flex lg:items-center lg:space-x-12">
+                    <!-- Image Block -->
+                    <div class="lg:w-1/2 mb-10 lg:mb-0 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.01] transition duration-500">
+                        <!-- Pistachio cake with leaf design -->
+                        <img src="https://images.pexels.com/photos/5426026/pexels-photo-5426026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=1000&dpr=2" 
+                             alt="Pistachio cake with elegant leaf design" 
+                             class="w-full h-96 object-cover lg:h-[600px] transition duration-500 hover:opacity-95"
+                             onerror="this.onerror=null;this.src='https://placehold.co/1200x800/e8e8e8/333333?text=Éclat+Placeholder';"
+                        >
+                    </div>
+
+                    <!-- Text Block -->
+                    <div class="lg:w-1/2">
+                        <h3 class="text-3xl font-bold tracking-tight mb-4">Meticulous Sourcing. Timeless Technique.</h3>
+                        <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                            At Éclat Pâtisserie, our commitment to excellence mirrors the precision found in modern design. We use only **European-grade butter, heirloom grains, and naturally-sourced flavor extracts**. Every layer, every swirl, and every garnish is meticulously placed to create a sensory experience that is both sophisticated and deeply satisfying. We honor tradition while embracing innovation.
+                        </p>
+                        <p class="text-gray-600 text-lg leading-relaxed border-l-4 border-eclat-gold pl-4 italic">
+                            "Simplicity is the ultimate sophistication. Our desserts speak softly, but their flavor resonates profoundly." - A. Dumont, Head Pâtissier
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Portfolio Section (Page View - Collection) -->
+        <section id="collection" class="page-view py-24 sm:py-32 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <span class="text-sm font-medium uppercase tracking-widest text-eclat-gold mb-3 block">The Full Gallery</span>
+                    <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
+                        A World of Exquisite Creations
+                    </h2>
+                    <p class="mt-4 text-xl text-gray-500">
+                        Explore our categorized portfolio, built on passion and the finest ingredients.
+                    </p>
+                </div>
+
+                <!-- --- Category 1: Grand Occasion & Wedding Cakes --- -->
+                <div class="mb-16">
+                    <h3 class="text-3xl font-bold tracking-tight mb-8 border-b pb-3 border-gray-300 text-gray-700">I. Grand Occasion & Wedding Cakes (7 Images)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Image 1: Strawberry cake, cupcakes, lace table -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/7561024/pexels-photo-7561024.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Crimson Lace Torte" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Strawberry';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Crimson Lace Torte</h4><p class="text-sm text-eclat-gold">Wedding Centerpiece</p></div>
+                        </div>
+
+                        <!-- Image 2: Big festive decorated cake -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/6210763/pexels-photo-6210763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Big festive decorated cake" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Festive+Cake';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">The Yuletide Tower</h4><p class="text-sm text-eclat-gold">Holiday Event Cake</p></div>
+                        </div>
+                        
+                        <!-- Image 3: Rustic wedding cake, ornate stand -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/3916061/pexels-photo-3916061.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Rustic wedding cake on ornate stand" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Rustic+Wedding';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">The Arbor Tier</h4><p class="text-sm text-eclat-gold">Rustic Luxury</p></div>
+                        </div>
+
+                        <!-- Image 4: Birthday cake, curly haired woman -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/7180762/pexels-photo-7180762.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Birthday cake with woman" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Birthday+Joy';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Milestone Vanilla</h4><p class="text-sm text-eclat-gold">Celebration Cakes</p></div>
+                        </div>
+
+                        <!-- Image 5: White frosted cake, confetti -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/8015138/pexels-photo-8015138.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="White frosted cake with confetti" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Confetti+Cake';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Gilded Confetti</h4><p class="text-sm text-eclat-gold">Luxury Tier</p></div>
+                        </div>
+
+                        <!-- Image 6: Birthday cake slice with candle -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/8014699/pexels-photo-8014699.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Birthday cake slice with candle" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Slice+of+Joy';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">The First Wish</h4><p class="text-sm text-eclat-gold">Simple Indulgence</p></div>
+                        </div>
+                        
+                        <!-- Image 7: Layered cake with cream & raspberries -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/10342001/pexels-photo-10342001.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Layered cake with cream and raspberries" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Raspberry+Layer';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">The Rubus Layer</h4><p class="text-sm text-eclat-gold">Summer Signature</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- --- Category 2: Patisserie Classiques & Tarts --- -->
+                <div class="mb-16">
+                    <h3 class="text-3xl font-bold tracking-tight mb-8 border-b pb-3 border-gray-300 text-gray-700">II. Patisserie Classiques & Tarts (11 Images)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Image 8: Chocolate swirl bread loaf -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/6150716/pexels-photo-6150716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Chocolate swirl bread loaf" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Chocolate+Swirl';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Marbled Brioche</h4><p class="text-sm text-eclat-gold">Morning Collection</p></div>
+                        </div>
+
+                        <!-- Image 9: Cheesecake slice with berries -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/9009965/pexels-photo-9009965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Cheesecake slice with berries" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=The+Zenith';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">The Zenith Tart</h4><p class="text-sm text-eclat-gold">Signature Cheesecake</p></div>
+                        </div>
+                        
+                        <!-- Image 10: Vanilla cream cake, whipped topping -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/4110004/pexels-photo-4110004.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Vanilla cream cake with whipped topping" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Vanilla+Cream';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Cloud Nine Cake</h4><p class="text-sm text-eclat-gold">The Classic</p></div>
+                        </div>
+
+                        <!-- Image 11: Cake with cherries & pink frosting -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/8478058/pexels-photo-8478058.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Cake with cherries and pink frosting" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Cherry+Pink';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Cherry Blossom Gateau</h4><p class="text-sm text-eclat-gold">Limited Edition</p></div>
+                        </div>
+
+                        <!-- Image 12: Lavender berry cake slices -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/10414167/pexels-photo-10414167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Lavender berry cake slices" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Lavender+Berry';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">The Lilac Slice</h4><p class="text-sm text-eclat-gold">Floral Infusion</p></div>
+                        </div>
+
+                        <!-- Image 13: Fig cake with honey, plates -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/13085212/pexels-photo-13085212.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Fig cake with honey" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Fig+Honey';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Fig & Amber Torte</h4><p class="text-sm text-eclat-gold">Mediterranean Collection</p></div>
+                        </div>
+
+                        <!-- Image 14: Strawberry cream cake, gold fork -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/7664400/pexels-photo-7664400.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Strawberry cream cake" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Strawberry+Cream';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Fraise Elegance</h4><p class="text-sm text-eclat-gold">Summer Signature</p></div>
+                        </div>
+
+                        <!-- Image 15: Carrot cake slice -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/8365691/pexels-photo-8365691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Carrot cake slice" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Carrot+Slice';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Spice Route Slice</h4><p class="text-sm text-eclat-gold">Daily Selection</p></div>
+                        </div>
+
+                        <!-- Image 16: Chocolate mousse bars & meringue -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/3740177/pexels-photo-3740177.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Chocolate mousse bars & meringue" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Mousse+Bars';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Noire Bar</h4><p class="text-sm text-eclat-gold">Petit Fours</p></div>
+                        </div>
+
+                        <!-- Image 17: Red velvet cake slice, nuts & flowers -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/3093479/pexels-photo-3093479.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Red velvet cake slice" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Red+Velvet+Slice';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Velours Rouge Slice</h4><p class="text-sm text-eclat-gold">Classic Redefined</p></div>
+                        </div>
+
+                        <!-- Image 18: Carrot cake, cream cheese frosting -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/2638021/pexels-photo-2638021.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Carrot cake, cream cheese frosting" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Carrot+Cake';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">The Root Classic</h4><p class="text-sm text-eclat-gold">Seasonal Loaf</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- --- Category 3: Decadent Chocolate & Modern Artistry --- -->
+                <div>
+                    <h3 class="text-3xl font-bold tracking-tight mb-8 border-b pb-3 border-gray-300 text-gray-700">III. Decadent Chocolate & Modern Artistry (7 Images)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        
+                    <!-- Image 19: Chocolate cake with edible flowers
+                    <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                        <img src="https://images.pexels.com/photos/2567854/pexels-photo-2567854.jpeg" 
+                            alt="Chocolate cake with edible flowers" 
+                            class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Dark+Bloom';">
+                        <div class="p-4 bg-white">
+                            <h4 class="text-lg font-semibold">Dark Bloom Torte</h4>
+                            <p class="text-sm text-eclat-gold">Botanical Series</p>
+                        </div>
+                    </div> -->
+
+
+                        <!-- Image 20: Gourmet cake with chocolate & purple icing -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/1998634/pexels-photo-1998634.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Gourmet cake with chocolate and purple icing" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Royal+Amethyst';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Royal Amethyst</h4><p class="text-sm text-eclat-gold">Exclusive Recipe</p></div>
+                        </div>
+
+                        <!-- Image 21: Chocolate cake with berries on black -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/5945563/pexels-photo-5945563.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Chocolate cake with berries on black" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Noir+Berry';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Le Noir Berry</h4><p class="text-sm text-eclat-gold">Dark Chocolate</p></div>
+                        </div>
+                        
+                        <!-- Image 22: Berry decorated chocolate cake -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/7525196/pexels-photo-7525196.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Berry decorated chocolate cake" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Berry+Chocolate';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Forest Canopy</h4><p class="text-sm text-eclat-gold">Moist Chocolate</p></div>
+                        </div>
+
+                        <!-- Image 23: Raspberry chocolate truffle cake -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/4110003/pexels-photo-4110003.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Raspberry chocolate truffle cake" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Truffle+Cake';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Truffle Azur</h4><p class="text-sm text-eclat-gold">Raspberry Ganache</p></div>
+                        </div>
+
+                        <!-- Image 24: Chocolate drip cake, sweets -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/10510747/pexels-photo-10510747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Chocolate drip cake, sweets" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Chocolate+Drip';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Gravity Drip</h4><p class="text-sm text-eclat-gold">Modern Artistry</p></div>
+                        </div>
+
+                        <!-- Image 25: Raspberry chocolate cake slice -->
+                        <div class="group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 cursor-pointer">
+                            <img src="https://images.pexels.com/photos/10342005/pexels-photo-10342005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" alt="Raspberry chocolate cake slice" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500" onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8e8e8/333333?text=Raspberry+Slice';">
+                            <div class="p-4 bg-white"><h4 class="text-lg font-semibold">Midnight Raspberry</h4><p class="text-sm text-eclat-gold">Daily Slice</p></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Contact/Inquiry Section (Page View) -->
+        <section id="contact" class="page-view bg-gray-900 py-24 sm:py-32">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <span class="text-sm font-medium uppercase tracking-widest text-eclat-gold mb-4 block">Personalized Creations</span>
+                <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-6">
+                    Begin Your Masterpiece
+                </h2>
+                <p class="text-xl text-gray-400 mb-10">
+                    Your vision is our blueprint. Schedule a consultation with our Head Pâtissier to discuss your next extraordinary event. Please fill out the form below or contact us directly.
+                </p>
+                <!-- Simple Form Placeholder -->
+                <form class="bg-white p-8 rounded-xl shadow-2xl space-y-4 text-left">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:ring-eclat-gold focus:border-eclat-gold">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:ring-eclat-gold focus:border-eclat-gold">
+                    </div>
+                    <div>
+                        <label for="details" class="block text-sm font-medium text-gray-700">Event & Order Details</label>
+                        <textarea id="details" rows="4" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm p-3 focus:ring-eclat-gold focus:border-eclat-gold"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-eclat-gold text-white text-lg font-semibold px-10 py-3 rounded-xl shadow-lg transition duration-300 hover:bg-eclat-gold/90">
+                        Submit Inquiry
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- 5. Footer (Common to all views) -->
+    <footer class="bg-white border-t border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
+                <!-- Brand -->
+                <div>
+                    <h3 class="text-2xl font-bold tracking-tight text-eclat-gold mb-3">ÉCLAT</h3>
+                    <p class="text-sm text-gray-500">The Pinnacle of Pastry.</p>
+                </div>
+                
+                <!-- Navigation -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Explore</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><a href="#home" class="hover:text-eclat-gold transition">Home</a></li>
+                        <li><a href="#about" class="hover:text-eclat-gold transition">Our Story</a></li>
+                        <li><a href="#collection" class="hover:text-eclat-gold transition">Collection</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Studio</h4>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li>(555) 123-4567</li>
+                        <li>inquire@eclatpatisserie.com</li>
+                        <li>120 Artisan Way, New York, NY 10001</li>
+                    </ul>
+                </div>
+                
+                <!-- Social (Placeholder) -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Connect</h4>
+                    <div class="flex justify-center md:justify-start space-x-4">
+                        <!-- Placeholder Icons -->
+                        <a href="#" class="text-gray-500 hover:text-eclat-gold transition" aria-label="Instagram">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.772 1.667 4.92 4.92.058 1.265.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.148 3.252-1.668 4.772-4.92 4.92-.164.058-.28.07-.384.07-.48 0-.58-.008-.87-.015a4.7 4.7 0 01-1.285-.29c-.838-.204-1.55-.477-2.18-.83s-1.18-.76-1.585-1.17c-.405-.405-.778-.857-1.17-1.585s-.626-1.342-.83-2.18c-.204-.838-.28-1.74-.29-2.228-.007-.29-.015-.39-.015-.87s.008-.58.015-.87c.01-1.07.135-2.07.41-3.07.276-1.002.684-1.896 1.15-2.65.466-.754 1.05-1.402 1.68-1.93s1.39-1.01 2.228-1.285c.488-.01.58-.018.87-.018.3 0 .4-.008.87-.015zM12 4.5a7.5 7.5 0 110 15 7.5 7.5 0 010-15z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-eclat-gold transition" aria-label="Pinterest">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.25 5.25a.75.75 0 00-.53-.22h-3.25a.75.75 0 00-.75.75v3.25c0 .414.336.75.75.75h2.57l-.008.008a7.502 7.502 0 01-5.74 2.872l-.12.008a7.502 7.502 0 01-5.872-2.88l-.008-.008h2.57c.414 0 .75-.336.75-.75v-3.25a.75.75 0 00-.75-.75h-3.25a.75.75 0 00-.53.22c-2.31 2.31-3.52 5.37-3.52 8.75 0 6.627 5.373 12 12 12s12-5.373 12-12c0-3.38-1.21-6.44-3.52-8.75z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+                <p class="text-sm text-gray-500">&copy; 2025 Éclat Pâtisserie. All rights reserved. | Crafted with Precision.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Single-Page Router Implementation ---
+        
+        // This function determines which page (section) to show based on the URL hash.
+        function router() {
+            // Get the current hash, default to '#home' if none is set.
+            let hash = window.location.hash || '#home';
+            
+            // Get all page views
+            const views = document.querySelectorAll('.page-view');
+            
+            // Hide all pages
+            views.forEach(view => {
+                view.style.display = 'none';
+            });
+            
+            // Show the current page
+            const activeView = document.querySelector(hash);
+            if (activeView) {
+                activeView.style.display = 'block';
+                // Scroll to the top of the content area for a "new page" feel
+                window.scrollTo(0, 0); 
+            } else {
+                // If hash is invalid, fall back to home
+                document.getElementById('home').style.display = 'block';
+                window.location.hash = 'home';
+            }
+        }
+
+        // Attach the router to hash changes and call it once on load
+        window.addEventListener('hashchange', router);
+        window.onload = function() {
+            // Check if hash exists, if not, set to home for initial load
+            if (!window.location.hash) {
+                window.location.hash = 'home';
+            }
+            router();
+        }
+
+        // Optional: Simple mobile menu logic (hides the menu button for now since we don't have a mobile overlay, but keeps the structure clean)
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+            alert("Mobile menu navigation is coming soon!");
+        });
+        
+    </script>
+</body>
+</html>

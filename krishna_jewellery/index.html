@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurum Fine Jewellery | Luxury Store</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles for a Premium Look */
+        :root {
+            --color-primary: #1a1a1a; /* Deep Black */
+            --color-secondary: #cfa05d; /* Muted Gold */
+            --color-light: #f5f5f5; /* Off-White */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--color-primary);
+            background-color: var(--color-light);
+            scroll-behavior: smooth;
+        }
+        .premium-bg-dark { background-color: var(--color-primary); }
+        .premium-text-gold { color: var(--color-secondary); }
+        .premium-border-gold { border-color: var(--color-secondary); }
+        .premium-btn {
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(207, 160, 93, 0.4);
+        }
+        .premium-btn:hover { background-color: #e0b875; box-shadow: 0 10px 15px -3px rgba(207, 160, 93, 0.6); }
+        .premium-card-hover:hover { transform: translateY(-4px); box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2); }
+        .serif-heading { font-family: 'Cormorant Garamond', serif; }
+
+        /* Multi-page setup */
+        .page-section { display: none; min-height: calc(100vh - 200px); }
+
+        /* Hero Image - Using a generic, high-contrast banner placeholder */
+        .hero-section {
+            /* HERO IMAGE GENERATION PROMPT:
+               "A cinematic, high-resolution photograph of a single, exquisitely crafted diamond engagement ring with a marquise-cut center stone, set on a dark, velvety black surface. 
+               Soft, directional light highlights the facets of the diamond, creating intense sparkle and dramatic shadows. 
+               The background is blurred and luxurious, suggesting an upscale setting. Use a shallow depth of field. Professional studio photography style. 
+               Color palette: Deep black, stark white light, and subtle warm gold."
+            */
+            background-image: url('https://placehold.co/1920x800/1a1a1a/cfa05d?text=Aurum+Fine+Jewellery+%7C+New+Collection+Banner');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1a1a1a',
+                        'accent-gold': '#cfa05d',
+                        'off-white': '#f5f5f5',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <!-- Firebase Imports and Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        let firebaseConfig = null;
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            try {
+                firebaseConfig = JSON.parse(__firebase_config);
+            } catch (e) {
+                console.error("Error parsing __firebase_config:", e);
+            }
+        }
+
+        window.firebaseInit = async () => {
+            if (firebaseConfig) {
+                const app = initializeApp(firebaseConfig);
+                const db = getFirestore(app);
+                const auth = getAuth(app);
+                window.db = db;
+                window.auth = auth;
+
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    window.userId = auth.currentUser?.uid || crypto.randomUUID();
+                    console.log("Firebase initialized. User ID:", window.userId);
+                } catch (error) {
+                    console.error("Firebase Auth Error:", error);
+                }
+            } else {
+                console.log("Firebase not initialized. Running in standalone mode.");
+                window.userId = crypto.randomUUID();
+            }
+        }
+        window.firebaseInit();
+    </script>
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 premium-bg-dark shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo (Home Link) -->
+            <a href="#home" onclick="showPage('home')" class="text-3xl font-serif tracking-widest premium-text-gold font-bold">
+                AURUM
+            </a>
+
+            <!-- Navigation & Icons -->
+            <nav class="flex items-center space-x-6">
+
+                <!-- Store/Collections (Gem Icon) -->
+                <button onclick="showPage('products')" class="text-off-white hover:premium-text-gold transition duration-200">
+                    <i data-lucide="gem" class="w-6 h-6"></i>
+                </button>
+                <!-- Cart -->
+                <button onclick="showPage('cart')" class="relative text-off-white hover:premium-text-gold transition duration-200">
+                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 text-xs font-bold w-4 h-4 rounded-full flex items-center justify-center premium-bg-dark premium-text-gold ring-1 ring-accent-gold">0</span>
+                </button>
+
+                <!-- Login/User -->
+                <button onclick="showPage('login')" class="text-off-white hover:premium-text-gold transition duration-200 hidden sm:block">
+                    <i data-lucide="user" class="w-6 h-6"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+
+    <main id="app-content">
+        <!-- 1. Home Page -->
+        <section id="home-page" class="page-section">
+            <!-- Hero Image Section -->
+                <!-- Hero Image Section -->
+                <div class="hero-section h-[60vh] md:h-[80vh] bg-cover bg-center flex items-center justify-center text-center" style="background-image: url('https://i.postimg.cc/JhKJz2gg/banner.jpg');">
+                    <div class="bg-primary-dark/60 p-8 rounded-lg backdrop-blur-sm">
+                        <h1 class="text-5xl md:text-7xl font-serif text-off-white font-light tracking-wider">
+                            Timeless Pieces. <span class="premium-text-gold block mt-2">Enduring Legacy.</span>
+                        </h1>
+                        <p class="mt-4 text-lg text-off-white max-w-xl mx-auto font-light">
+                            Discover the Aurum difference—where exceptional craftsmanship meets breathtaking design.
+                        </p>
+                        <button onclick="showPage('products')" class="mt-8 px-8 py-3 premium-btn rounded-md text-sm font-semibold uppercase tracking-wider shadow-xl hover:shadow-2xl">
+                            Explore Our Collections
+                        </button>
+                    </div>
+                </div>
+
+
+            <!-- Signature Products/Collections -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <h2 class="text-4xl font-serif text-center mb-12">Signature Masterpieces</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Collection 1: Rings (Using Jewelry 1) -->
+                    <div class="text-center group overflow-hidden rounded-lg shadow-xl premium-card-hover transition duration-300">
+                        <!-- Pexels Image 1 -->
+                        <img src="https://images.pexels.com/photos/32652454/pexels-photo-32652454.jpeg?auto=compress&cs=tinysrgb&w=800" onerror="this.onerror=null; this.src='https://placehold.co/800x600/cfa05d/1a1a1a?text=Rings+Placeholder';" alt="Diamond Rings" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif mb-2">The Solitaire Collection</h3>
+                            <p class="text-gray-600 mb-4">Iconic rings that capture light from every angle.</p>
+                            <a href="#products" onclick="showPage('products', 'Rings')" class="text-sm font-semibold uppercase premium-text-gold hover:underline">View Rings &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Collection 2: Necklaces (Using Jewelry 36) -->
+                    <div class="text-center group overflow-hidden rounded-lg shadow-xl premium-card-hover transition duration-300">
+                        <!-- Pexels Image 36 -->
+                        <img src="https://images.pexels.com/photos/29986286/pexels-photo-29986286.jpeg?auto=compress&cs=tinysrgb&w=800" onerror="this.onerror=null; this.src='https://placehold.co/800x600/1a1a1a/cfa05d?text=Necklaces+Placeholder';" alt="Pendants" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif mb-2">Legacy Pendants</h3>
+                            <p class="text-gray-600 mb-4">Adorn your neckline with pieces that tell a story of heritage.</p>
+                            <a href="#products" onclick="showPage('products', 'Necklaces')" class="text-sm font-semibold uppercase premium-text-gold hover:underline">View Necklaces &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Collection 3: Earrings (Using Jewelry 44) -->
+                    <div class="text-center group overflow-hidden rounded-lg shadow-xl premium-card-hover transition duration-300">
+                        <!-- Pexels Image 44 -->
+                        <img src="https://images.pexels.com/photos/29245556/pexels-photo-29245556.jpeg?auto=compress&cs=tinysrgb&w=800" onerror="this.onerror=null; this.src='https://placehold.co/800x600/f5f5f5/1a1a1a?text=Earrings+Placeholder';" alt="Earrings" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-serif mb-2">Haute Couture Earrings</h3>
+                            <p class="text-gray-600 mb-4">From classic studs to dramatic drops, perfect for the grand event.</p>
+                            <a href="#products" onclick="showPage('products', 'Earrings')" class="text-sm font-semibold uppercase premium-text-gold hover:underline">View Earrings &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marque Section -->
+            <div class="premium-bg-dark text-off-white py-12 mb-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h3 class="text-xl font-light tracking-widest uppercase mb-4">Aurum Craftsmanship</h3>
+                    <p class="text-3xl font-serif italic max-w-3xl mx-auto">
+                        "Luxury is in the details, from the initial sketch to the final polish. Every piece is a promise of perfection."
+                    </p>
+                    <p class="mt-6 premium-text-gold text-lg font-light">- Marco Arge, Creative Director</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Products Page (Collections) -->
+        <section id="products-page" class="page-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-5xl font-serif text-center mb-4">The Aurum Treasury</h1>
+            <p class="text-center text-gray-600 mb-10">Explore 50+ masterpieces across our curated collections.</p>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap justify-center space-x-2 sm:space-x-4 mb-12">
+                <button onclick="filterProducts('All')" class="px-4 py-2 text-xs sm:text-sm uppercase font-semibold border rounded-full transition duration-200 hover:premium-bg-dark hover:text-off-white premium-border-gold active-filter mt-2">All (50 Items)</button>
+                <button onclick="filterProducts('Rings')" class="px-4 py-2 text-xs sm:text-sm uppercase font-semibold border rounded-full transition duration-200 hover:premium-bg-dark hover:text-off-white premium-border-gold mt-2">Rings</button>
+                <button onclick="filterProducts('Necklaces')" class="px-4 py-2 text-xs sm:text-sm uppercase font-semibold border rounded-full transition duration-200 hover:premium-bg-dark hover:text-off-white premium-border-gold mt-2">Necklaces</button>
+                <button onclick="filterProducts('Bracelets')" class="px-4 py-2 text-xs sm:text-sm uppercase font-semibold border rounded-full transition duration-200 hover:premium-bg-dark hover:text-off-white premium-border-gold mt-2">Bracelets</button>
+                <button onclick="filterProducts('Earrings')" class="px-4 py-2 text-xs sm:text-sm uppercase font-semibold border rounded-full transition duration-200 hover:premium-bg-dark hover:text-off-white premium-border-gold mt-2">Earrings</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-list" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
+                <!-- Products will be injected here by JS -->
+            </div>
+        </section>
+
+        <!-- 3. Product Detail Page -->
+        <section id="detail-page" class="page-section max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <button onclick="showPage('products')" class="flex items-center text-gray-600 hover:premium-text-gold mb-8 transition duration-200">
+                <i data-lucide="chevron-left" class="w-5 h-5 mr-1"></i> Back to Collections
+            </button>
+            <div id="product-detail-content" class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                <!-- Content injected here by JS -->
+            </div>
+        </section>
+
+        <!-- 4. Cart Page -->
+        <section id="cart-page" class="page-section max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-5xl font-serif mb-10 text-center">Your Jewellery Bag</h1>
+
+            <div id="cart-items-container" class="space-y-6">
+                <!-- Cart items will be injected here by JS -->
+            </div>
+
+            <div id="cart-summary" class="mt-10 pt-6 border-t premium-border-gold/30">
+                <div class="flex justify-between text-2xl font-serif mb-4">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal" class="premium-text-gold font-bold">$0.00</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-6">Shipping and taxes calculated at checkout. Enjoy complimentary worldwide insured shipping.</p>
+                <button onclick="showPage('checkout')" id="checkout-btn" disabled class="w-full premium-btn py-4 rounded-md text-lg font-semibold uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed">
+                    Proceed to Secure Checkout
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. Checkout Page -->
+        <section id="checkout-page" class="page-section max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-5xl font-serif mb-10 text-center">Secure Checkout</h1>
+
+            <form id="checkout-form" class="space-y-6 p-8 border premium-border-gold/30 rounded-lg shadow-xl bg-off-white">
+                <h2 class="text-2xl font-serif border-b pb-2 mb-4 premium-border-gold">1. Shipping Information</h2>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" required placeholder="email@example.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div><label for="first-name" class="block text-sm font-medium text-gray-700">First Name</label><input type="text" id="first-name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold"></div>
+                    <div><label for="last-name" class="block text-sm font-medium text-gray-700">Last Name</label><input type="text" id="last-name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold"></div>
+                </div>
+                <div><label for="address" class="block text-sm font-medium text-gray-700">Address</label><input type="text" id="address" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold"></div>
+                <div><label for="city" class="block text-sm font-medium text-gray-700">City</label><input type="text" id="city" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold"></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label for="country" class="block text-sm font-medium text-gray-700">Country</label><input type="text" id="country" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold"></div>
+                    <div><label for="zip" class="block text-sm font-medium text-gray-700">ZIP / Postal Code</label><input type="text" id="zip" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold"></div>
+                </div>
+
+                <h2 class="text-2xl font-serif border-b pb-2 mb-4 premium-border-gold pt-6">2. Payment Details</h2>
+                <div class="bg-gray-100 p-4 rounded-md">
+                    <p class="text-gray-600 italic mb-2">Payment simulation: Secure processing via Aurum Vault.</p>
+                    <div class="flex justify-between items-center mt-2">
+                        <p class="font-semibold text-xl">Order Total:</p>
+                        <span id="checkout-total" class="premium-text-gold font-bold text-xl">$0.00</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full premium-btn py-4 rounded-md text-lg font-semibold uppercase tracking-wider mt-8">
+                    Confirm & Place Order
+                </button>
+            </form>
+
+            <!-- Order Confirmation Modal -->
+            <div id="confirmation-modal" class="hidden fixed inset-0 bg-primary-dark/80 z-[100] flex items-center justify-center p-4">
+                <div class="bg-off-white p-8 md:p-12 rounded-lg shadow-2xl max-w-md w-full text-center">
+                    <i data-lucide="check-circle" class="mx-auto text-green-600 w-16 h-16 mb-4"></i>
+                    <h3 class="text-3xl font-serif mb-4">Order Placed Successfully!</h3>
+                    <p class="text-gray-700 mb-6">Your order has been confirmed. You will receive an insured tracking number within 24 hours.</p>
+                    <button onclick="closeModalAndGoHome()" class="premium-btn px-6 py-3 rounded-md">
+                        Continue Shopping
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Login Page (Dummy) -->
+        <section id="login-page" class="page-section max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <h1 class="text-5xl font-serif mb-10 text-center">Aurum Client Login</h1>
+            <div class="p-8 border premium-border-gold/30 rounded-lg shadow-xl bg-off-white">
+                <p class="text-gray-600 mb-6 text-center">Access your private wish list and order history.</p>
+                <form id="dummy-login-form" class="space-y-6">
+                    <div>
+                        <label for="login-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="login-email" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold">
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="login-password" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-accent-gold focus:border-accent-gold">
+                    </div>
+                    <button type="submit" class="w-full premium-btn py-3 rounded-md text-base font-semibold uppercase tracking-wider">
+                        Sign In
+                    </button>
+                </form>
+                <p class="mt-4 text-center text-sm text-gray-500">
+                    Don't have an account? <a href="#" class="premium-text-gold hover:underline">Register Now</a>
+                </p>
+                <p id="login-message" class="mt-4 text-center text-red-600 hidden">Invalid credentials. Please try again.</p>
+                <p id="login-success-message" class="mt-4 text-center text-green-600 hidden">Login Successful (Dummy)! Redirecting to home...</p>
+            </div>
+        </section>
+
+        <!-- 7. About Us Page -->
+        <section id="about-page" class="page-section max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-5xl font-serif mb-8 text-center">The Story of Aurum</h1>
+            <div class="text-lg space-y-6 leading-relaxed">
+                <p>
+                    Founded in 1985 by master goldsmith Marco Arge in the heart of Geneva, Switzerland, **Aurum Fine Jewellery** was born from a singular vision: to blend timeless European artistry with ethically sourced, breathtaking materials. Marco believed that jewellery is not merely an accessory, but a wearable legacy—a piece of history to be cherished and passed down through generations.
+                </p>
+                <p>
+                    Our atelier upholds a tradition of meticulous craftsmanship. Every diamond is hand-selected and certified by GIA standards, every setting is polished to perfection using proprietary techniques, and every design respects the natural beauty of the gemstone. We specialize in bespoke creations and signature collections that embody classic elegance and modern flair.
+                </p>
+                <!-- Placeholder for Atelier Image -->
+                <img src="https://placehold.co/1000x400/333333/cfa05d?text=Swiss+Atelier+%7C+Precision+Craftsmanship" alt="Atelier image" class="rounded-lg shadow-xl my-8">
+                <p>
+                    At Aurum, **sustainability** is paramount. We are committed to responsible sourcing, ensuring that every stone we use is conflict-free and traceable. When you choose Aurum, you invest in a piece that is beautiful inside and out, supporting a future where luxury and ethics coexist seamlessly.
+                </p>
+                <p class="text-center font-serif text-2xl premium-text-gold pt-4">
+                    "Creating beauty that endures for a lifetime."
+                </p>
+            </div>
+        </section>
+
+        <!-- 8. Policy and Care Page (Handles Shipping, Warranty, Returns, Legal) -->
+        <section id="policy-page" class="page-section max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-5xl font-serif mb-12 text-center">Client Care & Legal Center</h1>
+            <div class="space-y-12">
+                <!-- Shipping & Delivery -->
+                <div>
+                    <h2 class="text-3xl font-serif premium-text-gold mb-4 border-b premium-border-gold/30 pb-2">Complimentary Shipping & Delivery</h2>
+                    <p class="text-gray-700">We offer complimentary, fully insured, worldwide shipping on all orders. Due to the handcrafted nature of our pieces, delivery times vary:</p>
+                    <ul class="list-disc list-inside ml-4 mt-3 space-y-2 text-gray-700">
+                        <li>**In-Stock Items:** 3-5 business days.</li>
+                        <li>**Made-to-Order Pieces:** 4-6 weeks (includes crafting and quality assurance).</li>
+                        <li>All shipments require signature confirmation upon delivery for security.</li>
+                    </ul>
+                </div>
+                <!-- Warranty -->
+                <div>
+                    <h2 class="text-3xl font-serif premium-text-gold mb-4 border-b premium-border-gold/30 pb-2">The Aurum Lifetime Warranty</h2>
+                    <p class="text-gray-700">Aurum guarantees the material and craftsmanship of every piece of jewellery for its lifetime against manufacturing defects. This includes loose pave stones, metal discoloration, and structural failures.</p>
+                    <p class="text-sm italic text-gray-500 mt-2">The warranty does not cover normal wear and tear, abuse, loss of the center stone, or damage caused by non-Aurum repairs.</p>
+                </div>
+                <!-- Returns & Exchanges -->
+                <div>
+                    <h2 class="text-3xl font-serif premium-text-gold mb-4 border-b premium-border-gold/30 pb-2">30-Day Returns & Exchanges</h2>
+                    <p class="text-gray-700">If you are not entirely satisfied with your purchase, you may return or exchange unworn merchandise in its original condition within 30 days of shipment. Bespoke or personalized items are final sale. All returns are subject to inspection by our master jewellers.</p>
+                </div>
+                <!-- Legal: Privacy Policy -->
+                <div>
+                    <h2 class="text-3xl font-serif premium-text-gold mb-4 border-b premium-border-gold/30 pb-2">Privacy Policy</h2>
+                    <p class="text-gray-700">Aurum is committed to protecting your privacy. We collect only necessary information for order fulfillment, communication, and personalization of your experience. Your data is never sold to third parties. We use secure, industry-standard encryption for all transactions and data storage.</p>
+                </div>
+                <!-- Legal: Terms of Service -->
+                <div>
+                    <h2 class="text-3xl font-serif premium-text-gold mb-4 border-b premium-border-gold/30 pb-2">Terms of Service</h2>
+                    <p class="text-gray-700">By using the Aurum Fine Jewellery website and purchasing our products, you agree to comply with and be bound by our terms and conditions. All content, designs, and images are the exclusive property of Aurum. Prices and availability are subject to change without notice.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Contact Us Page -->
+        <section id="contact-page" class="page-section max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <h1 class="text-5xl font-serif mb-10 text-center">Contact Our Concierge</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 border premium-border-gold/30 rounded-lg shadow-xl bg-off-white">
+                <div>
+                    <h2 class="text-2xl font-serif premium-text-gold mb-4">Get In Touch</h2>
+                    <div class="space-y-4 text-gray-700">
+                        <p class="flex items-start">
+                            <i data-lucide="phone" class="w-5 h-5 mr-3 flex-shrink-0 mt-1"></i>
+                            <span class="font-semibold">Boutique Phone:</span><br>+41 22 555 1985 (Mon-Fri, 9am-5pm CET)
+                        </p>
+                        <p class="flex items-start">
+                            <i data-lucide="mail" class="w-5 h-5 mr-3 flex-shrink-0 mt-1"></i>
+                            <span class="font-semibold">General Inquiries:</span><br>concierge@aurumjewellery.ch
+                        </p>
+                        <p class="flex items-start">
+                            <i data-lucide="map-pin" class="w-5 h-5 mr-3 flex-shrink-0 mt-1"></i>
+                            <span class="font-semibold">Atelier Address:</span><br>Rue du Rhone 15, 1204 Geneva, Switzerland
+                        </p>
+                    </div>
+                </div>
+                <form class="space-y-4">
+                    <h2 class="text-2xl font-serif premium-text-gold mb-4">Send a Message</h2>
+                    <div><input type="text" placeholder="Your Full Name" required class="w-full p-3 border rounded-md focus:ring-accent-gold focus:border-accent-gold"></div>
+                    <div><input type="email" placeholder="Your Email" required class="w-full p-3 border rounded-md focus:ring-accent-gold focus:border-accent-gold"></div>
+                    <div><textarea placeholder="How can we assist you?" rows="4" required class="w-full p-3 border rounded-md focus:ring-accent-gold focus:border-accent-gold"></textarea></div>
+                    <button type="submit" class="w-full premium-btn py-3 rounded-md text-base font-semibold uppercase tracking-wider">
+                        Submit Inquiry
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="premium-bg-dark text-off-white mt-16 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 border-b border-gray-700 pb-10">
+                <!-- Brand Info -->
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-2xl font-serif premium-text-gold mb-4">AURUM</h4>
+                    <p class="text-sm text-gray-400">
+                        The art of Swiss jewellery since 1985. <br>
+                        Legacy, redefined.
+                    </p>
+                </div>
+                <!-- Company -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#about" onclick="showPage('about')" class="hover:text-off-white">About Us</a></li>
+                        <li><a href="#contact" onclick="showPage('contact')" class="hover:text-off-white">Contact Our Team</a></li>
+                        <li><a href="#login" onclick="showPage('login')" class="hover:text-off-white">Client Login</a></li>
+                    </ul>
+                </div>
+                <!-- Customer Service -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Client Care</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <!-- All point to policy-page for detailed sections -->
+                        <li><a href="#policy" onclick="showPage('policy')" class="hover:text-off-white">Shipping & Delivery</a></li>
+                        <li><a href="#policy" onclick="showPage('policy')" class="hover:text-off-white">Warranty & Repairs</a></li>
+                        <li><a href="#policy" onclick="showPage('policy')" class="hover:text-off-white">Returns & Exchanges</a></li>
+                    </ul>
+                </div>
+                <!-- Policy -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <!-- All point to policy-page for detailed sections -->
+                        <li><a href="#policy" onclick="showPage('policy')" class="hover:text-off-white">Privacy Policy</a></li>
+                        <li><a href="#policy" onclick="showPage('policy')" class="hover:text-off-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <!-- Social Media -->
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:premium-text-gold transition duration-200"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                        <a href="#" class="hover:premium-text-gold transition duration-200"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                        <a href="#" class="hover:premium-text-gold transition duration-200"><i data-lucide="pinterest" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center text-sm text-gray-500">
+                &copy; 2025 Aurum Fine Jewellery. All Rights Reserved. Crafted with precision.
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- 1. Real Image URLs (using the first 50 from the user's list) ---
+        const pexelsUrls = [
+            "https://images.pexels.com/photos/32652454/pexels-photo-32652454.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 1
+            "https://images.pexels.com/photos/32652451/pexels-photo-32652451.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 2
+            "https://images.pexels.com/photos/32492524/pexels-photo-32492524.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 3
+            "https://images.pexels.com/photos/32492521/pexels-photo-32492521.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 4
+            "https://images.pexels.com/photos/31677627/pexels-photo-31677627.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 5
+            "https://images.pexels.com/photos/31677624/pexels-photo-31677624.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 6
+            "https://images.pexels.com/photos/31605854/pexels-photo-31605854.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 7
+            "https://images.pexels.com/photos/31605847/pexels-photo-31605847.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 8
+            "https://images.pexels.com/photos/31605844/pexels-photo-31605844.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 9
+            "https://images.pexels.com/photos/30746012/pexels-photo-30746012.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 10
+            "https://images.pexels.com/photos/30746009/pexels-photo-30746009.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 11
+            "https://images.pexels.com/photos/30746005/pexels-photo-30746005.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 12
+            "https://images.pexels.com/photos/30746002/pexels-photo-30746002.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 13
+            "https://images.pexels.com/photos/29986284/pexels-photo-29986284.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 14
+            "https://images.pexels.com/photos/29986279/pexels-photo-29986279.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 15
+            "https://images.pexels.com/photos/29986276/pexels-photo-29986276.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 16
+            "https://images.pexels.com/photos/29986274/pexels-photo-29986274.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 17
+            "https://images.pexels.com/photos/29967979/pexels-photo-29967979.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 18
+            "https://images.pexels.com/photos/29923633/pexels-photo-29923633.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 19
+            "https://images.pexels.com/photos/29245557/pexels-photo-29245557.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 20
+            "https://images.pexels.com/photos/29245554/pexels-photo-29245554.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 21
+            "https://images.pexels.com/photos/29245551/pexels-photo-29245551.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 22
+            "https://images.pexels.com/photos/29245548/pexels-photo-29245548.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 23
+            "https://images.pexels.com/photos/32652453/pexels-photo-32652453.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 24
+            "https://images.pexels.com/photos/32652450/pexels-photo-32652450.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 25
+            "https://images.pexels.com/photos/32492523/pexels-photo-32492523.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 26
+            "https://images.pexels.com/photos/32492520/pexels-photo-32492520.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 27
+            "https://images.pexels.com/photos/31677626/pexels-photo-31677626.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 28
+            "https://images.pexels.com/photos/31677623/pexels-photo-31677623.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 29
+            "https://images.pexels.com/photos/31605853/pexels-photo-31605853.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 30
+            "https://images.pexels.com/photos/31605846/pexels-photo-31605846.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 31
+            "https://images.pexels.com/photos/31605843/pexels-photo-31605843.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 32
+            "https://images.pexels.com/photos/30746011/pexels-photo-30746011.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 33
+            "https://images.pexels.com/photos/30746008/pexels-photo-30746008.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 34
+            "https://images.pexels.com/photos/30746004/pexels-photo-30746004.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 35
+            "https://images.pexels.com/photos/29986286/pexels-photo-29986286.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 36
+            "https://images.pexels.com/photos/29986283/pexels-photo-29986283.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 37
+            "https://images.pexels.com/photos/29986280/pexels-photo-29986280.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 38
+            "https://images.pexels.com/photos/29986278/pexels-photo-29986278.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 39
+            "https://images.pexels.com/photos/29986275/pexels-photo-29986275.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 40
+            "https://images.pexels.com/photos/29986272/pexels-photo-29986272.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 41
+            "https://images.pexels.com/photos/29967978/pexels-photo-29967978.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 42
+            "https://images.pexels.com/photos/29923632/pexels-photo-29923632.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 43
+            "https://images.pexels.com/photos/29245556/pexels-photo-29245556.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 44
+            "https://images.pexels.com/photos/29245553/pexels-photo-29245553.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 45
+            "https://images.pexels.com/photos/29245550/pexels-photo-29245550.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 46
+            "https://images.pexels.com/photos/29245547/pexels-photo-29245547.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 47
+            "https://images.pexels.com/photos/32652452/pexels-photo-32652452.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 48
+            "https://images.pexels.com/photos/32652449/pexels-photo-32652449.jpeg?auto=compress&cs=tinysrgb&w=800", // Jewelry 49
+            "https://images.pexels.com/photos/32492522/pexels-photo-32492522.jpeg?auto=compress&cs=tinysrgb&w=800"  // Jewelry 50
+        ];
+
+        // --- 2. Product Data (Simulating 50+ Real Products) ---
+        const productNames = [
+            "Aurora Solitaire Ring", "Celestial Diamond Drops", "Imperial Emerald Bangle", "Ocean Heart Sapphire", "Signature Pearl Necklace",
+            "Veridian Promise Ring", "Heirloom Gold Studs", "Zodiac Signet Bracelet", "Ruby Twilight Cocktail", "The Majestic Cuff",
+            "Venus Marquise Ring", "Artemis Dangle Set", "Garnet Eternity Band", "Rose Quartz Pendant", "Sleek Snake Chain",
+            "Apollo Radiant Ring", "Dionysus Chain Bracelet", "Hera Gold Lariat", "Neptune Aquamarine Studs", "Vesta Hoop Set"
+        ];
+        const categories = ["Rings", "Earrings", "Bracelets", "Necklaces"];
+
+        // Generate 50 products using the real URLs
+        const products = [];
+        for (let i = 0; i < 50; i++) {
+            const category = categories[i % categories.length];
+            const baseName = productNames[i % productNames.length];
+            products.push({
+                id: i + 1,
+                name: `${baseName} (J${i + 1})`,
+                price: (Math.floor(Math.random() * 9000) + 1000).toFixed(2),
+                // Use the Pexels URL for the product image
+                image: pexelsUrls[i], 
+                category: category,
+                description: `Experience the captivating beauty of the ${category} collection with this unique ${baseName}. Featuring ${Math.floor(Math.random() * 5 + 1)} carats of ethically sourced VS clarity diamonds, set in certified ${Math.random() < 0.5 ? 'Platinum' : '18k White Gold'}. A perfect blend of classic design and modern precision.`,
+                details: {
+                    metal: Math.random() < 0.5 ? '18k Gold' : 'Platinum',
+                    carat: (Math.random() * 5 + 1).toFixed(2),
+                    clarity: 'VS1',
+                    cut: category === 'Rings' ? 'Marquise' : 'Brilliant',
+                    weight: (Math.random() * 15 + 5).toFixed(1) + 'g',
+                    sku: `AUR-${1000 + i}`
+                }
+            });
+        }
+
+        // --- 3. State Management ---
+        let cart = []; // Array of { productId, quantity, price, name, image }
+        let currentFilter = 'All';
+
+        // --- 4. Page Navigation Logic ---
+        const sections = document.querySelectorAll('.page-section');
+        const defaultPage = 'home';
+
+        function showPage(pageId, filterCategory = null, productId = null) {
+            window.scrollTo(0, 0); // Scroll to top on page change
+
+            sections.forEach(section => {
+                section.style.display = (section.id === `${pageId}-page`) ? 'block' : 'none';
+            });
+
+            // Update URL hash
+            history.pushState(null, '', `#${pageId}`);
+            document.title = `Aurum | ${pageId.charAt(0).toUpperCase() + pageId.slice(1)}`;
+
+            // Specific page actions
+            if (pageId === 'products') {
+                renderProducts(filterCategory);
+            } else if (pageId === 'cart') {
+                renderCart();
+            } else if (pageId === 'checkout') {
+                updateCheckoutSummary();
+            } else if (pageId === 'detail' && productId) {
+                renderProductDetail(productId);
+            }
+
+            lucide.createIcons(); // Ensure all icons are rendered after page switch
+        }
+
+        // Handle navigation via URL hash
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash.startsWith('detail=')) {
+                const productId = parseInt(hash.split('=')[1]);
+                showPage('detail', null, productId);
+            } else {
+                showPage(hash || defaultPage);
+            }
+        });
+
+        // Initialize on load
+        window.onload = () => {
+            const initialHash = window.location.hash.substring(1);
+            if (initialHash.startsWith('detail=')) {
+                const productId = parseInt(initialHash.split('=')[1]);
+                showPage('detail', null, productId);
+            } else {
+                showPage(initialHash || defaultPage);
+            }
+        };
+
+        // --- 5. Product Rendering Logic ---
+
+        function renderProducts(category = currentFilter) {
+            currentFilter = category || 'All';
+            const container = document.getElementById('product-list');
+            container.innerHTML = '';
+            
+            const filteredProducts = currentFilter === 'All'
+                ? products
+                : products.filter(p => p.category === currentFilter);
+
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-off-white rounded-lg shadow-xl overflow-hidden premium-card-hover transition duration-300 cursor-pointer';
+                productCard.innerHTML = `
+                    <div class="relative overflow-hidden">
+                        <!-- Using Real Pexels URL for Product Image -->
+                        <img src="${product.image}" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x400/808080/FFFFFF?text=Image+Unavailable';"
+                             alt="${product.name}" 
+                             class="w-full h-72 object-cover transition duration-500 hover:scale-105">
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-serif font-medium mb-1 truncate">${product.name}</h3>
+                        <p class="text-xs uppercase text-gray-500 mb-2">${product.category}</p>
+                        <p class="text-xl font-serif premium-text-gold font-bold mb-4">$${product.price}</p>
+                        <button onclick="event.stopPropagation(); addToCart(${product.id})" class="premium-btn px-4 py-2 rounded-md text-xs font-semibold uppercase tracking-wider w-full flex items-center justify-center space-x-2">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>Add to Bag</span>
+                        </button>
+                    </div>
+                `;
+                productCard.onclick = () => viewDetails(product.id);
+                container.appendChild(productCard);
+            });
+
+            // Update filter button styles and counts
+            updateFilterButtons(currentFilter);
+        }
+
+        function updateFilterButtons(activeCategory) {
+            document.querySelectorAll('#products-page button').forEach(button => {
+                button.classList.remove('premium-bg-dark', 'text-off-white', 'active-filter', 'border-primary-dark');
+                button.classList.add('text-primary-dark');
+
+                const category = button.textContent.split('(')[0].trim();
+                if (category === activeCategory || (category === 'All' && activeCategory === 'All')) {
+                    button.classList.add('premium-bg-dark', 'text-off-white', 'active-filter', 'border-transparent');
+                    button.classList.remove('text-primary-dark');
+                }
+
+                // Update counts
+                if (category === 'All') {
+                    button.textContent = `All (${products.length} Items)`;
+                } else {
+                    const count = products.filter(p => p.category === category).length;
+                    button.textContent = `${category} (${count})`;
+                }
+            });
+            lucide.createIcons();
+        }
+
+        function filterProducts(category) {
+            currentFilter = category;
+            renderProducts(currentFilter);
+        }
+
+        function viewDetails(productId) {
+            showPage('detail', null, productId);
+            history.pushState(null, '', `#detail=${productId}`);
+        }
+
+        function renderProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            const container = document.getElementById('product-detail-content');
+
+            if (!product) {
+                container.innerHTML = '<p class="text-center text-xl text-red-500">Product not found.</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <!-- Image Column -->
+                <div class="w-full">
+                    <!-- Using Real Pexels URL for Detail Image -->
+                    <img src="${product.image}" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/600x600/808080/FFFFFF?text=Image+Unavailable';"
+                         alt="${product.name}" 
+                         class="w-full h-auto object-cover rounded-lg shadow-2xl premium-border-gold border">
+                </div>
+
+                <!-- Details Column -->
+                <div class="space-y-6">
+                    <h1 class="text-5xl font-serif">${product.name}</h1>
+                    <p class="text-3xl font-serif premium-text-gold font-bold">$${product.price}</p>
+                    
+                    <div class="text-base text-gray-700 leading-relaxed">
+                        <p>${product.description}</p>
+                    </div>
+
+                    <!-- Technical Specs -->
+                    <div class="border-t border-b premium-border-gold/30 py-4">
+                        <h3 class="text-xl font-serif mb-3">Technical Specifications</h3>
+                        <div class="grid grid-cols-2 gap-y-2 text-sm">
+                            <p><span class="font-semibold">SKU:</span> ${product.details.sku}</p>
+                            <p><span class="font-semibold">Metal:</span> ${product.details.metal}</p>
+                            <p><span class="font-semibold">Total Carat:</span> ${product.details.carat} ct</p>
+                            <p><span class="font-semibold">Clarity:</span> ${product.details.clarity}</p>
+                            <p><span class="font-semibold">Main Cut:</span> ${product.details.cut}</p>
+                            <p><span class="font-semibold">Weight:</span> ${product.details.weight}</p>
+                        </div>
+                    </div>
+
+                    <!-- Add to Cart -->
+                    <div class="flex items-center space-x-4">
+                        <input type="number" id="detail-quantity-${product.id}" value="1" min="1" max="10" 
+                            class="w-20 p-3 border border-gray-300 rounded-md text-center focus:ring-accent-gold focus:border-accent-gold"
+                            onchange="this.value = Math.max(1, parseInt(this.value) || 1)">
+                        
+                        <button onclick="addToCart(${product.id}, document.getElementById('detail-quantity-${product.id}').value)" 
+                                class="flex-grow premium-btn py-3 rounded-md text-base font-semibold uppercase tracking-wider">
+                            <span class="flex items-center justify-center">
+                                <i data-lucide="shopping-bag" class="w-5 h-5 mr-2"></i> Add to Bag
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Delivery Info -->
+                    <div class="p-4 bg-gray-100 rounded-lg text-sm flex items-start space-x-3">
+                        <i data-lucide="truck" class="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0"></i>
+                        <p>Complimentary **Insured Shipping** Worldwide. Delivered in 3-5 business days.</p>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // --- 6. Cart Logic ---
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = count;
+            document.getElementById('checkout-btn').disabled = count === 0;
+        }
+
+        function addToCart(productId, quantity = 1) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const qty = parseInt(quantity);
+            if (qty <= 0) return;
+
+            const existingItem = cart.find(item => item.productId === productId);
+
+            if (existingItem) {
+                existingItem.quantity += qty;
+            } else {
+                cart.push({
+                    productId: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: qty
+                });
+            }
+
+            updateCartCount();
+            console.log(`Added ${qty} x ${product.name} to cart.`);
+            
+            // If on the detail page, show cart page immediately after adding.
+            if(window.location.hash.includes('detail=')) {
+                showPage('cart');
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.productId !== productId);
+            updateCartCount();
+            renderCart();
+        }
+
+        function updateQuantity(productId, newQuantity) {
+            const item = cart.find(i => i.productId === productId);
+            if (item) {
+                const quantity = Math.max(1, parseInt(newQuantity) || 1);
+                if (quantity > 0) {
+                    item.quantity = quantity;
+                } else {
+                    removeFromCart(productId);
+                    return;
+                }
+            }
+            updateCartCount();
+            renderCart();
+        }
+
+        function calculateCartTotal() {
+            return cart.reduce((total, item) => total + (parseFloat(item.price) * item.quantity), 0);
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const subtotalElement = document.getElementById('cart-subtotal');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 border border-dashed premium-border-gold/50 rounded-lg">
+                        <i data-lucide="gem" class="mx-auto text-gray-400 w-12 h-12 mb-4"></i>
+                        <p class="text-lg text-gray-500">Your bag is empty. True beauty awaits you.</p>
+                        <button onclick="showPage('products')" class="mt-4 text-sm font-semibold premium-text-gold hover:underline">
+                            Browse Signature Pieces
+                        </button>
+                    </div>
+                `;
+            } else {
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-6 border-b pb-4 premium-border-gold/20';
+                    itemElement.innerHTML = `
+                        <!-- Using Real Pexels URL for Cart Image -->
+                        <img src="${item.image}" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/96x96/808080/FFFFFF?text=X';"
+                             alt="${item.name}" 
+                             class="w-24 h-24 object-cover rounded-lg flex-shrink-0">
+                        <div class="flex-grow text-center sm:text-left">
+                            <h3 class="text-lg font-serif font-medium">${item.name}</h3>
+                            <p class="text-sm text-gray-500">Unit Price: $${parseFloat(item.price).toFixed(2)}</p>
+                            <p class="text-md premium-text-gold font-semibold mt-1">Subtotal: $${(parseFloat(item.price) * item.quantity).toFixed(2)}</p>
+                        </div>
+                        <div class="flex items-center space-x-3 flex-shrink-0">
+                            <input type="number" min="1" max="10" value="${item.quantity}" onchange="updateQuantity(${item.productId}, this.value)"
+                                class="w-16 p-2 border border-gray-300 rounded-md text-center focus:ring-accent-gold focus:border-accent-gold">
+                            <button onclick="removeFromCart(${item.productId})" class="text-red-600 hover:text-red-800 transition duration-200" title="Remove Item">
+                                <i data-lucide="x-circle" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(itemElement);
+                });
+            }
+
+            subtotalElement.textContent = `$${calculateCartTotal().toFixed(2)}`;
+            lucide.createIcons();
+        }
+
+        // --- 7. Checkout & Login Logic ---
+
+        function updateCheckoutSummary() {
+            const total = calculateCartTotal();
+            document.getElementById('checkout-total').textContent = `$${total.toFixed(2)}`;
+
+            if (total === 0) {
+                showPage('products');
+                return;
+            }
+        }
+
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Dummy logic: Simulate successful transaction
+            console.log("Processing secure order...");
+            document.getElementById('confirmation-modal').classList.remove('hidden');
+
+            // Clear the cart after successful order simulation
+            cart = [];
+            updateCartCount();
+        });
+
+        function closeModalAndGoHome() {
+            document.getElementById('confirmation-modal').classList.add('hidden');
+            document.getElementById('checkout-form').reset();
+            showPage('home');
+        }
+
+        document.getElementById('dummy-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Dummy successful login for any input
+            document.getElementById('login-message').classList.add('hidden');
+            document.getElementById('login-success-message').classList.remove('hidden');
+            document.getElementById('dummy-login-form').reset();
+            
+            setTimeout(() => {
+                document.getElementById('login-success-message').classList.add('hidden');
+                showPage('home');
+            }, 1500);
+        });
+
+    </script>
+</body>
+</html>

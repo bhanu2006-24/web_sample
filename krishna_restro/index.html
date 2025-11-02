@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Spice Route - Authentic Vegetarian Indian Cuisine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Load Lucide icons for clean UI elements -->
+    <script type="module" src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom styles and font overrides */
+        :root {
+            --primary: #92400e; /* Amber-800 Dark */
+            --secondary: #d97706; /* Amber-600 */
+            --background: #fffbeb; /* Amber-50 Light */
+            --accent: #b91c1c; /* Red-700 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: #333;
+        }
+        .text-primary { color: var(--primary); }
+        .bg-primary { background-color: var(--primary); }
+        .bg-secondary { background-color: var(--secondary); }
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover {
+            background-color: #991b1b; /* Darker Red */
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom card style for consistency */
+        .food-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section uses the single image URL provided by the user as a fallback */
+        .hero-background-parallax {
+            background-image: url('https://images.pexels.com/photos/34080434/pexels-photo-34080434/free-photo-of-authentic-indian-cuisine-in-london-restaurant.jpeg?auto=compress&cs=tinysrgb&w=800');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* KEY for parallax */
+        }
+        .hero-section {
+            height: 80vh;
+        }
+
+        /* Marquee/Continuous Scroll Effect for Spice Journey */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 10)); /* Move 10 cards width */ }
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            padding: 1rem 0;
+            background-color: var(--secondary);
+            border-radius: 1rem;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .marquee-content {
+            display: flex;
+            animation: scroll 40s linear infinite; /* Slower speed for more items */
+        }
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+        .marquee-item {
+            flex: 0 0 250px; /* Width of a single item */
+            margin-right: 1.5rem;
+            display: inline-block;
+        }
+    </style>
+    <script>
+        // Data mapping the user's requested dishes to actual Pexels URLs.
+        // NOTE: These direct links might fail to load in secure sandboxed environments due to cross-origin policies.
+        // A placeholder will display if they fail.
+        const dishData = [
+            // Menu Dishes
+            { name: "Vegetable Curry", id: 2679501, desc: "Creamy Vegetable Curry & Rice", url: "https://images.pexels.com/photos/2679501/pexels-photo-2679501.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Assorted Pakora", id: 958546, desc: "Assorted Fried Veg Dish (Pakora, Bhaji)", url: "https://images.pexels.com/photos/958546/pexels-photo-958546.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Aloo Fry & Roti", id: 1051399, desc: "Roti, Aloo Fry & Onion", url: "https://images.pexels.com/photos/1051399/pexels-photo-1051399.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Curry Thali Set", id: 5835353, desc: "Curry, Naan, Rice & Veg Tray / Vegetable Thali", url: "https://images.pexels.com/photos/5835353/pexels-photo-5835353.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Mix-Veg Curry", id: 2474661, desc: "Indian Curry & Naan in Copper Dish", url: "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Chole Bhature", id: 958545, desc: "Naan, Curry, and Pakora Bowls", url: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Samosa Chaat", id: 2474658, desc: "Samosa with Lettuce & Onion", url: "https://images.pexels.com/photos/2474658/pexels-photo-2474658.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "South Indian Tiffin", id: 941869, desc: "Dosa, Curry & Chutney Platter", url: "https://images.pexels.com/photos/941869/pexels-photo-941869.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            
+            // Thali Dishes
+            { name: "Earthen Pot Curry", id: 2302809, desc: "Indian Vegetables in Clay Pots / Veggie Clay Pot Curry", url: "https://images.pexels.com/photos/2302809/pexels-photo-2302809.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Pani Puri", id: 12318206, desc: "Indian Street Food Pani Puri", url: "https://images.pexels.com/photos/12318206/pexels-photo-12318206.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Traditional Flatbreads", id: 1117862, desc: "Traditional Indian Flatbreads", url: "https://images.pexels.com/photos/1117862/pexels-photo-1117862.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            
+            // Extra Menu Dishes
+            { name: "Creamy Curry & Rice", id: 674574, desc: "Creamy Vegetable Curry & Rice / Jeera Rice & Curry", url: "https://images.pexels.com/photos/674574/pexels-photo-674574.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Tandoori Veg Platter", id: 958547, desc: "Various Veg Dishes on Black Tray / Masala Papad", url: "https://images.pexels.com/photos/958547/pexels-photo-958547.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Sweet Potato Salad", id: 1640773, desc: "Salad Bowls (Sweet Potato Fries, Guacamole, Veggies)", url: "https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Cafe Roti Meal", id: 5835358, desc: "Curry & Roti Café Meal", url: "https://images.pexels.com/photos/5835358/pexels-photo-5835358.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Vegan Veg Salad", id: 1640770, desc: "Vegan Vegetable Salad Bowls / Vegetable Stir Fry Noodles / Fresh Vegetable Salad", url: "https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Homemade Fried Rice", id: 723198, desc: "Homemade Fried Rice", url: "https://images.pexels.com/photos/723198/pexels-photo-723198.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Spicy Curry Meal", id: 2819094, desc: "Spicy Curry, Rice & Veggies", url: "https://images.pexels.com/photos/2819094/pexels-photo-2819094.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            
+            // Marquee Ingredients
+            { name: "Fresh Veggies", id: 1838607, desc: "Fresh Asian Veggies & Spices", url: "https://images.pexels.com/photos/1838607/pexels-photo-1838607.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Whole Spices", id: 678414, desc: "Flat Lay of Cinnamon, Turmeric & Star Anise", url: "https://images.pexels.com/photos/678414/pexels-photo-678414.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Ground Spices", id: 2802527, desc: "Turmeric, Cumin, Chili Spices", url: "https://images.pexels.com/photos/2802527/pexels-photo-2802527.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Spice Jars", id: 618491, desc: "Spices and Legumes Jars", url: "https://images.pexels.com/photos/618491/pexels-photo-618491.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Pickles & Chutneys", id: 674483, desc: "Indian Pickles & Chutneys", url: "https://images.pexels.com/photos/674483/pexels-photo-674483.jpeg?auto=compress&cs=tinysrgb&w=800" },
+            { name: "Rustic Veggies", id: 616401, desc: "Rustic Vegetables and Herbs", url: "https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        ];
+        
+        // Map data to specific display areas
+        const menuDishes = dishData.slice(0, 8); // First 8 for the main grid
+        const thaliDishes = dishData.slice(8, 11); // Next 3 for the thali section
+        const extraMenuDishes = dishData.slice(11, 18); // Remaining for the menu grid
+
+        // Marquee items: ingredients and spices
+        const marqueeItems = dishData.slice(18, 24); // Use the 6 unique ingredient images
+        // Duplicate the marquee items for a seamless loop (total of 12 now)
+        const fullMarqueeItems = [...marqueeItems, ...marqueeItems];
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <!-- Firebase SDK (Mandatory Setup) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, query, onSnapshot, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Set log level for debugging
+        setLogLevel('debug');
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth;
+        let userId = 'loading...';
+        const log = (message) => console.log(`[Firebase Init] ${message}`);
+
+        if (firebaseConfig) {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                log("Firebase Initialized.");
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        log(`User authenticated: ${userId}`);
+                        document.getElementById('user-id-display').textContent = `User ID: ${userId}`;
+                        // Example: Public data path for the app
+                        const publicDataPath = `/artifacts/${appId}/public/data/restaurant_status/live_config`;
+                        onSnapshot(doc(db, publicDataPath), (docSnapshot) => {
+                            if (docSnapshot.exists()) {
+                                log("Live Config Data received.");
+                                // This is where you would update UI based on live data
+                            }
+                        }, (error) => {
+                            console.error("Error listening to live config:", error);
+                        });
+
+                    } else {
+                        log("No user signed in. Attempting sign-in...");
+                        try {
+                            if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                                log("Signed in with custom token.");
+                            } else {
+                                await signInAnonymously(auth);
+                                log("Signed in anonymously.");
+                            }
+                        } catch (error) {
+                            console.error("Firebase Auth Error:", error);
+                        }
+                    }
+                });
+
+            } catch (e) {
+                console.error("Failed to initialize Firebase:", e);
+                document.getElementById('firebase-error').textContent = `Firebase Error: ${e.message}`;
+            }
+        } else {
+             log("Firebase config not available. Running in local mode.");
+        }
+    </script>
+    <!-- END Firebase SDK -->
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-primary shadow-xl">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="font-serif text-3xl font-extrabold text-amber-50 tracking-wider">
+                The Spice Route
+            </h1>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#menu" class="text-amber-100 hover:text-white font-semibold transition duration-200">Full Menu</a>
+                <a href="#thali-experience" class="text-amber-100 hover:text-white font-semibold transition duration-200">Thalis</a>
+                <a href="#spice-journey" class="text-amber-100 hover:text-white font-semibold transition duration-200">Ingredients</a>
+                <a href="#contact" class="text-amber-100 hover:text-white font-semibold transition duration-200">Reservations</a>
+            </nav>
+            <button class="md:hidden text-amber-50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section with Parallax -->
+    <section class="hero-section relative flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Parallax and Overlay - Uses the single working image provided by the user -->
+        <div class="absolute inset-0 hero-background-parallax">
+            <div class="absolute inset-0 bg-gray-900 opacity-30"></div>
+        </div>
+
+        <!-- Text Content -->
+        <div class="relative z-10 text-center p-6 bg-black bg-opacity-60 rounded-xl max-w-4xl mx-4 shadow-2xl">
+            <p id="firebase-error" class="text-sm text-red-400 mb-2"></p>
+            <h2 class="font-serif text-5xl md:text-8xl font-bold text-white mb-4 leading-tight drop-shadow-lg">
+                The Spice Route
+            </h2>
+            <p class="text-xl md:text-3xl text-amber-200 mb-10">
+                A journey through India's most authentic vegetarian cuisine.
+            </p>
+            <a href="#contact" class="btn-primary text-xl px-10 py-4 inline-block hover:shadow-xl transform hover:scale-105">
+                Book Your Experience
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right inline-block ml-2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Full Menu Section -->
+    <section id="menu" class="py-16 md:py-24 bg-background">
+        <div class="container mx-auto px-4">
+            <h3 class="text-4xl font-serif font-bold text-center text-primary mb-4">Our Complete Vegetarian Menu</h3>
+            <p class="text-xl text-center text-gray-600 mb-12">From creamy curries to crispy street bites, discover our extensive offerings.</p>
+
+            <div id="menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Menu Dishes (8 items) -->
+                <!-- Dishes 1-8 -->
+                <script>
+                    menuDishes.forEach(dish => {
+                        document.getElementById('menu-grid').innerHTML += `
+                            <div class="food-card">
+                                <div class="h-48 overflow-hidden flex items-center justify-center bg-gray-200 text-gray-500">
+                                    <img src="${dish.url}" alt="${dish.name}" loading = "lazy" class="w-full h-full object-cover" 
+                                        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100%\\' height=\\'100%\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#B91C1C\\' stroke-width=\\'1.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' class=\\'lucide lucide-image-off\\'><line x1=\\'2\\' x2=\\'22\\' y1=\\'2\\' y2=\\'22\\'/><path d=\\'M10 4h9a2 2 0 0 1 2 2v9l-3.5-3.5\\'/><path d=\\'M2 20V6a2 2 0 0 1 2-2h2.5\\'/><path d=\\'m10.5 7.5-1.5 1.5\\'/><path d=\\'M10 10l-2 2-3 3\\'/><path d=\\'M16 20 6 10\\'/></svg>'; this.className='w-12 h-12'">
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="font-serif text-xl font-semibold text-primary mb-1">${dish.name}</h4>
+                                    <p class="text-sm text-gray-700">${dish.desc}.</p>
+                                    <span class="text-lg font-bold text-accent mt-2 block">$${(Math.random() * 5 + 8).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                </script>
+            </div>
+
+            <div id="extra-menu-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
+                <!-- Extra Menu Dishes (7 items) -->
+                <!-- Dishes 9-15 -->
+                <script>
+                    extraMenuDishes.forEach(dish => {
+                        document.getElementById('extra-menu-grid').innerHTML += `
+                            <div class="food-card">
+                                <div class="h-48 overflow-hidden flex items-center justify-center bg-gray-200 text-gray-500">
+                                    <img src="${dish.url}" alt="${dish.name}" loading = "lazy" class="w-full h-full object-cover" 
+                                        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100%\\' height=\\'100%\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#B91C1C\\' stroke-width=\\'1.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' class=\\'lucide lucide-image-off\\'><line x1=\\'2\\' x2=\\'22\\' y1=\\'2\\' y2=\\'22\\'/><path d=\\'M10 4h9a2 2 0 0 1 2 2v9l-3.5-3.5\\'/><path d=\\'M2 20V6a2 2 0 0 1 2-2h2.5\\'/><path d=\\'m10.5 7.5-1.5 1.5\\'/><path d=\\'M10 10l-2 2-3 3\\'/><path d=\\'M16 20 6 10\\'/></svg>'; this.className='w-12 h-12'">
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="font-serif text-xl font-semibold text-primary mb-1">${dish.name}</h4>
+                                    <p class="text-sm text-gray-700">${dish.desc}.</p>
+                                    <span class="text-lg font-bold text-accent mt-2 block">$${(Math.random() * 5 + 8).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- Thali Experience Section -->
+    <section id="thali-experience" class="py-16 md:py-24 bg-primary text-amber-50">
+        <div class="container mx-auto px-4">
+            <h3 class="text-4xl font-serif font-bold text-center text-white mb-4">The Thali Experience (3 Platters)</h3>
+            <p class="text-xl text-center text-amber-200 mb-12">A complete, balanced meal served on a platter. Discover India in one dish. (Uses 3 images)</p>
+
+            <div id="thali-grid" class="grid md:grid-cols-3 gap-8">
+                <!-- Thali Dishes (3 items) -->
+                <!-- Dishes 16-18 -->
+                <script>
+                    thaliDishes.forEach(dish => {
+                        document.getElementById('thali-grid').innerHTML += `
+                            <div class="food-card bg-amber-50 text-gray-800">
+                                <div class="h-64 overflow-hidden flex items-center justify-center bg-gray-200 text-gray-500">
+                                    <img src="${dish.url}" alt="${dish.name}" loading = "lazy" class="w-full h-full object-cover" 
+                                        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100%\\' height=\\'100%\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#B91C1C\\' stroke-width=\\'1.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' class=\\'lucide lucide-image-off\\'><line x1=\\'2\\' x2=\\'22\\' y1=\\'2\\' y2=\\'22\\'/><path d=\\'M10 4h9a2 2 0 0 1 2 2v9l-3.5-3.5\\'/><path d=\\'M2 20V6a2 2 0 0 1 2-2h2.5\\'/><path d=\\'m10.5 7.5-1.5 1.5\\'/><path d=\\'M10 10l-2 2-3 3\\'/><path d=\\'M16 20 6 10\\'/></svg>'; this.className='w-12 h-12'">
+                                </div>
+                                <div class="p-6">
+                                    <h4 class="font-serif text-2xl font-semibold text-primary mb-2">${dish.name} Thali</h4>
+                                    <p class="text-gray-700 mb-4">${dish.desc}.</p>
+                                    <span class="text-xl font-bold text-accent">$${(Math.random() * 5 + 16).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Spice Journey Section (Ingredients/Gallery with MARQUEE EFFECT) -->
+    <section id="spice-journey" class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-4xl font-serif font-bold text-center text-primary mb-4">Our Spice Journey </h3>
+            <p class="text-xl text-center text-gray-600 mb-8">We source and hand-grind the freshest spices to ensure unparalleled flavor in every bite.</p>
+        </div>
+
+        <!-- Marquee Container (Continuous Scroll) - Uses 6 unique images, duplicated for loop (12 total) -->
+        <div class="marquee-container mx-auto max-w-7xl">
+            <div id="marquee-content" class="marquee-content">
+                <!-- Marquee Items (12 total) -->
+                <script>
+                    fullMarqueeItems.forEach(item => {
+                        document.getElementById('marquee-content').innerHTML += `
+                            <div class="marquee-item text-center">
+                                <div class="rounded-xl overflow-hidden shadow-lg border border-amber-300">
+                                    <img src="${item.url}" loading = "lazy" alt="${item.name}" class="w-full h-48 object-cover"
+                                        onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100%\\' height=\\'100%\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#B91C1C\\' stroke-width=\\'1.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\' class=\\'lucide lucide-image-off\\'><line x1=\\'2\\' x2=\\'22\\' y1=\\'2\\' y2=\\'22\\'/><path d=\\'M10 4h9a2 2 0 0 1 2 2v9l-3.5-3.5\\'/><path d=\\'M2 20V6a2 2 0 0 1 2-2h2.5\\'/><path d=\\'m10.5 7.5-1.5 1.5\\'/><path d=\\'M10 10l-2 2-3 3\\'/><path d=\\'M16 20 6 10\\'/></svg>'; this.className='w-12 h-12'">
+                                    <p class="py-3 font-semibold text-primary bg-amber-50 text-base">${item.name}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                </script>
+            </div>
+        </div>
+        <p class="text-sm text-center text-gray-500 mt-4">Note: If the images do not load, it is due to security restrictions preventing hotlinking to external sites. The code is using the direct links you provided.</p>
+    </section>
+
+    <!-- Call to Action / Contact & Reservation Section -->
+    <section id="contact" class="py-16 md:py-24 bg-secondary text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl font-serif font-bold mb-4">Plan Your Visit</h3>
+            <p class="text-xl mb-8">Ready for an unforgettable culinary experience? Book your table or place an order for delivery.</p>
+
+            <div class="flex flex-col md:flex-row justify-center space-y-6 md:space-y-0 md:space-x-8">
+                <a href="#" class="btn-primary text-xl px-10 py-4 transform hover:translate-y-[-2px] hover:shadow-2xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-check inline-block mr-2"><path d="M12 21v-4"/><path d="M15 15h6"/><path d="M3 10h18"/><path d="M16 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"/><path d="m16 17 2 2 4-4"/></svg>
+                    Make a Reservation
+                </a>
+                <a href="#" class="btn-primary text-xl px-10 py-4 bg-primary border-2 border-white hover:bg-amber-900 transform hover:translate-y-[-2px] hover:shadow-2xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-open inline-block mr-2"><path d="M7.82 2h8.36a2 2 0 0 1 1.56.67l3.86 4.63a2 2 0 0 1 .16 1.63L20 18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2L2.24 8.93a2 2 0 0 1 .16-1.63L6.26 2.67A2 2 0 0 1 7.82 2Z"/><path d="m15 7-3 5-3-5"/></svg>
+                    Order Online
+                </a>
+            </div>
+
+            <div class="mt-12 space-y-2 text-lg">
+                <p>Call us at: <a href="tel:+15551234567" class="font-bold hover:underline">(555) 123-4567</a></p>
+                <p>Email: <a href="mailto:contact@thespiceroute.com" class="hover:underline">contact@thespiceroute.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-amber-200 py-10">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Col 1: Logo/Address -->
+            <div>
+                <h4 class="font-serif text-2xl font-bold text-white mb-4">The Spice Route</h4>
+                <p class="text-sm">123 Spice Lane, Curry Town, CA 90210</p>
+                <p class="text-sm mt-2">&copy; 2025 The Spice Route. All Rights Reserved.</p>
+            </div>
+
+            <!-- Col 2: Hours -->
+            <div>
+                <h5 class="font-semibold text-white mb-4">Opening Hours</h5>
+                <ul class="text-sm space-y-1">
+                    <li>Monday - Thursday: 11:30 AM - 9:00 PM</li>
+                    <li>Friday - Saturday: 11:30 AM - 10:00 PM</li>
+                    <li>Sunday: 1:00 PM - 8:00 PM</li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Quick Links -->
+            <div>
+                <h5 class="font-semibold text-white mb-4">Quick Links</h5>
+                <ul class="text-sm space-y-1">
+                    <li><a href="#menu" class="hover:text-white">Full Menu</a></li>
+                    <li><a href="#thali-experience" class="hover:text-white">Thali Specials</a></li>
+                    <li><a href="#spice-journey" class="hover:text-white">Ingredients</a></li>
+                    <li><a href="#contact" class="hover:text-white">Reservations</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Social -->
+            <div>
+                <h5 class="font-semibold text-white mb-4">Follow Us</h5>
+                <div class="flex space-x-4">
+                    <a href="#" aria-label="Facebook" class="text-amber-200 hover:text-white transition duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="#" aria-label="Instagram" class="text-amber-200 hover:text-white transition duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="text-amber-200 hover:text-white transition duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-17 14.5 1.5.9 3.2 1.5 5 1.5 6 0 11.1-4.1 12.6-9.6C18.9 7.5 20 6.1 22 4z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

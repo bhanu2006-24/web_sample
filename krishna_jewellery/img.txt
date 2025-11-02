@@ -1,0 +1,208 @@
+make me a premium jewellary store. in html js css.. ecom have multiple pages.. in it.. beautiful home page.. products page.. cart.. checkout.. privacy policy.. about us.. use hero imgs.. marge.. signutre products.. product page.. beauitufil footer..make a very beautiful preium store.. and use this imgs.. and products.. use fake detaisl.. make a very beautifulnwebsite.. 
+Jewelry 1 = "https://www.pexels.com/photo/elegant-marquise-cut-diamond-ring-on-hand-32652454/"
+Jewelry 2 = "https://www.pexels.com/photo/elegant-diamond-ring-on-hand-in-close-up-32652451/"
+Jewelry 3 = "https://www.pexels.com/photo/exquisite-rabbit-shaped-diamond-in-surat-32492524/"
+Jewelry 4 = "https://www.pexels.com/photo/heart-shaped-diamond-jewelry-close-up-photo-32492521/"
+Jewelry 5 = "https://www.pexels.com/photo/exquisite-bull-cut-diamond-in-precision-photography-31677627/"
+Jewelry 6 = "https://www.pexels.com/photo/exquisite-rabbit-shaped-diamond-in-close-up-31677624/"
+Jewelry 7 = "https://www.pexels.com/photo/elegant-gold-wedding-rings-with-diamond-accent-31605854/"
+Jewelry 8 = "https://www.pexels.com/photo/elegant-makeup-and-jewelry-still-life-in-surat-31605847/"
+Jewelry 9 = "https://www.pexels.com/photo/elegant-diamond-ring-with-makeup-accessories-31605844/"
+Jewelry 10 = "https://www.pexels.com/photo/elegant-diamond-pendant-and-earrings-set-on-red-30746012/"
+Jewelry 11 = "https://www.pexels.com/photo/elegant-diamond-ring-with-gift-ribbon-30746009/"
+
+
+
+Jewelry 12 = "https://www.pexels.com/photo/elegant-diamond-earrings-on-gift-card-background-30746005/"
+
+
+
+Jewelry 13 = "https://www.pexels.com/photo/elegant-jewelry-and-heartfelt-note-on-display-30746002/"
+
+
+
+Jewelry 14 = "https://www.pexels.com/photo/elegant-blue-gemstone-ring-on-hand-29986284/"
+
+
+
+Jewelry 15 = "https://www.pexels.com/photo/elegant-jewelry-showcase-with-diamond-and-emerald-rings-29986279/"
+
+
+
+Jewelry 16 = "https://www.pexels.com/photo/elegant-jewelry-close-up-with-diamond-ring-29986276/"
+
+
+
+Jewelry 17 = "https://www.pexels.com/photo/elegant-pearl-ring-on-hand-fashion-photography-29986274/"
+
+
+
+Jewelry 18 = "https://www.pexels.com/photo/colorful-gemstone-rings-in-elegant-display-29967979/"
+
+
+
+Jewelry 19 = "https://www.pexels.com/photo/29923633/"
+
+
+
+Jewelry 20 = "https://www.pexels.com/photo/elegant-diamond-ring-with-soft-lighting-29245557/"
+
+
+
+Jewelry 21 = "https://www.pexels.com/photo/elegant-diamond-and-emerald-necklace-set-on-display-29245554/"
+
+
+
+Jewelry 22 = "https://www.pexels.com/photo/exquisite-diamond-bracelet-with-jewel-box-29245551/"
+
+
+
+Jewelry 23 = "https://www.pexels.com/photo/elegant-diamond-jewelry-with-festive-charm-29245548/"
+
+
+
+Jewelry 24 = "https://www.pexels.com/photo/elegant-diamond-ring-on-model-s-hand-32652453/"
+
+
+
+Jewelry 25 = "https://www.pexels.com/photo/elegant-diamond-ring-on-woman-s-hand-in-profile-32652450/"
+
+
+
+Jewelry 26 = "https://www.pexels.com/photo/heart-shaped-diamond-in-jeweler-s-tweezers-32492523/"
+
+
+
+Jewelry 27 = "https://www.pexels.com/photo/elegant-pink-emerald-cut-diamond-closeup-32492520/"
+
+
+
+Jewelry 28 = "https://www.pexels.com/photo/31677626/"
+
+
+
+Jewelry 29 = "https://www.pexels.com/photo/elegant-heart-shaped-diamond-on-dark-background-31677623/"
+
+
+
+Jewelry 30 = "https://www.pexels.com/photo/elegant-gold-and-silver-earrings-on-artistic-background-31605853/"
+
+
+
+Jewelry 31 = "https://www.pexels.com/photo/elegant-heart-shaped-gold-earrings-with-pearls-31605846/"
+
+
+
+Jewelry 32 = "https://www.pexels.com/photo/elegant-gold-bracelet-on-pink-surface-31605843/"
+
+
+
+Jewelry 33 = "https://www.pexels.com/photo/elegant-diamond-rings-on-romantic-card-background-30746011/"
+
+
+
+Jewelry 34 = "https://www.pexels.com/photo/elegant-diamond-pendant-on-red-heart-ribbon-30746008/"
+
+
+
+Jewelry 35 = "https://www.pexels.com/photo/elegant-diamond-ring-on-display-with-heart-ribbon-30746004/"
+
+
+
+Jewelry 36 = "https://www.pexels.com/photo/elegant-butterfly-pendant-necklace-on-neck-29986286/"
+
+
+
+Jewelry 37 = "https://www.pexels.com/photo/elegant-necklace-fashion-photography-29986283/"
+
+
+
+Jewelry 38 = "https://www.pexels.com/photo/elegant-sapphire-and-diamond-necklace-photography-29986280/"
+
+
+
+Jewelry 39 = "https://www.pexels.com/photo/elegant-diamond-ring-on-hand-with-matte-nail-polish-29986278/"
+
+
+
+Jewelry 40 = "https://www.pexels.com/photo/elegant-rose-gold-and-diamond-ring-in-fashion-shoot-29986275/"
+
+
+
+Jewelry 41 = "https://www.pexels.com/photo/elegant-bracelet-showcase-on-model-s-wrist-29986272/"
+
+
+
+Jewelry 42 = "https://www.pexels.com/photo/colorful-stackable-rings-in-studio-setting-29967978/"
+
+
+
+Jewelry 43 = "https://www.pexels.com/photo/29923632/"
+
+
+
+Jewelry 44 = "https://www.pexels.com/photo/exquisite-diamond-earrings-on-elegant-display-29245556/"
+
+
+
+Jewelry 45 = "https://www.pexels.com/photo/elegant-diamond-bracelet-in-festival-setting-29245553/"
+
+
+
+Jewelry 46 = "https://www.pexels.com/photo/elegant-diamond-bracelet-with-festive-lighting-29245550/"
+
+
+
+Jewelry 47 = "https://www.pexels.com/photo/elegant-diamond-jewelry-with-blue-packaging-29245547/"
+
+
+
+Jewelry 48 = "https://www.pexels.com/photo/elegant-diamond-ring-on-female-hand-in-surat-32652452/"
+
+
+
+Jewelry 49 = "https://www.pexels.com/photo/elegant-diamond-ring-on-hand-in-surat-32652449/"
+
+
+
+Jewelry 50 = "https://www.pexels.com/photo/teddy-bear-shaped-diamond-close-up-in-surat-32492522/"
+
+
+
+Jewelry 51 = "https://www.pexels.com/photo/exquisite-lab-grown-diamond-in-tweezers-close-up-32492519/"
+
+
+
+Jewelry 52 = "https://www.pexels.com/photo/captivating-rabbit-shaped-diamond-earrings-display-31677625/"
+
+
+
+Jewelry 53 = "https://www.pexels.com/photo/intricately-cut-diamond-in-tweezers-on-black-background-31677622/"
+
+
+
+Jewelry 54 = "https://www.pexels.com/photo/elegant-gold-earrings-with-diamond-detail-31605851/"
+
+
+
+Jewelry 55 = "https://www.pexels.com/photo/elegant-necklace-with-ballet-dress-pendant-31605845/"
+
+
+
+Jewelry 56 = "https://www.pexels.com/photo/elegant-rose-gold-and-diamond-jewelry-display-30746014/"
+
+
+
+Jewelry 57 = "https://www.pexels.com/photo/elegant-gold-earrings-surrounded-by-love-theme-30746013/"
+
+
+
+Jewelry 58 = "https://www.pexels.com/photo/elegant-gold-bracelet-on-heart-themed-background-30746010/"
+
+
+
+Jewelry 59 = "https://www.pexels.com/photo/gold-and-diamond-bracelet-with-valentine-s-theme-30746006/"
+
+
+
+Jewelry 60 = "https://www.pexels.com/photo/elegant-jewelry-set-with-heartbeat-card-30746003/"

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoleHaus - Apex Luxury Footwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Load Font Awesome for better icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Premium Color Palette */
+        :root {
+            --primary-color: #d97706; /* Rich Amber/Deep Gold */
+            --dark-bg: #030303; /* True Black/Near Black */
+            --card-bg: #151515; /* Dark gray for cards */
+            --light-text: #e5e7eb; /* Off-white text */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            transition: background-color 0.3s ease;
+        }
+        .page-content {
+            min-height: calc(100vh - 8rem);
+            padding-top: 5rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Premium Navigation & Interaction */
+        .nav-link {
+            transition: color 0.2s, transform 0.2s, opacity 0.2s; /* Added opacity for icon links */
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 0.25rem;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+            font-weight: 700;
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);
+        }
+        .btn-primary:hover {
+            background-color: #b45309; /* Darker amber */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.5);
+        }
+
+        /* Product Card Refinement - Subtle 3D Tilt on Hover */
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            perspective: 1000px; /* For 3D effect */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s, border-color 0.3s;
+            transform: translateZ(0); /* Fix for z-index issues */
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.8), 0 0 15px var(--primary-color)/50;
+            border-color: var(--primary-color);
+        }
+
+        /* Image hover effect for product card */
+        .card-image-wrapper {
+            transition: transform 0.3s;
+        }
+        .product-card:hover .card-image-wrapper {
+            transform: rotateX(2deg) rotateY(2deg); /* Subtle rotation */
+        }
+
+        /* PDP Image Tilt Effect */
+        #pdp-image {
+            transition: transform 0.5s ease;
+        }
+        #pdp-image-wrapper:hover #pdp-image {
+            transform: rotateY(5deg) scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Utility for simulating page routing */
+        [data-page] { display: none; }
+        .active-page { display: block; }
+
+        /* Custom scrollbar for premium feel */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b45309; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 w-full bg-dark-bg/95 backdrop-blur-md z-50 shadow-2xl shadow-black/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-24">
+                <!-- Logo (Serves as Home button) -->
+                <div class="flex-shrink-0">
+                    <span class="text-4xl font-extrabold tracking-widest text-white cursor-pointer" onclick="showPage('home')">
+                        SOLE<span class="text-primary-color">HAUS</span>
+                    </span>
+                </div>
+                <!-- Navigation Icons (Collection, Profile) -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-10">
+
+                        <!-- Collection Icon Only -->
+                        <a onclick="showPage('shop')" class="text-3xl text-light-text hover:text-primary-color transition duration-150 ease-in-out cursor-pointer nav-link p-2" title="Collection">
+                            <i class="fas fa-th-large"></i>
+                        </a>
+
+                        <!-- Profile Icon Only -->
+                        <a onclick="showPage('profile')" class="text-3xl text-light-text hover:text-primary-color transition duration-150 ease-in-out cursor-pointer nav-link p-2" title="Profile">
+                            <i class="fas fa-user-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Cart Icon -->
+                <div class="flex items-center space-x-4">
+                    <button id="cart-button" onclick="showPage('cart')" class="relative p-2 rounded-full text-light-text hover:text-primary-color focus:outline-none transition duration-150 ease-in-out">
+                        <i class="fas fa-shopping-bag text-3xl"></i>
+                        <span id="cart-count" class="absolute top-1 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full min-w-[1.2rem] transition-all duration-300">0</span>
+                    </button>
+                </div>
+                <!-- Mobile Menu (Only shows collection/profile icons for responsiveness) -->
+                <div class="md:hidden flex items-center space-x-4">
+                    <a onclick="showPage('shop')" class="text-2xl text-light-text hover:text-primary-color transition duration-150 ease-in-out cursor-pointer" title="Collection">
+                        <i class="fas fa-th-large"></i>
+                    </a>
+                    <a onclick="showPage('profile')" class="text-2xl text-light-text hover:text-primary-color transition duration-150 ease-in-out cursor-pointer" title="Profile">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- HOME Page -->
+        <section id="home" data-page="home" class="page-content active-page">
+            <!-- Hero Section -->
+            <div class="relative pt-24 pb-16 overflow-hidden lg:pt-36 lg:pb-32 rounded-3xl shadow-2xl shadow-primary-color/20 mb-20 bg-card-bg">
+                <img id="hero-image"
+                     src="https://images.pexels.com/photos/2300334/pexels-photo-2300334.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                     alt="Three multicolored leather sneakers on a shop display"
+                     onerror="this.onerror=null;this.src='https://placehold.co/1200x600/151515/d97706?text=SOLEHAUS+PREMIUM+APEX'"
+                     class="absolute inset-0 h-full w-full object-cover object-center opacity-30">
+                <div class="relative max-w-4xl mx-auto text-center z-10 p-6">
+                    <p class="text-xl text-primary-color font-light uppercase tracking-widest mb-2">Introducing</p>
+                    <h1 class="text-7xl md:text-9xl font-extrabold tracking-tight text-white leading-none drop-shadow-lg">
+                        APEX <span class="text-primary-color">SERIES</span>
+                    </h1>
+                    <p class="mt-8 text-2xl text-gray-400 max-w-3xl mx-auto font-light italic">
+                        The convergence of heritage craft and futuristic design, exclusively for our clientele.
+                    </p>
+                    <div class="mt-12 flex justify-center space-x-6">
+                        <button onclick="showPage('shop')" class="btn-primary px-12 py-4 text-xl font-bold rounded-xl shadow-2xl">
+                            Explore The Collection
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Products Grid -->
+            <div class="text-center mb-12">
+                <h2 class="text-5xl font-extrabold text-white tracking-wider inline-block pb-1">FEATURED DROPS</h2>
+                <div class="h-1 w-24 bg-primary-color mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div id="featured-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
+                <!-- Products will be injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- SHOP Page -->
+        <section id="shop" data-page="shop" class="page-content">
+            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">The Full SoleHaus Collection</h2>
+
+            <!-- Filtering and Sorting UI -->
+            <div class="flex flex-col sm:flex-row justify-between items-center bg-card-bg p-4 rounded-xl mb-8 shadow-inner shadow-black/50 border border-[#2a2a2a]">
+                <div class="text-xl font-semibold text-gray-400 mb-4 sm:mb-0">
+                    Showing <span id="product-count" class="text-primary-color font-extrabold">0</span> Styles
+                </div>
+                <div class="flex items-center space-x-4">
+                    <label for="sort-by" class="text-gray-400 text-lg">Sort By:</label>
+                    <select id="sort-by" onchange="renderProductGrids()" class="p-2 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color appearance-none cursor-pointer">
+                        <option value="default">Default Order</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="shop-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+                <!-- All products will be injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- PRODUCT DETAIL Page -->
+        <section id="detail" data-page="detail" class="page-content">
+            <!-- Dynamic content injected here by JS -->
+        </section>
+
+
+        <!-- CART Page -->
+        <section id="cart" data-page="cart" class="page-content">
+            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">Your Exclusive Cart</h2>
+            <div class="max-w-4xl mx-auto bg-card-bg p-8 rounded-xl shadow-2xl border border-[#333]">
+                <div id="cart-items" class="space-y-6">
+                    <!-- Cart items rendered here -->
+                </div>
+
+                <div id="cart-empty-message" class="text-center py-10 text-gray-500">
+                    <i class="fas fa-box-open text-6xl text-primary-color mb-4"></i>
+                    <p class="text-xl">Your cart awaits its first exclusive pair.</p>
+                    <button onclick="showPage('shop')" class="mt-6 btn-primary px-6 py-2 rounded-xl font-semibold">Start Curating</button>
+                </div>
+
+                <div id="cart-summary" class="mt-8 pt-6 border-t border-[#333] space-y-4 hidden">
+                    <div class="flex justify-between text-xl font-semibold">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal" class="text-primary-color font-extrabold">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-light text-gray-400">
+                        <span>Shipping Estimate:</span>
+                        <span>FREE</span>
+                    </div>
+                    <!-- Checkout button moved here and only accessible from the cart -->
+                    <button onclick="showPage('checkout')" class="w-full btn-primary px-6 py-3 text-lg font-bold rounded-xl mt-6">
+                        Proceed to Secure Checkout
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHECKOUT Page -->
+        <section id="checkout" data-page="checkout" class="page-content">
+            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">Finalize Your Purchase</h2>
+            <div class="max-w-2xl mx-auto bg-card-bg p-10 rounded-xl shadow-2xl space-y-8 border border-[#333]">
+
+                <!-- Step 1: Shipping Information -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 border-b border-[#333] pb-2 text-primary-color">1. Shipping Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" placeholder="Full Name" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                        <input type="email" placeholder="Email Address" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                        <input type="text" placeholder="Address Line 1" class="w-full md:col-span-2 p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                        <input type="text" placeholder="City" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                        <input type="text" placeholder="ZIP Code" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                    </div>
+                </div>
+
+                <!-- Step 2: Payment Method -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 border-b border-[#333] pb-2 text-primary-color">2. Payment Method</h3>
+                    <div class="space-y-3">
+                        <input type="text" placeholder="Card Number" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                        <div class="flex space-x-4">
+                            <input type="text" placeholder="MM/YY" class="w-1/3 p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                            <input type="text" placeholder="CVC" class="w-1/3 p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Order Summary and Button -->
+                <div id="checkout-summary" class="pt-6 border-t border-[#333]">
+                    <div class="flex justify-between text-3xl font-bold mb-4">
+                        <span>Grand Total:</span>
+                        <span id="checkout-total" class="text-primary-color font-extrabold">$0.00</span>
+                    </div>
+                    <button onclick="simulateOrder()" class="w-full btn-primary px-6 py-4 text-xl font-extrabold rounded-xl">
+                        Place Exclusive Order (Simulated)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFILE Page (Simulated) -->
+        <section id="profile" data-page="profile" class="page-content">
+            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">My SoleHaus Profile</h2>
+            <div class="max-w-2xl mx-auto bg-card-bg p-10 rounded-xl shadow-2xl space-y-6 border border-[#333] text-gray-300">
+                <div class="text-center pb-4 border-b border-[#333]">
+                    <i class="fas fa-gem text-5xl text-primary-color mb-3"></i>
+                    <h3 class="text-3xl font-bold text-white">Apex Member Status</h3>
+                    <p class="text-gray-500">Member since 2025</p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-xl font-semibold text-primary-color">Account Details</h4>
+                    <p><strong>Name:</strong> Jane Doe (Simulated)</p>
+                    <p><strong>Email:</strong> exclusive@solehaus.com</p>
+                    <p><strong>Preferred Size:</strong> 10 US Mens</p>
+                </div>
+
+                <div class="space-y-4 pt-4 border-t border-[#333]">
+                    <h4 class="text-xl font-semibold text-primary-color">Recent Orders</h4>
+                    <p class="text-gray-500">No recent orders found. Time to secure your next pair.</p>
+                </div>
+
+                <button class="w-full bg-red-800/50 text-red-400 py-3 rounded-xl font-semibold hover:bg-red-800 transition duration-200">
+                    Sign Out (Simulated)
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-bg border-t border-[#222] mt-20 py-10 shadow-inner shadow-black/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-16 mb-6">
+                <a onclick="showPage('shop')" class="nav-link text-sm font-medium hover:text-primary-color">Shop The Drop</a>
+                <a onclick="showPage('policy')" class="nav-link text-sm font-medium hover:text-primary-color">Legal & Privacy</a>
+                <a href="#" class="nav-link text-sm font-medium hover:text-primary-color">Customer Service</a>
+            </div>
+            <p class="text-gray-600 text-sm mt-4">&copy; 2025 SoleHaus Luxury Footwear. Prototype by Gemini.</p>
+        </div>
+    </footer>
+
+    <!-- Order Confirmation Modal (Custom alert) -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden justify-center items-center transition-opacity duration-300">
+        <div id="order-modal" class="bg-card-bg p-10 rounded-2xl shadow-2xl shadow-primary-color/30 max-w-md w-full transform scale-95 transition-transform duration-300 border border-primary-color">
+            <h3 id="modal-title" class="text-4xl font-extrabold mb-4 text-primary-color">Order Success!</h3>
+            <p id="modal-message" class="text-gray-300 mb-6 text-lg">
+                Your exclusive order has been successfully placed. Preparation for shipping is underway (simulated).
+            </p>
+            <button onclick="closeModal()" class="btn-primary w-full py-3 rounded-xl font-bold">
+                Continue Curating
+            </button>
+        </div>
+    </div>
+
+
+<script>
+    // --- DATA SETUP ---
+
+    const IMAGE_MAP = {
+        'product1': 'https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400&w=600',
+        'product2': 'https://images.pexels.com/photos/1280064/pexels-photo-1280064.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400&w=600',
+        'product3': 'https://images.pexels.com/photos/1670766/pexels-photo-1670766.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400&w=600',
+        'product4': 'https://images.pexels.com/photos/1124466/pexels-photo-1124466.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400&w=600',
+        'product5': 'https://images.pexels.com/photos/786003/pexels-photo-786003.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400&w=600',
+        'product6': 'https://images.pexels.com/photos/2759779/pexels-photo-2759779.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=400&w=600',
+    };
+
+    const PRODUCTS = [
+        { id: 1, name: "Vapor Runner X", price: 219.99, imageKey: "product1", description: "Elite performance trainer. Lightweight Primeknit upper.", sizes: [7, 8, 9, 10, 11, 12], colors: ["Obsidian", "Carbon"], details: "The latest iteration of the Vapor Runner features a responsive foam midsole and a minimalist aesthetic." },
+        { id: 2, name: "Yeezy 350 Boost Clone", price: 349.99, imageKey: "product2", description: "Iconic comfort and style. Ultra-soft sock-like fit.", sizes: [6, 7, 8, 9, 10, 11], colors: ["Cream White", "Sandstone"], details: "Unmatched cushioning and a distinctive silhouette define this lifestyle favorite. Limited edition drop." },
+        { id: 3, name: "Cloud Stride Pro", price: 189.50, imageKey: "product3", description: "Lightweight daily trainer. Breathable mesh construction.", sizes: [7.5, 8.5, 9.5, 10.5, 11.5], colors: ["Steel Grey", "Forest Green"], details: "Perfect for city commutes and casual runs. Engineered for long-lasting stability without the bulk." },
+        { id: 4, name: "Monochrome Flash", price: 299.00, imageKey: "product4", description: "Urban statement piece. Full-grain leather finish.", sizes: [8, 9, 10, 11], colors: ["Midnight Black", "Pure White"], details: "A timeless high-top design crafted from single-piece leather. Includes spare waxed cotton laces." },
+        { id: 5, name: "Crimson Speed V2", price: 199.99, imageKey: "product5", description: "Striking red and black speed. Dynamic support cage.", sizes: [9, 10, 11, 12], colors: ["Crimson Red", "Volt Yellow"], details: "Built for speed. Features a carbon fiber plate insert for maximum energy return." },
+        { id: 6, name: "Retro High Flyer", price: 249.00, imageKey: "product6", description: "Vintage look, modern build. Classic leather overlays.", sizes: [7, 8, 9, 10, 11, 12, 13], colors: ["Chicago Classic", "Pine Green"], details: "The original court legend revived with modern comfort technology. A must-have for collectors." },
+    ];
+
+    // Global state for the shopping cart
+    let cart = [];
+    let currentProductId = null; // Used by PDP for current context
+
+    // --- UTILITY FUNCTIONS ---
+
+    function getImageUrl(key) {
+        return IMAGE_MAP[key] || `https://placehold.co/400x300/151515/d97706?text=Image+Missing`;
+    }
+
+    function formatPrice(price) {
+        return `$${price.toFixed(2)}`;
+    }
+
+    // --- RENDERING FUNCTIONS ---
+
+    // Renders a single product card
+    function renderProductCard(product) {
+        const imageUrl = getImageUrl(product.imageKey);
+        return `
+            <div class="product-card rounded-xl overflow-hidden shadow-xl flex flex-col justify-between group">
+                <div id="card-image-wrapper-${product.id}" class="card-image-wrapper overflow-hidden border-b border-[#333]">
+                    <img src="${imageUrl}"
+                         alt="${product.name}"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x300/151515/d97706?text=${product.name.replace(/\s/g, '+')}'"
+                         class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-[1.03] group-hover:opacity-90">
+                </div>
+                <div class="p-5 flex-grow">
+                    <h3 class="text-2xl font-bold text-white mb-1">${product.name}</h3>
+                    <p class="text-gray-400 text-sm mb-3 h-10">${product.description}</p>
+                </div>
+                <div class="p-5 pt-0 flex justify-between items-center">
+                    <span class="text-3xl font-extrabold text-primary-color">${formatPrice(product.price)}</span>
+                    <button onclick="showPage('detail', ${product.id})" class="btn-primary px-5 py-2 text-md font-bold rounded-lg shadow-md hover:shadow-lg">
+                        View Details
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    // Renders all products in the Shop and Featured sections, applying sorting
+    function renderProductGrids() {
+        const featuredGrid = document.getElementById('featured-products-grid');
+        const shopGrid = document.getElementById('shop-products-grid');
+        const sortBy = document.getElementById('sort-by')?.value || 'default';
+        const productCountEl = document.getElementById('product-count');
+
+        let sortedProducts = [...PRODUCTS];
+
+        if (sortBy === 'price-asc') {
+            sortedProducts.sort((a, b) => a.price - b.price);
+        } else if (sortBy === 'price-desc') {
+            sortedProducts.sort((a, b) => b.price - a.price);
+        }
+
+        // Render first 4 for featured section (always use default order for consistency)
+        featuredGrid.innerHTML = PRODUCTS.slice(0, 4).map(renderProductCard).join('');
+
+        // Render all for shop section (using sorted array)
+        shopGrid.innerHTML = sortedProducts.map(renderProductCard).join('');
+
+        // Update product count on the shop page
+        if (productCountEl) {
+            productCountEl.textContent = sortedProducts.length;
+        }
+    }
+
+    // Renders the Product Detail Page
+    function renderDetailPage(productId) {
+        const product = PRODUCTS.find(p => p.id === productId);
+        const detailContainer = document.getElementById('detail');
+
+        if (!product) {
+            detailContainer.innerHTML = `<div class="text-center py-20 text-red-500">Product not found.</div>`;
+            return;
+        }
+
+        // Set global product ID for cart logic
+        currentProductId = productId;
+
+        const imageUrl = getImageUrl(product.imageKey);
+
+        detailContainer.innerHTML = `
+            <div class="max-w-6xl mx-auto py-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-card-bg p-8 lg:p-12 rounded-2xl shadow-2xl shadow-primary-color/10 border border-[#333]">
+
+                    <!-- Image Section -->
+                    <div id="pdp-image-wrapper" class="relative overflow-hidden rounded-xl shadow-2xl bg-[#0a0a0a] flex items-center justify-center border border-[#444]">
+                        <img id="pdp-image"
+                            src="${imageUrl}"
+                            alt="${product.name}"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x600/151515/d97706?text=${product.name.replace(/\s/g, '+')}'"
+                            class="w-full max-h-[600px] object-contain p-10 transform scale-100 transition-transform duration-500 ease-in-out" style="transform-origin: center;">
+                        <button onclick="showPage('shop')" class="absolute top-4 left-4 text-white text-xl hover:text-primary-color transition"><i class="fas fa-arrow-left"></i> Back to Collection</button>
+                    </div>
+
+                    <!-- Details and Options Section -->
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <h1 class="text-5xl font-extrabold text-white mb-2">${product.name}</h1>
+                            <p class="text-3xl font-extrabold text-primary-color mb-6">${formatPrice(product.price)}</p>
+
+                            <p class="text-gray-400 text-lg leading-relaxed mb-6">${product.details}</p>
+
+                            <!-- Options Selectors -->
+                            <div class="space-y-6 mb-8">
+                                <!-- Size Selector -->
+                                <div>
+                                    <label class="block text-xl font-semibold mb-3 text-white">Select Size (US Men's)</label>
+                                    <div class="flex flex-wrap gap-3" id="size-options">
+                                        ${product.sizes.map(size => `
+                                            <button type="button" data-size="${size}" onclick="selectOption('size', this)"
+                                                class="size-option text-lg font-medium px-4 py-2 rounded-lg bg-[#2a2a2a] border border-[#444] hover:border-primary-color hover:text-primary-color transition duration-200">
+                                                ${size}
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                    <p id="size-error" class="text-red-500 text-sm mt-2 hidden">Please select a size.</p>
+                                </div>
+
+                                <!-- Color Selector -->
+                                <div>
+                                    <label class="block text-xl font-semibold mb-3 text-white">Select Colorway</label>
+                                    <div class="flex flex-wrap gap-3" id="color-options">
+                                        ${product.colors.map(color => `
+                                            <button type="button" data-color="${color}" onclick="selectOption('color', this)"
+                                                class="color-option text-lg font-medium px-4 py-2 rounded-lg bg-[#2a2a2a] border border-[#444] hover:border-primary-color hover:text-primary-color transition duration-200">
+                                                ${color}
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                    <p id="color-error" class="text-red-500 text-sm mt-2 hidden">Please select a colorway.</p>
+                                </div>
+                            </div>
+
+                            <!-- Add to Cart Button -->
+                            <button id="add-to-cart-btn" onclick="handleAddToCart()"
+                                class="w-full btn-primary px-8 py-4 text-2xl font-extrabold rounded-xl shadow-xl disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <i class="fas fa-shopping-bag mr-3"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Reset selections to force user interaction on options
+        selectedSize = null;
+        selectedColor = null;
+        checkCartButtonStatus();
+    }
+
+    let selectedSize = null;
+    let selectedColor = null;
+
+    function selectOption(type, button) {
+        const containerId = type === 'size' ? 'size-options' : 'color-options';
+        const options = document.getElementById(containerId).querySelectorAll(`.${type}-option`);
+
+        // Deselect all others
+        options.forEach(btn => btn.classList.remove('border-4', 'border-primary-color', 'bg-primary-color/20'));
+
+        // Select current one
+        button.classList.add('border-4', 'border-primary-color', 'bg-primary-color/20');
+
+        if (type === 'size') {
+            selectedSize = button.dataset.size;
+            document.getElementById('size-error').classList.add('hidden');
+        } else {
+            selectedColor = button.dataset.color;
+            document.getElementById('color-error').classList.add('hidden');
+        }
+
+        checkCartButtonStatus();
+    }
+
+    function checkCartButtonStatus() {
+        const btn = document.getElementById('add-to-cart-btn');
+        if (btn) {
+            if (selectedSize && selectedColor) {
+                btn.disabled = false;
+            } else {
+                btn.disabled = true;
+            }
+        }
+    }
+
+    function handleAddToCart() {
+        const product = PRODUCTS.find(p => p.id === currentProductId);
+        let valid = true;
+
+        if (!selectedSize) {
+            document.getElementById('size-error').classList.remove('hidden');
+            valid = false;
+        }
+        if (!selectedColor) {
+            document.getElementById('color-error').classList.remove('hidden');
+            valid = false;
+        }
+
+        if (valid) {
+            addToCart(currentProductId, selectedSize, selectedColor);
+        }
+    }
+
+
+    // Renders the cart contents
+    function renderCart() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartEmptyMessage = document.getElementById('cart-empty-message');
+        const cartSummary = document.getElementById('cart-summary');
+        const cartSubtotalEl = document.getElementById('cart-subtotal');
+        const checkoutTotalEl = document.getElementById('checkout-total');
+        const cartCountEl = document.getElementById('cart-count');
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '';
+            cartEmptyMessage.classList.remove('hidden');
+            cartSummary.classList.add('hidden');
+            cartCountEl.textContent = '0';
+            checkoutTotalEl.textContent = formatPrice(0);
+            return;
+        }
+
+        cartEmptyMessage.classList.add('hidden');
+        cartSummary.classList.remove('hidden');
+
+        let subtotal = 0;
+        let totalQuantity = 0;
+
+        const cartHtml = cart.map(item => {
+            const product = PRODUCTS.find(p => p.id === item.id);
+            if (!product) return '';
+
+            const itemTotal = product.price * item.quantity;
+            subtotal += itemTotal;
+            totalQuantity += item.quantity;
+
+            // Unique identifier for the combination of product, size, and color
+            const uniqueId = `${item.id}-${item.size}-${item.color}`;
+
+            const imageUrl = getImageUrl(product.imageKey);
+
+            return `
+                <div class="flex items-center space-x-4 p-4 border-b border-[#333] last:border-b-0 hover:bg-[#2a2a2a] transition duration-200 rounded-lg">
+                    <img src="${imageUrl}"
+                         alt="${product.name}"
+                         onerror="this.onerror=null;this.src='https://placehold.co/80x80/151515/d97706?text=SHOE'"
+                         class="h-20 w-20 object-cover rounded-md border border-[#444]">
+                    <div class="flex-grow">
+                        <h4 class="text-lg font-bold text-white">${product.name}</h4>
+                        <p class="text-gray-500 text-sm">Size: ${item.size} | Color: ${item.color}</p>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-[#2a2a2a] rounded-lg p-1">
+                        <button onclick="updateCartQuantity('${uniqueId}', -1)" class="text-gray-400 hover:text-white px-2 py-1 transition duration-150 rounded-md hover:bg-[#333]">-</button>
+                        <span class="w-8 text-center font-bold">${item.quantity}</span>
+                        <button onclick="updateCartQuantity('${uniqueId}', 1)" class="text-gray-400 hover:text-white px-2 py-1 transition duration-150 rounded-md hover:bg-[#333]">+</button>
+                    </div>
+                    <div class="w-24 text-right">
+                        <span class="font-bold text-xl text-primary-color">${formatPrice(itemTotal)}</span>
+                    </div>
+                    <button onclick="removeFromCart('${uniqueId}')" class="text-red-500 hover:text-red-400 transition ml-4">
+                        <i class="fas fa-trash-alt text-lg"></i>
+                    </button>
+                </div>
+            `;
+        }).join('');
+
+        cartItemsContainer.innerHTML = cartHtml;
+        cartSubtotalEl.textContent = formatPrice(subtotal);
+        checkoutTotalEl.textContent = formatPrice(subtotal);
+        cartCountEl.textContent = totalQuantity.toString();
+    }
+
+
+    // --- CART LOGIC ---
+
+    function addToCart(productId, size, color) {
+        // Find if this exact configuration (product + size + color) already exists
+        const existingItem = cart.find(item =>
+            item.id === productId && item.size === size && item.color === color
+        );
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id: productId, quantity: 1, size: size, color: color });
+        }
+
+        renderCart();
+        showModal('Added to Cart!', `${PRODUCTS.find(p => p.id === productId).name} (${color}, Size ${size}) added.`, true);
+    }
+
+    function updateCartQuantity(uniqueId, delta) {
+        const [productId, size, color] = uniqueId.split('-');
+
+        const item = cart.find(i =>
+            i.id === parseInt(productId) && i.size === size && i.color === color
+        );
+
+        if (!item) return;
+
+        item.quantity += delta;
+
+        if (item.quantity <= 0) {
+            cart = cart.filter(i =>
+                !(i.id === parseInt(productId) && i.size === size && i.color === color)
+            );
+        }
+
+        renderCart();
+    }
+
+    function removeFromCart(uniqueId) {
+        const [productId, size, color] = uniqueId.split('-');
+        cart = cart.filter(item =>
+            !(item.id === parseInt(productId) && item.size === size && item.color === color)
+        );
+        renderCart();
+    }
+
+    function clearCart() {
+        cart = [];
+        renderCart();
+    }
+
+    // --- ROUTING & UI FUNCTIONS ---
+
+    function showPage(pageId, productId = null) {
+        const pages = document.querySelectorAll('[data-page]');
+        pages.forEach(page => {
+            if (page.id === pageId) {
+                page.classList.add('active-page');
+            } else {
+                page.classList.remove('active-page');
+            }
+        });
+
+        // Dynamic page rendering
+        if (pageId === 'detail' && productId !== null) {
+            renderDetailPage(productId);
+        } else if (pageId === 'shop') {
+            renderProductGrids(); // Re-render shop with current sorting
+        } else if (pageId === 'cart' || pageId === 'checkout') {
+            renderCart();
+        }
+
+        // Scroll to the top of the page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function simulateOrder() {
+        if (cart.length === 0) {
+            showModal('Cart Empty', 'Please add items to your cart before proceeding to order.', false);
+            return;
+        }
+
+        // Basic form validation check (simulated)
+        const inputs = document.querySelectorAll('#checkout input[required]');
+        let allFilled = true;
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                allFilled = false;
+                // Simple visual feedback for simulation
+                input.classList.add('border-red-500');
+            } else {
+                input.classList.remove('border-red-500');
+            }
+        });
+
+        if (!allFilled) {
+             showModal('Missing Details', 'Please fill out all required shipping and payment fields.', false);
+             return;
+        }
+
+        // Simulate successful payment/order placement
+        showModal('Order Success!', `Your exclusive order of ${cart.reduce((total, item) => total + item.quantity, 0)} items has been placed. Order ID: ${Math.floor(Math.random() * 100000) + 100000}`, true);
+        clearCart();
+        showPage('home'); // Redirect back to home after order
+    }
+
+    function showModal(title, message, isSuccess = true) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-message').textContent = message;
+        document.getElementById('modal-backdrop').classList.add('flex');
+        document.getElementById('modal-backdrop').classList.remove('hidden');
+
+        const titleEl = document.getElementById('modal-title');
+        const modalEl = document.getElementById('order-modal');
+
+        if (isSuccess) {
+            titleEl.classList.add('text-primary-color');
+            titleEl.classList.remove('text-red-500');
+            modalEl.classList.add('border-primary-color');
+            modalEl.classList.remove('border-red-500');
+        } else {
+            titleEl.classList.add('text-red-500');
+            titleEl.classList.remove('text-primary-color');
+            modalEl.classList.add('border-red-500');
+            modalEl.classList.remove('border-primary-color');
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('modal-backdrop').classList.add('hidden');
+        document.getElementById('modal-backdrop').classList.remove('flex');
+    }
+
+    // --- INITIALIZATION ---
+
+    window.onload = function() {
+        // Initial setup
+        renderProductGrids();
+        renderCart();
+        showPage('home'); // Start on the home page
+    };
+
+</script>
+
+</body>
+</html>
