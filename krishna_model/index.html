@@ -20,9 +20,15 @@
             color: var(--text-color);
             scroll-behavior: smooth;
             /* Global fix to ensure no random element causes scrolling */
-            max-width: 100vw; 
-            overflow-x: hidden; 
-        }
+     width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ✅ Optional safety nets */
+    .container {
+      max-width: 100% !important;
+    }
 
         .premium-text {
             font-family: 'Playfair Display', serif;
