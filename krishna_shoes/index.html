@@ -105,14 +105,16 @@
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 w-full bg-dark-bg/95 backdrop-blur-md z-50 shadow-2xl shadow-black/80">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-24">
+            <!-- Mobile: use py-4 for height. Desktop: sm:h-20 for consistent height -->
+            <div class="flex items-center justify-between py-4 sm:h-20">
                 <!-- Logo (Serves as Home button) -->
                 <div class="flex-shrink-0">
-                    <span class="text-4xl font-extrabold tracking-widest text-white cursor-pointer" onclick="showPage('home')">
+                    <!-- Responsive Logo Size: 3xl on mobile, 4xl on larger screens -->
+                    <span class="text-3xl sm:text-4xl font-extrabold tracking-widest text-white cursor-pointer" onclick="showPage('home')">
                         SOLE<span class="text-primary-color">HAUS</span>
                     </span>
                 </div>
-                <!-- Navigation Icons (Collection, Profile) -->
+                <!-- Navigation Icons (Collection, Profile) - Desktop Only -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-10">
 
@@ -130,11 +132,11 @@
                 <!-- Cart Icon -->
                 <div class="flex items-center space-x-4">
                     <button id="cart-button" onclick="showPage('cart')" class="relative p-2 rounded-full text-light-text hover:text-primary-color focus:outline-none transition duration-150 ease-in-out">
-                        <i class="fas fa-shopping-bag text-3xl"></i>
+                        <i class="fas fa-shopping-bag text-2xl sm:text-3xl"></i>
                         <span id="cart-count" class="absolute top-1 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full min-w-[1.2rem] transition-all duration-300">0</span>
                     </button>
                 </div>
-                <!-- Mobile Menu (Only shows collection/profile icons for responsiveness) -->
+                <!-- Mobile Menu Icons (Collection/Profile) - Mobile Only -->
                 <div class="md:hidden flex items-center space-x-4">
                     <a onclick="showPage('shop')" class="text-2xl text-light-text hover:text-primary-color transition duration-150 ease-in-out cursor-pointer" title="Collection">
                         <i class="fas fa-th-large"></i>
@@ -152,22 +154,25 @@
         <!-- HOME Page -->
         <section id="home" data-page="home" class="page-content active-page">
             <!-- Hero Section -->
-            <div class="relative pt-24 pb-16 overflow-hidden lg:pt-36 lg:pb-32 rounded-3xl shadow-2xl shadow-primary-color/20 mb-20 bg-card-bg">
+            <div class="relative pt-16 pb-12 sm:pt-24 sm:pb-16 overflow-hidden lg:pt-36 lg:pb-32 rounded-3xl shadow-2xl shadow-primary-color/20 mb-16 sm:mb-20 bg-card-bg">
                 <img id="hero-image"
                      src="https://images.pexels.com/photos/2300334/pexels-photo-2300334.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                      alt="Three multicolored leather sneakers on a shop display"
                      onerror="this.onerror=null;this.src='https://placehold.co/1200x600/151515/d97706?text=SOLEHAUS+PREMIUM+APEX'"
                      class="absolute inset-0 h-full w-full object-cover object-center opacity-30">
-                <div class="relative max-w-4xl mx-auto text-center z-10 p-6">
-                    <p class="text-xl text-primary-color font-light uppercase tracking-widest mb-2">Introducing</p>
-                    <h1 class="text-7xl md:text-9xl font-extrabold tracking-tight text-white leading-none drop-shadow-lg">
+                <div class="relative max-w-4xl mx-auto text-center z-10 p-4 sm:p-6">
+                    <p class="text-sm sm:text-xl text-primary-color font-light uppercase tracking-widest mb-2">Introducing</p>
+                    <!-- Responsive H1: text-5xl on mobile, scales up to 9xl -->
+                    <h1 class="text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tight text-white leading-tight drop-shadow-lg">
                         APEX <span class="text-primary-color">SERIES</span>
                     </h1>
-                    <p class="mt-8 text-2xl text-gray-400 max-w-3xl mx-auto font-light italic">
+                    <!-- Responsive Slogan: text-lg on mobile, scales up to 2xl -->
+                    <p class="mt-4 sm:mt-8 text-lg sm:text-2xl text-gray-400 max-w-3xl mx-auto font-light italic">
                         The convergence of heritage craft and futuristic design, exclusively for our clientele.
                     </p>
-                    <div class="mt-12 flex justify-center space-x-6">
-                        <button onclick="showPage('shop')" class="btn-primary px-12 py-4 text-xl font-bold rounded-xl shadow-2xl">
+                    <div class="mt-8 sm:mt-12 flex justify-center space-x-6">
+                        <!-- Responsive CTA Button -->
+                        <button onclick="showPage('shop')" class="btn-primary px-8 py-3 text-lg sm:px-12 sm:py-4 sm:text-xl font-bold rounded-xl shadow-2xl">
                             Explore The Collection
                         </button>
                     </div>
@@ -175,27 +180,30 @@
             </div>
 
             <!-- Featured Products Grid -->
-            <div class="text-center mb-12">
-                <h2 class="text-5xl font-extrabold text-white tracking-wider inline-block pb-1">FEATURED DROPS</h2>
+            <div class="text-center mb-10 sm:mb-12">
+                <!-- Responsive H2 -->
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-wider inline-block pb-1">FEATURED DROPS</h2>
                 <div class="h-1 w-24 bg-primary-color mx-auto mt-4 rounded-full"></div>
             </div>
-            <div id="featured-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
+            <!-- Responsive Grid: 1 column on mobile, 2 on sm, 4 on lg -->
+            <div id="featured-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 mb-20">
                 <!-- Products will be injected here by JavaScript -->
             </div>
         </section>
 
         <!-- SHOP Page -->
         <section id="shop" data-page="shop" class="page-content">
-            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">The Full SoleHaus Collection</h2>
+            <!-- Responsive H2 -->
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center text-primary-color">The Full SoleHaus Collection</h2>
 
             <!-- Filtering and Sorting UI -->
             <div class="flex flex-col sm:flex-row justify-between items-center bg-card-bg p-4 rounded-xl mb-8 shadow-inner shadow-black/50 border border-[#2a2a2a]">
-                <div class="text-xl font-semibold text-gray-400 mb-4 sm:mb-0">
+                <div class="text-lg sm:text-xl font-semibold text-gray-400 mb-2 sm:mb-0">
                     Showing <span id="product-count" class="text-primary-color font-extrabold">0</span> Styles
                 </div>
                 <div class="flex items-center space-x-4">
-                    <label for="sort-by" class="text-gray-400 text-lg">Sort By:</label>
-                    <select id="sort-by" onchange="renderProductGrids()" class="p-2 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color appearance-none cursor-pointer">
+                    <label for="sort-by" class="text-gray-400 text-sm sm:text-lg">Sort By:</label>
+                    <select id="sort-by" onchange="renderProductGrids()" class="p-2 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color appearance-none cursor-pointer text-sm sm:text-base">
                         <option value="default">Default Order</option>
                         <option value="price-asc">Price: Low to High</option>
                         <option value="price-desc">Price: High to Low</option>
@@ -203,7 +211,8 @@
                 </div>
             </div>
 
-            <div id="shop-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+            <!-- Responsive Grid: 1 column on mobile, 2 on sm, 4 on lg -->
+            <div id="shop-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 mb-16">
                 <!-- All products will be injected here by JavaScript -->
             </div>
         </section>
@@ -216,15 +225,16 @@
 
         <!-- CART Page -->
         <section id="cart" data-page="cart" class="page-content">
-            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">Your Exclusive Cart</h2>
-            <div class="max-w-4xl mx-auto bg-card-bg p-8 rounded-xl shadow-2xl border border-[#333]">
+            <!-- Responsive H2 -->
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center text-primary-color">Your Exclusive Cart</h2>
+            <div class="max-w-4xl mx-auto bg-card-bg p-6 sm:p-8 rounded-xl shadow-2xl border border-[#333]">
                 <div id="cart-items" class="space-y-6">
                     <!-- Cart items rendered here -->
                 </div>
 
                 <div id="cart-empty-message" class="text-center py-10 text-gray-500">
-                    <i class="fas fa-box-open text-6xl text-primary-color mb-4"></i>
-                    <p class="text-xl">Your cart awaits its first exclusive pair.</p>
+                    <i class="fas fa-box-open text-5xl sm:text-6xl text-primary-color mb-4"></i>
+                    <p class="text-lg sm:text-xl">Your cart awaits its first exclusive pair.</p>
                     <button onclick="showPage('shop')" class="mt-6 btn-primary px-6 py-2 rounded-xl font-semibold">Start Curating</button>
                 </div>
 
@@ -237,7 +247,7 @@
                         <span>Shipping Estimate:</span>
                         <span>FREE</span>
                     </div>
-                    <!-- Checkout button moved here and only accessible from the cart -->
+                    <!-- Checkout button -->
                     <button onclick="showPage('checkout')" class="w-full btn-primary px-6 py-3 text-lg font-bold rounded-xl mt-6">
                         Proceed to Secure Checkout
                     </button>
@@ -247,12 +257,14 @@
 
         <!-- CHECKOUT Page -->
         <section id="checkout" data-page="checkout" class="page-content">
-            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">Finalize Your Purchase</h2>
-            <div class="max-w-2xl mx-auto bg-card-bg p-10 rounded-xl shadow-2xl space-y-8 border border-[#333]">
+            <!-- Responsive H2 -->
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center text-primary-color">Finalize Your Purchase</h2>
+            <div class="max-w-2xl mx-auto bg-card-bg p-6 sm:p-10 rounded-xl shadow-2xl space-y-8 border border-[#333]">
 
                 <!-- Step 1: Shipping Information -->
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4 border-b border-[#333] pb-2 text-primary-color">1. Shipping Details</h3>
+                    <h3 class="text-xl sm:text-2xl font-semibold mb-4 border-b border-[#333] pb-2 text-primary-color">1. Shipping Details</h3>
+                    <!-- Stacks on mobile (default grid-cols-1), two columns on medium screens -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input type="text" placeholder="Full Name" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
                         <input type="email" placeholder="Email Address" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
@@ -264,7 +276,7 @@
 
                 <!-- Step 2: Payment Method -->
                 <div>
-                    <h3 class="text-2xl font-semibold mb-4 border-b border-[#333] pb-2 text-primary-color">2. Payment Method</h3>
+                    <h3 class="text-xl sm:text-2xl font-semibold mb-4 border-b border-[#333] pb-2 text-primary-color">2. Payment Method</h3>
                     <div class="space-y-3">
                         <input type="text" placeholder="Card Number" class="w-full p-3 rounded-lg bg-[#2a2a2a] border border-[#444] text-light-text focus:ring-primary-color focus:border-primary-color" required>
                         <div class="flex space-x-4">
@@ -276,10 +288,11 @@
 
                 <!-- Final Order Summary and Button -->
                 <div id="checkout-summary" class="pt-6 border-t border-[#333]">
-                    <div class="flex justify-between text-3xl font-bold mb-4">
+                    <div class="flex justify-between text-2xl sm:text-3xl font-bold mb-4">
                         <span>Grand Total:</span>
                         <span id="checkout-total" class="text-primary-color font-extrabold">$0.00</span>
                     </div>
+                    <!-- Responsive CTA Button -->
                     <button onclick="simulateOrder()" class="w-full btn-primary px-6 py-4 text-xl font-extrabold rounded-xl">
                         Place Exclusive Order (Simulated)
                     </button>
@@ -289,23 +302,24 @@
 
         <!-- PROFILE Page (Simulated) -->
         <section id="profile" data-page="profile" class="page-content">
-            <h2 class="text-4xl font-bold mb-8 text-center text-primary-color">My SoleHaus Profile</h2>
-            <div class="max-w-2xl mx-auto bg-card-bg p-10 rounded-xl shadow-2xl space-y-6 border border-[#333] text-gray-300">
+            <!-- Responsive H2 -->
+            <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center text-primary-color">My SoleHaus Profile</h2>
+            <div class="max-w-2xl mx-auto bg-card-bg p-6 sm:p-10 rounded-xl shadow-2xl space-y-6 border border-[#333] text-gray-300">
                 <div class="text-center pb-4 border-b border-[#333]">
-                    <i class="fas fa-gem text-5xl text-primary-color mb-3"></i>
-                    <h3 class="text-3xl font-bold text-white">Apex Member Status</h3>
+                    <i class="fas fa-gem text-4xl sm:text-5xl text-primary-color mb-3"></i>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-white">Apex Member Status</h3>
                     <p class="text-gray-500">Member since 2025</p>
                 </div>
 
                 <div class="space-y-4">
-                    <h4 class="text-xl font-semibold text-primary-color">Account Details</h4>
+                    <h4 class="text-lg sm:text-xl font-semibold text-primary-color">Account Details</h4>
                     <p><strong>Name:</strong> Jane Doe (Simulated)</p>
                     <p><strong>Email:</strong> exclusive@solehaus.com</p>
                     <p><strong>Preferred Size:</strong> 10 US Mens</p>
                 </div>
 
                 <div class="space-y-4 pt-4 border-t border-[#333]">
-                    <h4 class="text-xl font-semibold text-primary-color">Recent Orders</h4>
+                    <h4 class="text-lg sm:text-xl font-semibold text-primary-color">Recent Orders</h4>
                     <p class="text-gray-500">No recent orders found. Time to secure your next pair.</p>
                 </div>
 
@@ -318,9 +332,10 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark-bg border-t border-[#222] mt-20 py-10 shadow-inner shadow-black/50">
+    <footer class="bg-dark-bg border-t border-[#222] mt-20 py-8 sm:py-10 shadow-inner shadow-black/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-16 mb-6">
+            <!-- Stacks links vertically on mobile, uses space-x-16 on desktop -->
+            <div class="flex flex-col md:flex-row justify-center space-y-2 md:space-y-0 md:space-x-16 mb-6">
                 <a onclick="showPage('shop')" class="nav-link text-sm font-medium hover:text-primary-color">Shop The Drop</a>
                 <a onclick="showPage('policy')" class="nav-link text-sm font-medium hover:text-primary-color">Legal & Privacy</a>
                 <a href="#" class="nav-link text-sm font-medium hover:text-primary-color">Customer Service</a>
@@ -330,10 +345,10 @@
     </footer>
 
     <!-- Order Confirmation Modal (Custom alert) -->
-    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden justify-center items-center transition-opacity duration-300">
-        <div id="order-modal" class="bg-card-bg p-10 rounded-2xl shadow-2xl shadow-primary-color/30 max-w-md w-full transform scale-95 transition-transform duration-300 border border-primary-color">
-            <h3 id="modal-title" class="text-4xl font-extrabold mb-4 text-primary-color">Order Success!</h3>
-            <p id="modal-message" class="text-gray-300 mb-6 text-lg">
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden justify-center items-center transition-opacity duration-300 p-4">
+        <div id="order-modal" class="bg-card-bg p-6 sm:p-10 rounded-2xl shadow-2xl shadow-primary-color/30 max-w-md w-full transform scale-95 transition-transform duration-300 border border-primary-color">
+            <h3 id="modal-title" class="text-3xl sm:text-4xl font-extrabold mb-4 text-primary-color">Order Success!</h3>
+            <p id="modal-message" class="text-gray-300 mb-6 text-base sm:text-lg">
                 Your exclusive order has been successfully placed. Preparation for shipping is underway (simulated).
             </p>
             <button onclick="closeModal()" class="btn-primary w-full py-3 rounded-xl font-bold">
@@ -392,12 +407,12 @@
                          class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-[1.03] group-hover:opacity-90">
                 </div>
                 <div class="p-5 flex-grow">
-                    <h3 class="text-2xl font-bold text-white mb-1">${product.name}</h3>
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-1">${product.name}</h3>
                     <p class="text-gray-400 text-sm mb-3 h-10">${product.description}</p>
                 </div>
                 <div class="p-5 pt-0 flex justify-between items-center">
-                    <span class="text-3xl font-extrabold text-primary-color">${formatPrice(product.price)}</span>
-                    <button onclick="showPage('detail', ${product.id})" class="btn-primary px-5 py-2 text-md font-bold rounded-lg shadow-md hover:shadow-lg">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-primary-color">${formatPrice(product.price)}</span>
+                    <button onclick="showPage('detail', ${product.id})" class="btn-primary px-4 py-2 text-sm sm:text-md font-bold rounded-lg shadow-md hover:shadow-lg">
                         View Details
                     </button>
                 </div>
@@ -448,8 +463,8 @@
         const imageUrl = getImageUrl(product.imageKey);
 
         detailContainer.innerHTML = `
-            <div class="max-w-6xl mx-auto py-16">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-card-bg p-8 lg:p-12 rounded-2xl shadow-2xl shadow-primary-color/10 border border-[#333]">
+            <div class="max-w-6xl mx-auto py-8 sm:py-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 bg-card-bg p-6 sm:p-12 rounded-2xl shadow-2xl shadow-primary-color/10 border border-[#333]">
 
                     <!-- Image Section -->
                     <div id="pdp-image-wrapper" class="relative overflow-hidden rounded-xl shadow-2xl bg-[#0a0a0a] flex items-center justify-center border border-[#444]">
@@ -457,27 +472,29 @@
                             src="${imageUrl}"
                             alt="${product.name}"
                             onerror="this.onerror=null;this.src='https://placehold.co/600x600/151515/d97706?text=${product.name.replace(/\s/g, '+')}'"
-                            class="w-full max-h-[600px] object-contain p-10 transform scale-100 transition-transform duration-500 ease-in-out" style="transform-origin: center;">
-                        <button onclick="showPage('shop')" class="absolute top-4 left-4 text-white text-xl hover:text-primary-color transition"><i class="fas fa-arrow-left"></i> Back to Collection</button>
+                            class="w-full max-h-[600px] object-contain p-6 sm:p-10 transform scale-100 transition-transform duration-500 ease-in-out" style="transform-origin: center;">
+                        <button onclick="showPage('shop')" class="absolute top-4 left-4 text-white text-lg sm:text-xl hover:text-primary-color transition"><i class="fas fa-arrow-left"></i> Back to Collection</button>
                     </div>
 
                     <!-- Details and Options Section -->
                     <div class="flex flex-col justify-between">
                         <div>
-                            <h1 class="text-5xl font-extrabold text-white mb-2">${product.name}</h1>
-                            <p class="text-3xl font-extrabold text-primary-color mb-6">${formatPrice(product.price)}</p>
+                            <!-- Responsive Title -->
+                            <h1 class="text-3xl sm:text-5xl font-extrabold text-white mb-2">${product.name}</h1>
+                            <!-- Responsive Price -->
+                            <p class="text-2xl sm:text-3xl font-extrabold text-primary-color mb-6">${formatPrice(product.price)}</p>
 
-                            <p class="text-gray-400 text-lg leading-relaxed mb-6">${product.details}</p>
+                            <p class="text-gray-400 text-base sm:text-lg leading-relaxed mb-6">${product.details}</p>
 
                             <!-- Options Selectors -->
                             <div class="space-y-6 mb-8">
                                 <!-- Size Selector -->
                                 <div>
-                                    <label class="block text-xl font-semibold mb-3 text-white">Select Size (US Men's)</label>
+                                    <label class="block text-lg sm:text-xl font-semibold mb-3 text-white">Select Size (US Men's)</label>
                                     <div class="flex flex-wrap gap-3" id="size-options">
                                         ${product.sizes.map(size => `
                                             <button type="button" data-size="${size}" onclick="selectOption('size', this)"
-                                                class="size-option text-lg font-medium px-4 py-2 rounded-lg bg-[#2a2a2a] border border-[#444] hover:border-primary-color hover:text-primary-color transition duration-200">
+                                                class="size-option text-base sm:text-lg font-medium px-4 py-2 rounded-lg bg-[#2a2a2a] border border-[#444] hover:border-primary-color hover:text-primary-color transition duration-200">
                                                 ${size}
                                             </button>
                                         `).join('')}
@@ -487,11 +504,11 @@
 
                                 <!-- Color Selector -->
                                 <div>
-                                    <label class="block text-xl font-semibold mb-3 text-white">Select Colorway</label>
+                                    <label class="block text-lg sm:text-xl font-semibold mb-3 text-white">Select Colorway</label>
                                     <div class="flex flex-wrap gap-3" id="color-options">
                                         ${product.colors.map(color => `
                                             <button type="button" data-color="${color}" onclick="selectOption('color', this)"
-                                                class="color-option text-lg font-medium px-4 py-2 rounded-lg bg-[#2a2a2a] border border-[#444] hover:border-primary-color hover:text-primary-color transition duration-200">
+                                                class="color-option text-base sm:text-lg font-medium px-4 py-2 rounded-lg bg-[#2a2a2a] border border-[#444] hover:border-primary-color hover:text-primary-color transition duration-200">
                                                 ${color}
                                             </button>
                                         `).join('')}
@@ -500,9 +517,9 @@
                                 </div>
                             </div>
 
-                            <!-- Add to Cart Button -->
+                            <!-- Add to Cart Button - Responsive size -->
                             <button id="add-to-cart-btn" onclick="handleAddToCart()"
-                                class="w-full btn-primary px-8 py-4 text-2xl font-extrabold rounded-xl shadow-xl disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                class="w-full btn-primary px-6 py-3 sm:px-8 sm:py-4 text-xl sm:text-2xl font-extrabold rounded-xl shadow-xl disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                                 <i class="fas fa-shopping-bag mr-3"></i> Add to Cart
                             </button>
                         </div>
@@ -609,26 +626,29 @@
             const imageUrl = getImageUrl(product.imageKey);
 
             return `
-                <div class="flex items-center space-x-4 p-4 border-b border-[#333] last:border-b-0 hover:bg-[#2a2a2a] transition duration-200 rounded-lg">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 p-4 border-b border-[#333] last:border-b-0 hover:bg-[#2a2a2a] transition duration-200 rounded-lg">
                     <img src="${imageUrl}"
                          alt="${product.name}"
                          onerror="this.onerror=null;this.src='https://placehold.co/80x80/151515/d97706?text=SHOE'"
-                         class="h-20 w-20 object-cover rounded-md border border-[#444]">
-                    <div class="flex-grow">
+                         class="h-20 w-20 object-cover rounded-md border border-[#444] flex-shrink-0">
+                    <div class="flex-grow w-full sm:w-auto">
                         <h4 class="text-lg font-bold text-white">${product.name}</h4>
                         <p class="text-gray-500 text-sm">Size: ${item.size} | Color: ${item.color}</p>
                     </div>
-                    <div class="flex items-center space-x-3 bg-[#2a2a2a] rounded-lg p-1">
-                        <button onclick="updateCartQuantity('${uniqueId}', -1)" class="text-gray-400 hover:text-white px-2 py-1 transition duration-150 rounded-md hover:bg-[#333]">-</button>
-                        <span class="w-8 text-center font-bold">${item.quantity}</span>
-                        <button onclick="updateCartQuantity('${uniqueId}', 1)" class="text-gray-400 hover:text-white px-2 py-1 transition duration-150 rounded-md hover:bg-[#333]">+</button>
+                    
+                    <div class="flex justify-between items-center w-full sm:w-auto sm:space-x-3">
+                        <div class="flex items-center space-x-3 bg-[#2a2a2a] rounded-lg p-1">
+                            <button onclick="updateCartQuantity('${uniqueId}', -1)" class="text-gray-400 hover:text-white px-2 py-1 transition duration-150 rounded-md hover:bg-[#333]">-</button>
+                            <span class="w-8 text-center font-bold">${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${uniqueId}', 1)" class="text-gray-400 hover:text-white px-2 py-1 transition duration-150 rounded-md hover:bg-[#333]">+</button>
+                        </div>
+                        <div class="w-24 text-right">
+                            <span class="font-bold text-xl text-primary-color">${formatPrice(itemTotal)}</span>
+                        </div>
+                        <button onclick="removeFromCart('${uniqueId}')" class="text-red-500 hover:text-red-400 transition ml-4">
+                            <i class="fas fa-trash-alt text-lg"></i>
+                        </button>
                     </div>
-                    <div class="w-24 text-right">
-                        <span class="font-bold text-xl text-primary-color">${formatPrice(itemTotal)}</span>
-                    </div>
-                    <button onclick="removeFromCart('${uniqueId}')" class="text-red-500 hover:text-red-400 transition ml-4">
-                        <i class="fas fa-trash-alt text-lg"></i>
-                    </button>
                 </div>
             `;
         }).join('');
