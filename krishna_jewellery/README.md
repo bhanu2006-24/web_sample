@@ -1,7 +1,5 @@
 # 💎 Krishna Jewellery
 
-![Krishna Jewellery](./screenshot.png)
-
 > Adorn yourself with elegance. Discover a collection where timeless craftsmanship meets modern luxury.
 
 <div align="center">

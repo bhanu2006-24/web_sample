@@ -4,73 +4,813 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishna Lens | Visual Storytelling</title>
+    <title>Krishna Lens | Premium Visual Storytelling</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        zinc: {
+                            850: '#1f1f22',
+                            950: '#09090b',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'slide-up': 'slideUp 1s ease-out forwards',
+                        'slow-spin': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    cursor: {
+                        'none': 'none',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            cursor: none;
+            /* Hide default cursor for custom one */
         }
 
-        .hide-scrollbar::-webkit-scrollbar {
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Custom Cursor */
+        #cursor-dot,
+        #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+        }
+
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body:hover #cursor-outline {
+            opacity: 1;
+        }
+
+        /* Hover state for cursor */
+        .hover-target:hover~#cursor-outline,
+        a:hover~#cursor-outline,
+        button:hover~#cursor-outline {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: white;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Page Transitions */
+        .page-section {
             display: none;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 
-<body class="bg-zinc-900 text-white overflow-x-hidden">
-    <nav class="fixed w-full z-50 mix-blend-difference text-white">
+<body class="antialiased overflow-x-hidden selection:bg-white selection:text-black">
+
+    <!-- Custom Cursor Elements -->
+    <div id="cursor-dot" class="hidden md:block"></div>
+    <div id="cursor-outline" class="hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 mix-blend-difference text-white top-0 transition-all duration-300" id="navbar">
         <div class="container mx-auto px-6 py-6 flex justify-between items-center">
-            <div class="text-xl font-bold tracking-widest uppercase">Krishna Lens</div>
-            <div class="hidden md:flex space-x-12 text-xs font-bold uppercase tracking-widest">
-                <a href="#" class="hover:opacity-50 transition">Work</a>
-                <a href="#" class="hover:opacity-50 transition">About</a>
-                <a href="#" class="hover:opacity-50 transition">Contact</a>
+            <a href="#" onclick="router('home')"
+                class="text-2xl font-serif italic font-bold tracking-wider z-50 hover:opacity-70 transition">Krishna
+                Lens.</a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-12 text-[11px] font-bold uppercase tracking-[0.2em]">
+                <button onclick="router('home')" class="nav-link hover:text-gray-300 transition py-2">Home</button>
+                <button onclick="router('work')" class="nav-link hover:text-gray-300 transition py-2">Work</button>
+                <button onclick="router('about')" class="nav-link hover:text-gray-300 transition py-2">About</button>
+                <button onclick="router('contact')"
+                    class="nav-link hover:text-gray-300 transition py-2">Contact</button>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden z-50 text-white p-2" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
         </div>
     </nav>
 
-    <main class="relative w-full h-screen overflow-hidden">
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-            <h1 class="text-[10vw] font-bold leading-none tracking-tighter mix-blend-overlay opacity-50">
-                CAPTURING<br>MOMENTS</h1>
-        </div>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-black z-40 transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col justify-center items-center space-y-8">
+        <button onclick="router('home'); toggleMobileMenu()"
+            class="text-4xl font-serif italic text-white/80 hover:text-white transition">Home</button>
+        <button onclick="router('work'); toggleMobileMenu()"
+            class="text-4xl font-serif italic text-white/80 hover:text-white transition">Work</button>
+        <button onclick="router('about'); toggleMobileMenu()"
+            class="text-4xl font-serif italic text-white/80 hover:text-white transition">About</button>
+        <button onclick="router('contact'); toggleMobileMenu()"
+            class="text-4xl font-serif italic text-white/80 hover:text-white transition">Contact</button>
+    </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 h-full w-full">
-            <div class="h-full border-r border-white/10 relative group overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                <div class="absolute bottom-8 left-8">
-                    <p class="text-xs uppercase tracking-widest mb-2">01</p>
-                    <h3 class="text-2xl font-bold">Portraits</h3>
+    <!-- MAIN CONTENT AREA -->
+    <main id="app" class="relative w-full min-h-screen">
+
+        <!-- ================= HOME PAGE ================= -->
+        <section id="home" class="page-section active relative">
+            <!-- Hero -->
+            <div class="h-screen w-full relative overflow-hidden flex items-center justify-center">
+                <!-- Background Video Placeholder or Animated Gradient -->
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-800 via-zinc-950 to-black opacity-40 animate-pulse">
+                </div>
+
+                <div class="absolute inset-0 flex flex-col items-center justify-center z-10 mix-blend-overlay px-4">
+                    <p class="text-xs uppercase tracking-[0.4em] mb-4 animate-fade-in opacity-0"
+                        style="animation-delay: 0.2s">Premium Photography Portfolio</p>
+                    <h1 class="text-[12vw] md:text-[10vw] font-bold leading-[0.8] tracking-tighter text-center animate-slide-up opacity-0"
+                        style="animation-delay: 0.4s">
+                        VISUAL<br><span class="font-serif italic font-light text-white/80">alchemist</span>
+                    </h1>
+                    <div class="mt-12 flex space-x-4 animate-fade-in opacity-0" style="animation-delay: 0.8s">
+                        <button onclick="router('work')"
+                            class="px-8 py-3 border border-white/20 hover:bg-white hover:text-black transition duration-300 uppercase text-xs tracking-widest">View
+                            Portfolio</button>
+                    </div>
+                </div>
+
+                <!-- Scroll Indicator -->
+                <div
+                    class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-xs uppercase tracking-widest opacity-50">
+                    Scroll to Explore
                 </div>
             </div>
-            <div class="h-full border-r border-white/10 relative group overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                <div class="absolute bottom-8 left-8">
-                    <p class="text-xs uppercase tracking-widest mb-2">02</p>
-                    <h3 class="text-2xl font-bold">Nature</h3>
+
+            <!-- Featured Categories Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 h-[100vh] w-full border-t border-white/10">
+                <!-- Col 1 -->
+                <div onclick="router('work')"
+                    class="h-full border-r border-b md:border-b-0 border-white/10 relative group overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0">
+                    <div class="absolute bottom-10 left-8 z-20">
+                        <p
+                            class="text-[10px] uppercase tracking-widest mb-3 opacity-70 translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            Collection 01</p>
+                        <h3
+                            class="text-3xl font-serif italic translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">
+                            Portraits</h3>
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 group-hover:opacity-40 transition">
+                    </div>
+                </div>
+                <!-- Col 2 -->
+                <div onclick="router('work')"
+                    class="h-full border-r border-b md:border-b-0 border-white/10 relative group overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0">
+                    <div class="absolute bottom-10 left-8 z-20">
+                        <p
+                            class="text-[10px] uppercase tracking-widest mb-3 opacity-70 translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            Collection 02</p>
+                        <h3
+                            class="text-3xl font-serif italic translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">
+                            Nature</h3>
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 group-hover:opacity-40 transition">
+                    </div>
+                </div>
+                <!-- Col 3 -->
+                <div onclick="router('work')"
+                    class="h-full border-r border-b md:border-b-0 border-white/10 relative group overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0">
+                    <div class="absolute bottom-10 left-8 z-20">
+                        <p
+                            class="text-[10px] uppercase tracking-widest mb-3 opacity-70 translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            Collection 03</p>
+                        <h3
+                            class="text-3xl font-serif italic translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">
+                            Urban</h3>
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 group-hover:opacity-40 transition">
+                    </div>
+                </div>
+                <!-- Col 4 -->
+                <div onclick="router('work')" class="h-full relative group overflow-hidden cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0">
+                    <div class="absolute bottom-10 left-8 z-20">
+                        <p
+                            class="text-[10px] uppercase tracking-widest mb-3 opacity-70 translate-y-4 group-hover:translate-y-0 transition duration-500">
+                            Collection 04</p>
+                        <h3
+                            class="text-3xl font-serif italic translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">
+                            Fashion</h3>
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 group-hover:opacity-40 transition">
+                    </div>
                 </div>
             </div>
-            <div class="h-full border-r border-white/10 relative group overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                <div class="absolute bottom-8 left-8">
-                    <p class="text-xs uppercase tracking-widest mb-2">03</p>
-                    <h3 class="text-2xl font-bold">Urban</h3>
+
+            <!-- Quick Statement -->
+            <div class="py-32 px-6 bg-zinc-950 text-center">
+                <div class="container mx-auto max-w-4xl">
+                    <i class="fas fa-quote-left text-4xl text-white/20 mb-8"></i>
+                    <h2 class="text-3xl md:text-5xl font-serif leading-relaxed text-gray-300">
+                        "We don't just take photographs. We curate visual symphonies that echo through time, capturing
+                        the unspoken essence of existence."
+                    </h2>
+                    <div class="mt-12">
+                        <img src="https://cdn.myshoptet.com/usr/www.tangle-teez.cz/user/documents/upload/podpis-bila.png"
+                            class="h-16 mx-auto opacity-50 invert" alt="Signature">
+                    </div>
                 </div>
             </div>
-            <div class="h-full relative group overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0">
-                <div class="absolute bottom-8 left-8">
-                    <p class="text-xs uppercase tracking-widest mb-2">04</p>
-                    <h3 class="text-2xl font-bold">Fashion</h3>
+        </section>
+
+        <!-- ================= WORK / PORTFOLIO PAGE ================= -->
+        <section id="work" class="page-section w-full pt-32 px-6 pb-20 bg-[#09090b]">
+            <div class="container mx-auto">
+                <!-- Header -->
+                <div class="flex flex-col items-center text-center mb-24 animate-slide-up">
+                    <p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-4">The Portfolio</p>
+                    <h2 class="text-6xl md:text-8xl font-serif italic mb-8">Selected Works</h2>
+                    <div
+                        class="flex flex-wrap justify-center gap-8 text-xs font-bold tracking-widest uppercase text-gray-500">
+                        <button class="text-white border-b border-white pb-1">All</button>
+                        <button class="hover:text-white transition">Editorial</button>
+                        <button class="hover:text-white transition">Commercial</button>
+                        <button class="hover:text-white transition">Analog</button>
+                    </div>
                 </div>
+
+                <!-- Masonry Grid -->
+                <div class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8 animate-fade-in pb-32">
+                    <!-- Item 1 -->
+                    <div class="break-inside-avoid relative group cursor-pointer overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80"
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition duration-700 ease-in-out transform group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col items-center justify-center p-4 text-center">
+                            <span
+                                class="text-2xl font-serif italic mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Neon
+                                Dreams</span>
+                            <span
+                                class="text-[10px] uppercase tracking-widest text-gray-300 translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">Tokyo,
+                                2023</span>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="break-inside-avoid relative group cursor-pointer overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80"
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition duration-700 ease-in-out transform group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col items-center justify-center p-4 text-center">
+                            <span
+                                class="text-2xl font-serif italic mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Raw
+                                Emotion</span>
+                            <span
+                                class="text-[10px] uppercase tracking-widest text-gray-300 translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">Studio
+                                Session</span>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="break-inside-avoid relative group cursor-pointer overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?w=800&q=80"
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition duration-700 ease-in-out transform group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col items-center justify-center p-4 text-center">
+                            <span
+                                class="text-2xl font-serif italic mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">The
+                                Model</span>
+                            <span
+                                class="text-[10px] uppercase tracking-widest text-gray-300 translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">Vogue
+                                Paris</span>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="break-inside-avoid relative group cursor-pointer overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1493863641943-9b68992a8d07?w=800&q=80"
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition duration-700 ease-in-out transform group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col items-center justify-center p-4 text-center">
+                            <span
+                                class="text-2xl font-serif italic mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Architecture</span>
+                            <span
+                                class="text-[10px] uppercase tracking-widest text-gray-300 translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">Berlin</span>
+                        </div>
+                    </div>
+                    <!-- Item 5 -->
+                    <div class="break-inside-avoid relative group cursor-pointer overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80"
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition duration-700 ease-in-out transform group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col items-center justify-center p-4 text-center">
+                            <span
+                                class="text-2xl font-serif italic mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Gentle
+                                Gaze</span>
+                            <span
+                                class="text-[10px] uppercase tracking-widest text-gray-300 translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">Portrait</span>
+                        </div>
+                    </div>
+                    <!-- Item 6 -->
+                    <div class="break-inside-avoid relative group cursor-pointer overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1616091216791-a5360b5fc78a?w=800&q=80"
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition duration-700 ease-in-out transform group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col items-center justify-center p-4 text-center">
+                            <span
+                                class="text-2xl font-serif italic mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Noir</span>
+                            <span
+                                class="text-[10px] uppercase tracking-widest text-gray-300 translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">Film</span>
+                        </div>
+                    </div>
+                    <!-- Item 7 -->
+                    <div class="break-inside-avoid relative group cursor-pointer overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800&q=80"
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition duration-700 ease-in-out transform group-hover:scale-105">
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col items-center justify-center p-4 text-center">
+                            <span
+                                class="text-2xl font-serif italic mb-2 translate-y-4 group-hover:translate-y-0 transition duration-500">Muse</span>
+                            <span
+                                class="text-[10px] uppercase tracking-widest text-gray-300 translate-y-4 group-hover:translate-y-0 transition duration-500 delay-75">Studio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Process Section -->
+                <div class="border-t border-white/10 py-24">
+                    <h3 class="text-sm font-bold tracking-[0.3em] uppercase mb-16 text-center">Our Process</h3>
+                    <div class="grid md:grid-cols-3 gap-12 text-center">
+                        <div class="group hover:bg-white/5 p-8 rounded transition duration-500">
+                            <div
+                                class="text-4xl text-white/20 mb-6 font-serif italic group-hover:text-white transition">
+                                01.</div>
+                            <h4 class="text-xl font-bold mb-4">Concept</h4>
+                            <p class="text-gray-500 text-sm leading-relaxed">We begin by understanding your vision,
+                                creating mood boards, and scouting the perfect locations to tell your story.</p>
+                        </div>
+                        <div class="group hover:bg-white/5 p-8 rounded transition duration-500">
+                            <div
+                                class="text-4xl text-white/20 mb-6 font-serif italic group-hover:text-white transition">
+                                02.</div>
+                            <h4 class="text-xl font-bold mb-4">Capture</h4>
+                            <p class="text-gray-500 text-sm leading-relaxed">Using state-of-the-art equipment and
+                                lighting techniques, we freeze moments with precision and artistic flair.</p>
+                        </div>
+                        <div class="group hover:bg-white/5 p-8 rounded transition duration-500">
+                            <div
+                                class="text-4xl text-white/20 mb-6 font-serif italic group-hover:text-white transition">
+                                03.</div>
+                            <h4 class="text-xl font-bold mb-4">Retouch</h4>
+                            <p class="text-gray-500 text-sm leading-relaxed">Expert color grading and high-end
+                                retouching ensure every image is a masterpiece ready for print or digital.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT PAGE (Fixed Layout) ================= -->
+        <section id="about" class="page-section w-full bg-zinc-950">
+            <!-- Hero Banner -->
+            <div class="relative w-full h-[60vh]">
+                <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1600&q=80"
+                    class="w-full h-full object-cover opacity-30">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-zinc-950"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <h1 class="text-6xl md:text-9xl font-serif italic text-center animate-slide-up">About<br>The Artist
+                    </h1>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 py-20">
+                <!-- Main Bio Content -->
+                <div class="grid lg:grid-cols-12 gap-16">
+
+                    <!-- Left: Sticky Image & Details -->
+                    <div class="lg:col-span-4 lg:sticky lg:top-32 h-fit">
+                        <!-- CHANGED IMAGE HERE -->
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            class="w-full aspect-[4/5] object-cover mb-8 rounded grayscale hover:grayscale-0 transition duration-700">
+
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xs uppercase tracking-widest text-gray-500 mb-1">Lead Photographer</h3>
+                                <p class="text-xl font-serif">Bhanu Pratap Saini</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs uppercase tracking-widest text-gray-500 mb-1">Based In</h3>
+                                <p class="text-lg">Jaipur, India</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs uppercase tracking-widest text-gray-500 mb-1">Specialty</h3>
+                                <p class="text-lg">Editorial, Fashion, Portrait</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Text Content -->
+                    <div class="lg:col-span-8 space-y-16">
+                        <!-- Intro -->
+                        <div>
+                            <h2 class="text-4xl md:text-5xl font-serif italic mb-8 leading-tight">"Photography is the
+                                pause button of life."</h2>
+                            <p class="text-xl text-gray-300 leading-relaxed mb-6">
+                                My journey began with a simple curiosity for light and shadow, evolving into a
+                                passionate pursuit of visual storytelling. I believe that every face tells a story, and
+                                every landscape holds a secret waiting to be whispered.
+                            </p>
+                            <p class="text-gray-400 leading-relaxed">
+                                Krishna Lens was founded on the principle that photography should be an immersive
+                                experience. We don't just capture how things look; we capture how they feel. From the
+                                chaotic energy of urban streets to the silent intimacy of a studio portrait, our work is
+                                defined by a cinematic quality that transcends the ordinary.
+                            </p>
+                        </div>
+
+                        <!-- Services List -->
+                        <div class="border-t border-white/10 pt-16">
+                            <h3 class="text-xs font-bold tracking-[0.3em] uppercase mb-8">Services Offered</h3>
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <ul class="space-y-4 text-gray-400">
+                                    <li class="flex items-center"><span
+                                            class="w-2 h-2 bg-white rounded-full mr-4"></span>High-End Fashion Editorial
+                                    </li>
+                                    <li class="flex items-center"><span
+                                            class="w-2 h-2 bg-white rounded-full mr-4"></span>Commercial Branding</li>
+                                    <li class="flex items-center"><span
+                                            class="w-2 h-2 bg-white rounded-full mr-4"></span>Product Photography</li>
+                                </ul>
+                                <ul class="space-y-4 text-gray-400">
+                                    <li class="flex items-center"><span
+                                            class="w-2 h-2 bg-white rounded-full mr-4"></span>Wedding & Events</li>
+                                    <li class="flex items-center"><span
+                                            class="w-2 h-2 bg-white rounded-full mr-4"></span>Analog Film Shoots</li>
+                                    <li class="flex items-center"><span
+                                            class="w-2 h-2 bg-white rounded-full mr-4"></span>Creative Direction</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="glass-panel p-6 text-center">
+                                <span class="block text-4xl font-serif italic mb-1">5+</span>
+                                <span class="text-[10px] uppercase tracking-widest text-gray-500">Years</span>
+                            </div>
+                            <div class="glass-panel p-6 text-center">
+                                <span class="block text-4xl font-serif italic mb-1">120+</span>
+                                <span class="text-[10px] uppercase tracking-widest text-gray-500">Projects</span>
+                            </div>
+                            <div class="glass-panel p-6 text-center">
+                                <span class="block text-4xl font-serif italic mb-1">15</span>
+                                <span class="text-[10px] uppercase tracking-widest text-gray-500">Awards</span>
+                            </div>
+                            <div class="glass-panel p-6 text-center">
+                                <span class="block text-4xl font-serif italic mb-1">100%</span>
+                                <span class="text-[10px] uppercase tracking-widest text-gray-500">Passion</span>
+                            </div>
+                        </div>
+
+                        <!-- Client List -->
+                        <div class="border-t border-white/10 pt-16">
+                            <h3 class="text-xs font-bold tracking-[0.3em] uppercase mb-8">Selected Clients</h3>
+                            <div
+                                class="flex flex-wrap gap-8 opacity-60 grayscale hover:grayscale-0 transition duration-500">
+                                <span class="text-2xl font-serif">Vogue</span>
+                                <span class="text-2xl font-serif">Elle</span>
+                                <span class="text-2xl font-serif">Zara</span>
+                                <span class="text-2xl font-serif">H&M</span>
+                                <span class="text-2xl font-serif">GQ India</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONTACT PAGE ================= -->
+        <section id="contact"
+            class="page-section min-h-screen w-full pt-32 px-6 pb-20 bg-zinc-950 relative overflow-hidden flex items-center">
+            <!-- Decorative Background Text -->
+            <div
+                class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 select-none pointer-events-none opacity-20">
+                <span class="text-[20vw] font-serif italic text-white/[0.05] whitespace-nowrap">Connect</span>
+            </div>
+
+            <div class="container mx-auto relative z-10">
+                <div class="max-w-4xl mx-auto text-center">
+                    <!-- Removed Form, Centered Content -->
+                    <div class="animate-slide-up">
+                        <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-6">Inquiries</p>
+                        <h2 class="text-6xl md:text-9xl font-serif italic mb-12 text-white">Let's create<br>magic.</h2>
+                        <p class="text-gray-400 mb-16 text-xl leading-relaxed max-w-2xl mx-auto">
+                            We are currently accepting new projects for 2024. For collaborations, bookings, or just to
+                            say hello, reach out via the channels below.
+                        </p>
+
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16">
+                            <!-- Email -->
+                            <a href="mailto:krishnawebsitess@gmail.com" class="group flex flex-col items-center">
+                                <div
+                                    class="w-20 h-20 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition duration-500 mb-4">
+                                    <i class="fas fa-envelope text-2xl"></i>
+                                </div>
+                                <span
+                                    class="text-sm font-serif italic text-gray-300 group-hover:text-white transition">Email
+                                    Us</span>
+                            </a>
+
+                            <!-- LinkedIn -->
+                            <a href="https://linkedin.com/in/bhanu-pratap-saini" target="_blank"
+                                class="group flex flex-col items-center">
+                                <div
+                                    class="w-20 h-20 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition duration-500 mb-4">
+                                    <i class="fab fa-linkedin-in text-2xl"></i>
+                                </div>
+                                <span
+                                    class="text-sm font-serif italic text-gray-300 group-hover:text-white transition">LinkedIn</span>
+                            </a>
+
+                            <!-- Instagram -->
+                            <a href="https://instagram.com/krishna_websites" target="_blank"
+                                class="group flex flex-col items-center">
+                                <div
+                                    class="w-20 h-20 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition duration-500 mb-4">
+                                    <i class="fab fa-instagram text-2xl"></i>
+                                </div>
+                                <span
+                                    class="text-sm font-serif italic text-gray-300 group-hover:text-white transition">Instagram</span>
+                            </a>
+                            <!-- GitHub -->
+                            <a href="https://github.com/bhanu2006-24" target="_blank"
+                                class="group flex flex-col items-center">
+                                <div
+                                    class="w-20 h-20 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition duration-500 mb-4">
+                                    <i class="fab fa-github text-2xl"></i>
+                                </div>
+                                <span
+                                    class="text-sm font-serif italic text-gray-300 group-hover:text-white transition">GitHub</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PRIVACY POLICY PAGE ================= -->
+        <section id="privacy" class="page-section min-h-screen w-full pt-32 px-6 pb-20 bg-zinc-950">
+            <div class="container mx-auto max-w-4xl">
+                <h1 class="text-5xl md:text-7xl font-serif italic mb-12">Privacy Policy</h1>
+                <div class="prose prose-invert prose-lg text-gray-400">
+                    <p class="mb-8">Last Updated: October 2024</p>
+                    <h3 class="text-white text-2xl font-serif mb-4">1. Introduction</h3>
+                    <p class="mb-8">Welcome to Krishna Lens. We respect your privacy and are committed to protecting
+                        your personal data. This privacy policy will inform you as to how we look after your personal
+                        data when you visit our website.</p>
+
+                    <h3 class="text-white text-2xl font-serif mb-4">2. Data We Collect</h3>
+                    <p class="mb-8">We may collect, use, store and transfer different kinds of personal data about you
+                        which we have grouped together follows: Identity Data (name), Contact Data (email address,
+                        telephone number), and Technical Data (IP address, browser type).</p>
+
+                    <h3 class="text-white text-2xl font-serif mb-4">3. How We Use Your Data</h3>
+                    <p class="mb-8">We will only use your personal data when the law allows us to. Most commonly, we
+                        will use your personal data in the following circumstances: Where we need to perform the
+                        contract we are about to enter into or have entered into with you.</p>
+
+                    <div class="mt-12 p-6 border border-white/10 rounded">
+                        <p class="text-sm">For any privacy-specific concerns, please email us directly at <span
+                                class="text-white">krishnawebsitess@gmail.com</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TERMS PAGE ================= -->
+        <section id="terms" class="page-section min-h-screen w-full pt-32 px-6 pb-20 bg-zinc-950">
+            <div class="container mx-auto max-w-4xl">
+                <h1 class="text-5xl md:text-7xl font-serif italic mb-12">Terms of Service</h1>
+                <div class="prose prose-invert prose-lg text-gray-400">
+                    <h3 class="text-white text-2xl font-serif mb-4">1. Agreement to Terms</h3>
+                    <p class="mb-8">By accessing our website, you agree to be bound by these Terms of Service and to
+                        comply with all applicable laws and regulations.</p>
+
+                    <h3 class="text-white text-2xl font-serif mb-4">2. Intellectual Property Rights</h3>
+                    <p class="mb-8">Other than the content you own, under these Terms, Krishna Lens and/or its licensors
+                        own all the intellectual property rights and materials contained in this Website. All
+                        photographs displayed are copyright of Bhanu Pratap Saini unless stated otherwise.</p>
+
+                    <h3 class="text-white text-2xl font-serif mb-4">3. Restrictions</h3>
+                    <p class="mb-8">You are specifically restricted from all of the following: publishing any Website
+                        material in any other media; selling, sublicensing and/or otherwise commercializing any Website
+                        material; publicly performing and/or showing any Website material without explicit permission.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-zinc-950 py-12 px-6 border-t border-white/5 text-center md:text-left z-10 relative">
+        <div
+            class="container mx-auto flex flex-col md:flex-row justify-between items-center text-gray-500 text-xs uppercase tracking-widest">
+            <p>&copy; 2024 Krishna Lens.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <!-- UPDATED LINKS -->
+                <button onclick="router('privacy')" class="hover:text-white transition">Privacy</button>
+                <button onclick="router('terms')" class="hover:text-white transition">Terms</button>
             </div>
         </div>
-    </main>
+    </footer>
+
+    <script>
+        // --- Router Logic ---
+        function router(pageId) {
+            // Get all sections
+            const sections = document.querySelectorAll('.page-section');
+            const navbar = document.getElementById('navbar');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Hide all sections
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                setTimeout(() => {
+                    section.style.display = 'none';
+                    section.classList.remove('active');
+                }, 600);
+            });
+
+            // Show target section
+            setTimeout(() => {
+                const target = document.getElementById(pageId);
+                target.style.display = 'block';
+                // Force reflow for animation restart
+                void target.offsetWidth;
+                target.classList.add('active');
+                target.style.opacity = '1';
+
+                // Refresh animation classes for elements inside
+                const animatedElements = target.querySelectorAll('.animate-slide-up, .animate-fade-in');
+                animatedElements.forEach(el => {
+                    el.style.animation = 'none';
+                    el.offsetHeight; /* trigger reflow */
+                    el.style.animation = null;
+                });
+
+            }, 600);
+        }
+
+        // --- Mobile Menu ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.querySelector('.fa-bars');
+
+            if (menu.classList.contains('translate-x-full')) {
+                menu.classList.remove('translate-x-full');
+            } else {
+                menu.classList.add('translate-x-full');
+            }
+        }
+
+        // --- Custom Cursor Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorOutline = document.getElementById('cursor-outline');
+
+            // Only activate on desktop
+            if (window.innerWidth > 768) {
+                window.addEventListener('mousemove', (e) => {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+
+                    // Dot follows instantly
+                    cursorDot.style.left = `${posX}px`;
+                    cursorDot.style.top = `${posY}px`;
+
+                    // Outline follows with slight delay for magnetic feel
+                    cursorOutline.animate({
+                        left: `${posX}px`,
+                        top: `${posY}px`
+                    }, { duration: 500, fill: "forwards" });
+                });
+
+                // Add hover effects to interactive elements
+                const interactiveElements = document.querySelectorAll('a, button, .cursor-pointer');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                        cursorOutline.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        cursorOutline.style.borderColor = 'transparent';
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+                        cursorOutline.style.backgroundColor = 'transparent';
+                        cursorOutline.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

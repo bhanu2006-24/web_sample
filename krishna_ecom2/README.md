@@ -1,6 +1,5 @@
 # 🎨 The Artisan's Atelier
 
-![The Artisan's Atelier](./screenshot.png)
 
 > curated collection of handcrafted excellence. Where tradition meets modern elegance in a seamless e-commerce experience.
 

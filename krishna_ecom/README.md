@@ -1,6 +1,5 @@
 # 🛍️ Krishna E-com 1
 
-![Krishna E-com 1](./screenshot.png)
 
 > Your one-stop shop. Discover a world of quality products delivered right to your doorstep.
 

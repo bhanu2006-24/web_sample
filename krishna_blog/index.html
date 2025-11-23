@@ -1,115 +1,1359 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishna Chronicles | Modern Living</title>
+    <title>Krishna Chronicles | The Modern Sanctuary</title>
+    <meta name="description" content="A curated digital magazine for modern living, technology, and travel.">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Karla:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Cinzel', 'serif'],
+                        serif: ['Lora', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            text: '#94a3b8'
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'slide-down': 'slideDown 0.5s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
+        /* Custom Global Styles */
         body {
-            font-family: 'Karla', sans-serif;
+            background-color: #faf9f6;
+            overflow-x: hidden;
+            cursor: none;
+            /* Hide default cursor for custom one */
         }
 
-        h1,
-        h2,
-        h3,
-        .font-serif {
-            font-family: 'Lora', serif;
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #d4af37;
+            /* Gold */
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Touch devices should use normal cursor */
+        @media (hover: none) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor-dot,
+            .cursor-outline {
+                display: none;
+            }
+        }
+
+        /* Dark Mode Transitions */
+        body.dark {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 20px;
+        }
+
+        body.dark ::-webkit-scrollbar-thumb {
+            background: #374151;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+        /* Navigation Link Hover Effect */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Parallax & Hover Effects */
+        .parallax-img {
+            transition: transform 0.1s linear;
+        }
+
+        .article-card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        /* Page Visibility Logic */
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #faf9f6;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        body.dark #loader {
+            background: #0f172a;
+            color: white;
+        }
+
+        /* Typography helper */
+        .drop-cap::first-letter {
+            float: left;
+            font-size: 4rem;
+            line-height: 0.8;
+            padding-right: 1rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            color: #d4af37;
         }
     </style>
 </head>
 
-<body class="bg-[#fcfbf9] text-gray-800">
-    <nav class="fixed w-full z-50 bg-[#fcfbf9]/95 backdrop-blur-sm border-b border-gray-100">
-        <div class="container mx-auto px-6 py-6 flex justify-between items-center">
-            <div class="text-2xl font-serif font-bold tracking-tight">Krishna Chronicles</div>
-            <div class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest text-gray-500">
-                <a href="#" class="hover:text-black transition">Lifestyle</a>
-                <a href="#" class="hover:text-black transition">Culture</a>
-                <a href="#" class="hover:text-black transition">Tech</a>
-                <a href="#" class="hover:text-black transition">Travel</a>
+<body class="font-sans text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Preloader -->
+    <div id="loader">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gold-500 mx-auto mb-4"></div>
+            <h2 class="font-display text-xl tracking-[0.3em]">LOADING</h2>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-gradient-to-r from-gold-400 to-gold-600 z-[60] w-0 transition-all duration-100"
+        id="scroll-progress"></div>
+
+    <!-- Back to Top Button -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" id="back-to-top"
+        class="fixed bottom-8 right-8 bg-black dark:bg-white text-white dark:text-black w-12 h-12 rounded-full shadow-xl z-40 flex items-center justify-center translate-y-20 transition-transform duration-300 hover:scale-110">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#faf9f6]/90 dark:bg-dark-bg/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-all duration-300"
+        id="navbar">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center gap-4 z-50">
+                    <a href="#" onclick="navigateTo('home')"
+                        class="text-2xl md:text-3xl font-display font-bold tracking-tight text-gray-900 dark:text-white hover:text-gold-600 transition-colors">
+                        KC<span class="text-gold-500">.</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Links -->
+                <div
+                    class="hidden lg:flex items-center space-x-8 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                    <button onclick="navigateTo('home')"
+                        class="nav-link hover:text-black dark:hover:text-white transition py-2">Home</button>
+                    <button onclick="navigateTo('lifestyle')"
+                        class="nav-link hover:text-black dark:hover:text-white transition py-2">Lifestyle</button>
+                    <button onclick="navigateTo('tech')"
+                        class="nav-link hover:text-black dark:hover:text-white transition py-2">Tech</button>
+                    <button onclick="navigateTo('travel')"
+                        class="nav-link hover:text-black dark:hover:text-white transition py-2">Travel</button>
+                    <button onclick="navigateTo('about')"
+                        class="nav-link hover:text-black dark:hover:text-white transition py-2">About</button>
+                    <button onclick="navigateTo('connect')"
+                        class="nav-link px-4 py-2 bg-black text-white dark:bg-white dark:text-black rounded hover:bg-gold-500 dark:hover:bg-gold-400 transition">Connect</button>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center space-x-4 z-50">
+                    <button
+                        class="p-2 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition"
+                        onclick="toggleSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+
+                    <button id="theme-toggle"
+                        class="p-2 text-gray-600 dark:text-gray-300 hover:text-gold-500 transition"
+                        onclick="toggleTheme()">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:inline text-gold-400"></i>
+                    </button>
+
+                    <button class="lg:hidden p-2 text-gray-900 dark:text-white text-xl" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button class="hover:text-gray-600"><svg class="w-5 h-5" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg></button>
-                <button
-                    class="bg-black text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-gray-800 transition">Subscribe</button>
+        </div>
+
+        <!-- Search Modal Overlay -->
+        <div id="search-modal"
+            class="hidden absolute top-full left-0 w-full bg-white/95 dark:bg-dark-card/95 border-b border-gray-200 dark:border-gray-700 p-8 shadow-2xl animate-slide-down backdrop-blur-lg">
+            <div class="container mx-auto max-w-3xl relative">
+                <input type="text" placeholder="Search articles, topics, or tags..."
+                    class="w-full bg-gray-100 dark:bg-dark-bg px-8 py-5 rounded-2xl text-xl focus:outline-none focus:ring-2 focus:ring-gold-500 dark:text-white placeholder-gray-400">
+                <button onclick="toggleSearch()"
+                    class="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-500 transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- Mobile Menu Fullscreen -->
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-[#faf9f6] dark:bg-dark-bg z-40 flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-500 lg:hidden">
+            <button onclick="navigateTo('home'); toggleMobileMenu()"
+                class="text-4xl font-serif dark:text-white hover:text-gold-500 transition-colors">Home</button>
+            <button onclick="navigateTo('lifestyle'); toggleMobileMenu()"
+                class="text-4xl font-serif dark:text-white hover:text-gold-500 transition-colors">Lifestyle</button>
+            <button onclick="navigateTo('tech'); toggleMobileMenu()"
+                class="text-4xl font-serif dark:text-white hover:text-gold-500 transition-colors">Tech</button>
+            <button onclick="navigateTo('travel'); toggleMobileMenu()"
+                class="text-4xl font-serif dark:text-white hover:text-gold-500 transition-colors">Travel</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu()"
+                class="text-4xl font-serif dark:text-white hover:text-gold-500 transition-colors">About</button>
+            <button onclick="navigateTo('connect'); toggleMobileMenu()"
+                class="text-4xl font-serif font-bold text-gold-600">Connect</button>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 container mx-auto px-6">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-            <div>
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 block">Featured Story</span>
-                <h1 class="text-5xl md:text-6xl font-serif font-bold mb-6 leading-tight">The Art of Slow Living in a
-                    Fast World</h1>
-                <p class="text-xl text-gray-500 mb-8 leading-relaxed">Discovering peace and purpose in the chaos of
-                    modern digital life. A journey into mindfulness and intentionality.</p>
-                <div class="flex items-center space-x-4">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80"
-                        alt="Author" class="w-12 h-12 rounded-full">
-                    <div>
-                        <p class="font-bold text-sm">Krishna Saini</p>
-                        <p class="text-xs text-gray-400">Nov 23, 2025 • 5 min read</p>
+    <!-- Main Content -->
+    <main class="pt-20 min-h-screen">
+
+        <!-- ================= HOME PAGE ================= -->
+        <section id="home" class="page-section active">
+            <!-- Dynamic Hero Slider -->
+            <div class="relative h-[90vh] w-full overflow-hidden mb-20 group">
+                <div class="absolute inset-0 bg-black/30 z-10"></div>
+                <!-- Image scales slightly on load -->
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+                    class="w-full h-full object-cover scale-110 animate-[float_10s_ease-in-out_infinite_alternate]"
+                    alt="Nature">
+
+                <div
+                    class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center text-white px-6">
+                    <span
+                        class="text-gold-400 text-xs md:text-sm font-bold tracking-[0.4em] uppercase mb-6 animate-slide-up border border-gold-400/50 px-4 py-2 rounded-full bg-black/20 backdrop-blur-sm">Featured
+                        Story</span>
+                    <h1 class="text-5xl md:text-8xl font-display font-bold mb-8 leading-tight animate-slide-up max-w-4xl drop-shadow-lg"
+                        style="animation-delay: 0.1s;">Solitude in the Alps</h1>
+                    <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl animate-slide-up font-light"
+                        style="animation-delay: 0.2s;">A journey into the silent peaks where the modern world fades into
+                        white noise.</p>
+                    <div class="flex flex-col md:flex-row gap-4 animate-slide-up" style="animation-delay: 0.3s;">
+                        <button onclick="navigateTo('travel')"
+                            class="bg-white text-black px-10 py-4 hover:bg-gold-500 hover:text-white transition duration-300 font-bold uppercase text-xs tracking-widest rounded-sm">Read
+                            Article</button>
+                        <button
+                            class="border border-white px-10 py-4 hover:bg-white hover:text-black transition duration-300 font-bold uppercase text-xs tracking-widest rounded-sm backdrop-blur-sm">Watch
+                            Film</button>
+                    </div>
+                </div>
+
+                <!-- Scroll Indicator -->
+                <div
+                    class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 animate-bounce text-white opacity-70">
+                    <i class="fas fa-chevron-down text-2xl"></i>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 md:px-12">
+                <div class="flex flex-col lg:flex-row gap-16">
+
+                    <!-- Main Content Column -->
+                    <div class="lg:w-2/3">
+                        <div
+                            class="flex items-center justify-between mb-12 border-b border-gray-200 dark:border-gray-700 pb-4">
+                            <h2 class="text-3xl md:text-4xl font-serif font-bold dark:text-white">Latest Curations</h2>
+                            <button onclick="navigateTo('lifestyle')"
+                                class="hidden md:block text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gold-600 transition">View
+                                Archive</button>
+                        </div>
+
+                        <!-- Hero Article Card -->
+                        <article class="mb-20 group cursor-pointer article-card" onclick="navigateTo('tech')">
+                            <div class="overflow-hidden rounded-2xl mb-8 shadow-lg relative">
+                                <div
+                                    class="absolute top-4 left-4 bg-white/90 dark:bg-black/80 backdrop-blur px-4 py-2 rounded-full z-10">
+                                    <span
+                                        class="text-xs font-bold uppercase tracking-widest text-blue-600">Technology</span>
+                                </div>
+                                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                    class="w-full h-[300px] md:h-[500px] object-cover transition duration-700 card-image"
+                                    alt="Workspace">
+                            </div>
+                            <h3
+                                class="text-3xl md:text-5xl font-serif font-bold mb-6 group-hover:text-gold-600 transition dark:text-white leading-tight">
+                                The Zen of Minimalist Coding Setups</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-6 line-clamp-3">How
+                                reducing visual clutter in your IDE and physical workspace can lead to a 40% increase in
+                                cognitive throughput. We interview top developers from Silicon Valley about their desk
+                                habits.</p>
+                            <div class="flex items-center gap-4">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                    class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+                                <div class="text-xs font-bold uppercase tracking-wide text-gray-500">
+                                    <span class="text-black dark:text-white block">Alex Chen</span>
+                                    <span>Nov 23 • 6 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Grid of 2 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                            <article class="group cursor-pointer article-card" onclick="navigateTo('lifestyle')">
+                                <div class="overflow-hidden rounded-xl mb-5 h-72 relative">
+                                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        class="w-full h-full object-cover transition duration-700 card-image"
+                                        alt="Coffee">
+                                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition">
+                                    </div>
+                                </div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-widest text-gold-600 mb-3 block">Lifestyle</span>
+                                <h4
+                                    class="text-2xl font-serif font-bold mb-3 dark:text-white group-hover:text-gray-600 transition leading-snug">
+                                    The Third Wave of Coffee</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Why your morning
+                                    brew is becoming more like a fine wine tasting experience.</p>
+                            </article>
+
+                            <article class="group cursor-pointer article-card" onclick="navigateTo('tech')">
+                                <div class="overflow-hidden rounded-xl mb-5 h-72 relative">
+                                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                        class="w-full h-full object-cover transition duration-700 card-image" alt="AI">
+                                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition">
+                                    </div>
+                                </div>
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-3 block">Future</span>
+                                <h4
+                                    class="text-2xl font-serif font-bold mb-3 dark:text-white group-hover:text-gray-600 transition leading-snug">
+                                    AI: The Creative Partner</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Moving past the fear
+                                    of replacement to the joy of collaboration.</p>
+                            </article>
+                        </div>
+                    </div>
+
+                    <!-- Sticky Sidebar -->
+                    <aside class="lg:w-1/3 space-y-16">
+                        <!-- Editor Widget -->
+                        <div
+                            class="bg-white dark:bg-dark-card p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gold-500"></div>
+                            <h3 class="font-serif font-bold text-xl mb-6 dark:text-white text-center">Editor's Note</h3>
+                            <div class="relative w-24 h-24 mx-auto mb-6">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                                    class="w-full h-full rounded-full object-cover border-4 border-gray-50 dark:border-gray-700 shadow-md"
+                                    alt="Krishna">
+                                <div
+                                    class="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-2 border-white rounded-full">
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-6 italic leading-relaxed">
+                                "We curate not just content, but a state of mind. Join us in the pursuit of intentional
+                                living."</p>
+                            <div class="flex justify-center space-x-4 text-gray-400">
+                                <a href="#" class="hover:text-gold-500 transition"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="hover:text-gold-500 transition"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Trending Widget -->
+                        <div>
+                            <h3
+                                class="font-bold uppercase tracking-widest text-xs text-gray-400 mb-8 flex items-center gap-4">
+                                <span>Trending Now</span>
+                                <span class="h-px bg-gray-200 dark:bg-gray-700 flex-grow"></span>
+                            </h3>
+                            <ul class="space-y-8">
+                                <li class="flex items-start space-x-5 group cursor-pointer">
+                                    <span
+                                        class="text-4xl font-display text-gray-200 dark:text-gray-700 font-bold group-hover:text-gold-500 transition transform translate-y-[-5px]">01</span>
+                                    <div>
+                                        <h4
+                                            class="font-serif font-bold text-lg leading-tight mb-2 dark:text-white group-hover:text-gold-500 transition">
+                                            10 Places to Visit Before 2026</h4>
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Travel
+                                            • 2k views</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-5 group cursor-pointer">
+                                    <span
+                                        class="text-4xl font-display text-gray-200 dark:text-gray-700 font-bold group-hover:text-gold-500 transition transform translate-y-[-5px]">02</span>
+                                    <div>
+                                        <h4
+                                            class="font-serif font-bold text-lg leading-tight mb-2 dark:text-white group-hover:text-gold-500 transition">
+                                            The iPhone 16 Pro Review</h4>
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Tech
+                                            • 1.5k views</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-5 group cursor-pointer">
+                                    <span
+                                        class="text-4xl font-display text-gray-200 dark:text-gray-700 font-bold group-hover:text-gold-500 transition transform translate-y-[-5px]">03</span>
+                                    <div>
+                                        <h4
+                                            class="font-serif font-bold text-lg leading-tight mb-2 dark:text-white group-hover:text-gold-500 transition">
+                                            Minimalist Wardrobe Essentials</h4>
+                                        <span
+                                            class="text-[10px] font-bold uppercase tracking-widest text-gray-400">Lifestyle
+                                            • 1.2k views</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Newsletter Widget -->
+                        <div
+                            class="bg-black dark:bg-gray-800 text-white p-10 rounded-3xl text-center relative overflow-hidden">
+                            <div
+                                class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gold-500 rounded-full opacity-20 blur-xl">
+                            </div>
+                            <h3 class="font-display text-2xl mb-3">Join the Circle</h3>
+                            <p class="text-gray-400 text-sm mb-8">Weekly curation of the finest articles.</p>
+                            <div class="space-y-3">
+                                <input type="email" placeholder="Your email address"
+                                    class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-gold-500 transition text-sm">
+                                <button
+                                    class="w-full bg-white text-black font-bold uppercase tracking-widest text-xs py-3.5 rounded-lg hover:bg-gold-500 hover:text-white transition duration-300 shadow-lg">Subscribe</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LIFESTYLE PAGE ================= -->
+        <section id="lifestyle" class="page-section pb-20">
+            <!-- Header -->
+            <div class="bg-gray-100 dark:bg-dark-card py-20 mb-16 text-center px-6">
+                <span class="text-gold-600 font-bold uppercase tracking-widest text-xs mb-4 block">Curated Living</span>
+                <h1 class="text-4xl md:text-6xl font-display font-bold mb-6 dark:text-white">Modern Lifestyle</h1>
+                <p class="text-lg text-gray-500 dark:text-gray-400 font-serif italic max-w-2xl mx-auto">"Style is a way
+                    to say who you are without having to speak."</p>
+            </div>
+
+            <div class="container mx-auto px-6">
+                <!-- Featured Big Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+                    <div
+                        class="article-card bg-white dark:bg-dark-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition group cursor-pointer">
+                        <div class="h-72 overflow-hidden relative">
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 dark:bg-black/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold z-10 dark:text-white uppercase tracking-wider">
+                                Interior</div>
+                            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover card-image" alt="Interior">
+                        </div>
+                        <div class="p-8">
+                            <h3
+                                class="text-2xl font-serif font-bold mb-3 dark:text-white group-hover:text-gold-600 transition">
+                                Japandi Style Guide</h3>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">Merging Japanese
+                                minimalism with Scandinavian functionality to create spaces that breathe.</p>
+                            <div
+                                class="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        class="w-6 h-6 rounded-full">
+                                    <span class="text-xs font-bold text-gray-400">Sarah J.</span>
+                                </div>
+                                <span class="text-xs text-gray-400">Oct 24</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repeat Cards... -->
+                    <div
+                        class="article-card bg-white dark:bg-dark-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition group cursor-pointer">
+                        <div class="h-72 overflow-hidden relative">
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 dark:bg-black/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold z-10 dark:text-white uppercase tracking-wider">
+                                Wellness</div>
+                            <img src="https://images.unsplash.com/photo-1544367563-12123d8d39f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover card-image" alt="Yoga">
+                        </div>
+                        <div class="p-8">
+                            <h3
+                                class="text-2xl font-serif font-bold mb-3 dark:text-white group-hover:text-gold-600 transition">
+                                Morning Rituals</h3>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">Start your day with
+                                intention using these 5 ancient practices adapted for the modern age.</p>
+                            <div
+                                class="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        class="w-6 h-6 rounded-full">
+                                    <span class="text-xs font-bold text-gray-400">Mark T.</span>
+                                </div>
+                                <span class="text-xs text-gray-400">Oct 22</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="article-card bg-white dark:bg-dark-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition group cursor-pointer">
+                        <div class="h-72 overflow-hidden relative">
+                            <div
+                                class="absolute top-4 right-4 bg-white/90 dark:bg-black/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold z-10 dark:text-white uppercase tracking-wider">
+                                Fashion</div>
+                            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover card-image" alt="Fashion">
+                        </div>
+                        <div class="p-8">
+                            <h3
+                                class="text-2xl font-serif font-bold mb-3 dark:text-white group-hover:text-gold-600 transition">
+                                The Capsule Wardrobe</h3>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">Owning less but
+                                better quality items for a timeless look that saves you mental energy.</p>
+                            <div
+                                class="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
+                                <div class="flex items-center space-x-2">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        class="w-6 h-6 rounded-full">
+                                    <span class="text-xs font-bold text-gray-400">Krishna S.</span>
+                                </div>
+                                <span class="text-xs text-gray-400">Oct 18</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shop The Look Section (New) -->
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-16">
+                    <div class="flex items-end justify-between mb-10">
+                        <h2 class="text-3xl font-serif font-bold dark:text-white">Shop The Aesthetic</h2>
+                        <a href="#" class="text-sm font-bold underline hover:text-gold-500 dark:text-gray-400">View All
+                            Products</a>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <!-- Product 1 -->
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-100 dark:bg-gray-800 rounded-lg aspect-square mb-4 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    class="w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-110 transition duration-500">
+                                <div
+                                    class="absolute bottom-0 w-full bg-white/90 dark:bg-black/90 py-2 text-center translate-y-full group-hover:translate-y-0 transition">
+                                    <span class="text-xs font-bold uppercase">View Details</span>
+                                </div>
+                            </div>
+                            <h4 class="font-bold text-sm dark:text-white">Ceramic Vase</h4>
+                            <p class="text-xs text-gray-500">$45.00</p>
+                        </div>
+                        <!-- Product 2 -->
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-100 dark:bg-gray-800 rounded-lg aspect-square mb-4 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    class="w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-110 transition duration-500">
+                                <div
+                                    class="absolute bottom-0 w-full bg-white/90 dark:bg-black/90 py-2 text-center translate-y-full group-hover:translate-y-0 transition">
+                                    <span class="text-xs font-bold uppercase">View Details</span>
+                                </div>
+                            </div>
+                            <h4 class="font-bold text-sm dark:text-white">Minimal Watch</h4>
+                            <p class="text-xs text-gray-500">$120.00</p>
+                        </div>
+                        <!-- Product 3 -->
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-100 dark:bg-gray-800 rounded-lg aspect-square mb-4 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1593642632823-8f78536788c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    class="w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-110 transition duration-500">
+                                <div
+                                    class="absolute bottom-0 w-full bg-white/90 dark:bg-black/90 py-2 text-center translate-y-full group-hover:translate-y-0 transition">
+                                    <span class="text-xs font-bold uppercase">View Details</span>
+                                </div>
+                            </div>
+                            <h4 class="font-bold text-sm dark:text-white">Desk Lamp</h4>
+                            <p class="text-xs text-gray-500">$85.00</p>
+                        </div>
+                        <!-- Product 4 -->
+                        <div class="group cursor-pointer">
+                            <div
+                                class="bg-gray-100 dark:bg-gray-800 rounded-lg aspect-square mb-4 relative overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                    class="w-full h-full object-cover mix-blend-multiply dark:mix-blend-normal group-hover:scale-110 transition duration-500">
+                                <div
+                                    class="absolute bottom-0 w-full bg-white/90 dark:bg-black/90 py-2 text-center translate-y-full group-hover:translate-y-0 transition">
+                                    <span class="text-xs font-bold uppercase">View Details</span>
+                                </div>
+                            </div>
+                            <h4 class="font-bold text-sm dark:text-white">Audio Tech</h4>
+                            <p class="text-xs text-gray-500">$299.00</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="relative">
-                <img src="https://images.unsplash.com/photo-1499750310159-5b9887039e54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
-                    alt="Lifestyle" class="rounded-lg shadow-xl w-full object-cover h-[600px]">
-            </div>
-        </div>
+        </section>
 
-        <div class="border-t border-gray-100 pt-16">
-            <h2 class="text-3xl font-serif font-bold mb-12">Latest Articles</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <!-- Article 1 -->
-                <article class="group cursor-pointer">
-                    <div class="overflow-hidden rounded-lg mb-6">
-                        <img src="https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            alt="Tech" class="w-full h-64 object-cover transition duration-500 group-hover:scale-105">
+        <!-- ================= TECH PAGE ================= -->
+        <section id="tech" class="page-section container mx-auto px-6 pb-20">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 pt-10">
+
+                <!-- Responsive Sidebar (Vertical on Desktop, Horizontal on Mobile) -->
+                <div class="lg:col-span-1">
+                    <div class="lg:sticky lg:top-32">
+                        <h2 class="text-4xl md:text-5xl font-display font-bold mb-8 dark:text-white">Tech<br><span
+                                class="text-blue-500">Frontiers</span></h2>
+
+                        <!-- Desktop Menu -->
+                        <div
+                            class="hidden lg:block space-y-4 text-sm font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <a href="#"
+                                class="block hover:text-blue-500 transition border-l-2 border-blue-500 pl-4 text-black dark:text-white">Artificial
+                                Intelligence</a>
+                            <a href="#"
+                                class="block hover:text-blue-500 transition border-l-2 border-transparent pl-4 hover:border-gray-300">Web
+                                Development</a>
+                            <a href="#"
+                                class="block hover:text-blue-500 transition border-l-2 border-transparent pl-4 hover:border-gray-300">Hardware</a>
+                            <a href="#"
+                                class="block hover:text-blue-500 transition border-l-2 border-transparent pl-4 hover:border-gray-300">Startups</a>
+                        </div>
+
+                        <!-- Mobile Scroll Menu -->
+                        <div class="lg:hidden flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
+                            <button
+                                class="bg-blue-600 text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap">AI</button>
+                            <button
+                                class="bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap dark:text-white">Web
+                                Dev</button>
+                            <button
+                                class="bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap dark:text-white">Hardware</button>
+                            <button
+                                class="bg-gray-200 dark:bg-gray-800 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap dark:text-white">Startups</button>
+                        </div>
                     </div>
-                    <span class="text-xs font-bold uppercase text-blue-600 mb-2 block">Technology</span>
-                    <h3 class="text-2xl font-serif font-bold mb-3 group-hover:text-gray-600 transition">The Future of AI
-                        Design</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">How generative algorithms are reshaping the
-                        creative landscape.</p>
-                </article>
-                <!-- Article 2 -->
-                <article class="group cursor-pointer">
-                    <div class="overflow-hidden rounded-lg mb-6">
-                        <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            alt="Coffee" class="w-full h-64 object-cover transition duration-500 group-hover:scale-105">
+                </div>
+
+                <div class="lg:col-span-3 space-y-12">
+                    <!-- Featured Tech Article -->
+                    <article
+                        class="bg-white dark:bg-dark-card rounded-3xl shadow-lg overflow-hidden group cursor-pointer">
+                        <div class="relative h-64 md:h-96 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                class="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                                alt="Chip">
+                            <div
+                                class="absolute bottom-0 left-0 p-6 bg-gradient-to-t from-black/80 to-transparent w-full">
+                                <span
+                                    class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider mb-2 inline-block">Hardware</span>
+                                <h3 class="text-2xl md:text-3xl font-serif font-bold text-white">The Silicon Limit:
+                                    Beyond Moore's Law</h3>
+                            </div>
+                        </div>
+                        <div class="p-6 md:p-8">
+                            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">Are we reaching the
+                                physical limitations of Moore's Law? Exploring the next generation of quantum processors
+                                and biological computing interfaces that could revolutionize how we process data.</p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                                        class="w-10 h-10 rounded-full">
+                                    <div>
+                                        <p class="text-xs font-bold dark:text-white">Alex Chen</p>
+                                        <p class="text-[10px] text-gray-500">Senior Tech Editor</p>
+                                    </div>
+                                </div>
+                                <span class="text-blue-500 font-bold text-sm group-hover:translate-x-2 transition">Read
+                                    Full Story &rarr;</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Tech Reviews Section (New) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Review 1 -->
+                        <div
+                            class="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-bold text-lg dark:text-white">Vision Pro</h4>
+                                <span
+                                    class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">9.2/10</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-4 line-clamp-2">An engineering marvel that feels like
+                                magic, but weighs heavily on the face.</p>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-4">
+                                <div class="bg-green-500 h-1.5 rounded-full" style="width: 92%"></div>
+                            </div>
+                            <a href="#" class="text-xs font-bold uppercase text-blue-500 hover:underline">Read
+                                Review</a>
+                        </div>
+                        <!-- Review 2 -->
+                        <div
+                            class="bg-white dark:bg-dark-card p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="font-bold text-lg dark:text-white">Rabbit R1</h4>
+                                <span
+                                    class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold">5.5/10</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-4 line-clamp-2">A cute concept that fails to deliver on
+                                its AI promises in daily use.</p>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-4">
+                                <div class="bg-orange-500 h-1.5 rounded-full" style="width: 55%"></div>
+                            </div>
+                            <a href="#" class="text-xs font-bold uppercase text-blue-500 hover:underline">Read
+                                Review</a>
+                        </div>
                     </div>
-                    <span class="text-xs font-bold uppercase text-amber-600 mb-2 block">Culture</span>
-                    <h3 class="text-2xl font-serif font-bold mb-3 group-hover:text-gray-600 transition">Coffee Shop
-                        Chronicles</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Exploring the best hidden gems in the city for
-                        remote work.</p>
-                </article>
-                <!-- Article 3 -->
-                <article class="group cursor-pointer">
-                    <div class="overflow-hidden rounded-lg mb-6">
-                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                            alt="Travel" class="w-full h-64 object-cover transition duration-500 group-hover:scale-105">
+
+                    <!-- Code Tutorial Card (Dark Aesthetic) -->
+                    <article
+                        class="bg-[#0d1117] text-gray-300 p-8 md:p-12 rounded-3xl relative overflow-hidden group border border-gray-800">
+                        <div
+                            class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition transform group-hover:rotate-12">
+                            <i class="fas fa-terminal text-9xl"></i>
+                        </div>
+                        <span class="text-green-400 text-xs font-bold uppercase tracking-widest mb-4 block">Devlog
+                            #42</span>
+                        <h3 class="text-3xl font-serif font-bold text-white mb-6">Mastering CSS Grid</h3>
+                        <div
+                            class="bg-black/50 p-6 rounded-xl font-mono text-xs md:text-sm mb-8 border border-gray-700 shadow-inner overflow-x-auto">
+                            <p><span class="text-purple-400">.container</span> {</p>
+                            <p class="pl-4">display: <span class="text-orange-400">grid</span>;</p>
+                            <p class="pl-4">grid-template-columns: <span class="text-blue-300">repeat</span>(auto-fit,
+                                <span class="text-blue-300">minmax</span>(300px, 1fr));</p>
+                            <p class="pl-4">gap: <span class="text-green-300">2rem</span>;</p>
+                            <p>}</p>
+                        </div>
+                        <button
+                            class="bg-white text-black px-8 py-3 rounded-lg font-bold text-sm hover:bg-gray-200 transition shadow-lg hover:shadow-white/10">View
+                            Tutorial</button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TRAVEL PAGE ================= -->
+        <section id="travel" class="page-section pb-20">
+            <!-- Full Width Banner (New) -->
+            <div class="relative h-[60vh] w-full overflow-hidden mb-16 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+                    class="absolute inset-0 w-full h-full object-cover parallax-img" alt="Swiss Alps">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="relative z-10 text-center text-white px-4">
+                    <h2 class="text-5xl md:text-7xl font-display font-bold mb-4 drop-shadow-lg">Wanderlust</h2>
+                    <p class="text-xl font-serif italic">"Not all those who wander are lost."</p>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6">
+                <!-- Interactive Map Placeholder (New) -->
+                <div class="mb-16 text-center">
+                    <h3 class="text-2xl font-bold mb-2 dark:text-white">Explore by Region</h3>
+                    <div class="flex flex-wrap justify-center gap-4 mt-6">
+                        <button
+                            class="px-6 py-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition text-sm font-bold dark:text-gray-300">Europe</button>
+                        <button
+                            class="px-6 py-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition text-sm font-bold dark:text-gray-300">Asia</button>
+                        <button
+                            class="px-6 py-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition text-sm font-bold dark:text-gray-300">Americas</button>
+                        <button
+                            class="px-6 py-2 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition text-sm font-bold dark:text-gray-300">Africa</button>
                     </div>
-                    <span class="text-xs font-bold uppercase text-emerald-600 mb-2 block">Travel</span>
-                    <h3 class="text-2xl font-serif font-bold mb-3 group-hover:text-gray-600 transition">Solo Travel
-                        Guide</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Essential tips for your first solo adventure
-                        abroad.</p>
-                </article>
+                </div>
+
+                <!-- Masonry Grid Layout -->
+                <div class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
+
+                    <div class="break-inside-avoid relative group rounded-2xl overflow-hidden cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            class="w-full transition duration-700 group-hover:scale-110" alt="Bali">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
+                            <h3
+                                class="text-white text-2xl font-serif font-bold translate-y-4 group-hover:translate-y-0 transition duration-300">
+                                Ubud, Bali</h3>
+                        </div>
+                    </div>
+
+                    <div
+                        class="break-inside-avoid bg-white dark:bg-dark-card p-8 rounded-2xl shadow-sm border-l-4 border-gold-500">
+                        <i class="fas fa-quote-left text-4xl text-gray-200 dark:text-gray-700 mb-4"></i>
+                        <p class="font-serif text-lg italic mb-4 dark:text-white">"Travel makes one modest. You see what
+                            a tiny place you occupy in the world."</p>
+                        <p class="text-xs font-bold uppercase text-gray-500">- Gustave Flaubert</p>
+                    </div>
+
+                    <div class="break-inside-avoid relative group rounded-2xl overflow-hidden cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            class="w-full transition duration-700 group-hover:scale-110" alt="Kyoto">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
+                            <h3
+                                class="text-white text-2xl font-serif font-bold translate-y-4 group-hover:translate-y-0 transition duration-300">
+                                Kyoto, Japan</h3>
+                        </div>
+                    </div>
+
+                    <div class="break-inside-avoid bg-black text-white p-10 rounded-2xl text-center shadow-xl">
+                        <h3 class="text-3xl font-display font-bold mb-2">Paris Guide</h3>
+                        <p class="text-gray-400 text-sm mb-8">The 2025 Insider's Edition</p>
+                        <button
+                            class="border border-white px-8 py-3 text-xs font-bold uppercase hover:bg-white hover:text-black transition rounded-lg">Download
+                            PDF</button>
+                    </div>
+
+                    <div class="break-inside-avoid relative group rounded-2xl overflow-hidden cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            class="w-full transition duration-700 group-hover:scale-110" alt="Iceland">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
+                            <h3
+                                class="text-white text-2xl font-serif font-bold translate-y-4 group-hover:translate-y-0 transition duration-300">
+                                Vik, Iceland</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT PAGE ================= -->
+        <section id="about" class="page-section container mx-auto px-6 pb-20">
+            <div class="pt-10 max-w-5xl mx-auto">
+                <div class="relative h-[50vh] rounded-3xl overflow-hidden mb-16 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+                        class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-700"
+                        alt="Team">
+                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                        <h1 class="text-6xl md:text-8xl font-display font-bold text-white drop-shadow-lg">Our Story</h1>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                    <div class="prose prose-lg dark:prose-invert">
+                        <p class="drop-cap text-gray-600 dark:text-gray-300 leading-loose mb-6 text-lg">
+                            Krishna Chronicles began as a simple idea in a small coffee shop in Jaipur: to create a
+                            digital space that honors the slow, deliberate act of living well in an increasingly
+                            fast-paced world.
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-300 leading-loose">
+                            We believe in the intersection of technology and humanity. We don't shy away from the
+                            future; we embrace it, but we do so with a critical eye and a grounded soul.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-sm text-center">
+                            <h3 class="text-4xl font-bold text-gold-500 mb-2">50k+</h3>
+                            <p class="text-sm text-gray-500">Monthly Readers</p>
+                        </div>
+                        <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-sm text-center">
+                            <h3 class="text-4xl font-bold text-gold-500 mb-2">120+</h3>
+                            <p class="text-sm text-gray-500">Curated Articles</p>
+                        </div>
+                        <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-sm text-center">
+                            <h3 class="text-4xl font-bold text-gold-500 mb-2">15</h3>
+                            <p class="text-sm text-gray-500">Countries Visited</p>
+                        </div>
+                        <div class="bg-white dark:bg-dark-card p-6 rounded-xl shadow-sm text-center">
+                            <h3 class="text-4xl font-bold text-gold-500 mb-2">1</h3>
+                            <p class="text-sm text-gray-500">Vision</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Grid (New) -->
+                <h2 class="text-3xl font-serif font-bold mb-10 text-center dark:text-white">Meet the Creators</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center group">
+                        <div
+                            class="w-full aspect-square rounded-full overflow-hidden mb-4 border-4 border-transparent group-hover:border-gold-500 transition">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                        </div>
+                        <h4 class="font-bold dark:text-white">Krishna S.</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Founder</p>
+                    </div>
+                    <div class="text-center group">
+                        <div
+                            class="w-full aspect-square rounded-full overflow-hidden mb-4 border-4 border-transparent group-hover:border-gold-500 transition">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                        </div>
+                        <h4 class="font-bold dark:text-white">Marcus L.</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Tech Lead</p>
+                    </div>
+                    <div class="text-center group">
+                        <div
+                            class="w-full aspect-square rounded-full overflow-hidden mb-4 border-4 border-transparent group-hover:border-gold-500 transition">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                        </div>
+                        <h4 class="font-bold dark:text-white">Elena R.</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Travel Editor</p>
+                    </div>
+                    <div class="text-center group">
+                        <div
+                            class="w-full aspect-square rounded-full overflow-hidden mb-4 border-4 border-transparent group-hover:border-gold-500 transition">
+                            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                        </div>
+                        <h4 class="font-bold dark:text-white">David K.</h4>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Photography</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONNECT PAGE ================= -->
+        <section id="connect" class="page-section container mx-auto px-6 pb-20">
+            <div class="pt-10 grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+                <!-- Contact Info -->
+                <div class="animate-slide-up">
+                    <h1 class="text-5xl font-display font-bold mb-8 dark:text-white">Get in Touch</h1>
+                    <p class="text-gray-500 dark:text-gray-400 text-lg mb-12">Whether you have a project in mind, a
+                        question about our articles, or just want to say hello, we'd love to hear from you.</p>
+
+                    <div class="space-y-8">
+                        <div class="flex items-start space-x-6 group">
+                            <div
+                                class="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center text-2xl text-gray-900 dark:text-white group-hover:bg-gold-500 group-hover:text-white transition duration-300 shadow-sm">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg dark:text-white mb-1">Email Us</h3>
+                                <a href="mailto:krishnawebsitess@gmail.com"
+                                    class="text-gold-600 hover:text-gold-500 transition font-medium">krishnawebsitess@gmail.com</a>
+                                <p class="text-sm text-gray-400 mt-1">Response time: 24 hours</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-6 group">
+                            <div
+                                class="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center text-2xl text-gray-900 dark:text-white group-hover:bg-pink-600 group-hover:text-white transition duration-300 shadow-sm">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg dark:text-white mb-1">Follow Daily</h3>
+                                <a href="https://www.instagram.com/krishna_websites/" target="_blank"
+                                    class="text-gray-600 dark:text-gray-300 hover:text-pink-600 transition font-medium">@krishna_websites</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-6 group">
+                            <div
+                                class="w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center text-2xl text-gray-900 dark:text-white group-hover:bg-blue-600 group-hover:text-white transition duration-300 shadow-sm">
+                                <i class="fab fa-linkedin-in"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg dark:text-white mb-1">Professional</h3>
+                                <a href="https://www.linkedin.com/in/bhanu-saini-3bb251391/" target="_blank"
+                                    class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition font-medium">Bhanu
+                                    Saini</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Section -->
+                    <div class="mt-16">
+                        <h3 class="font-serif font-bold text-2xl mb-6 dark:text-white">Frequently Asked Questions</h3>
+                        <div class="space-y-4">
+                            <details
+                                class="bg-white dark:bg-dark-card p-5 rounded-xl border border-gray-100 dark:border-gray-700 cursor-pointer group shadow-sm">
+                                <summary
+                                    class="font-bold text-gray-800 dark:text-gray-200 flex justify-between items-center list-none text-sm">
+                                    Do you accept guest posts?
+                                    <span
+                                        class="bg-gray-100 dark:bg-gray-700 p-1 rounded-full w-6 h-6 flex items-center justify-center"><i
+                                            class="fas fa-plus text-xs group-open:hidden"></i><i
+                                            class="fas fa-minus text-xs hidden group-open:block"></i></span>
+                                </summary>
+                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Yes, we are
+                                    always looking for fresh perspectives. Please email us your pitch with 'Guest Post'
+                                    in the subject line.</p>
+                            </details>
+                            <details
+                                class="bg-white dark:bg-dark-card p-5 rounded-xl border border-gray-100 dark:border-gray-700 cursor-pointer group shadow-sm">
+                                <summary
+                                    class="font-bold text-gray-800 dark:text-gray-200 flex justify-between items-center list-none text-sm">
+                                    Are the travel guides free?
+                                    <span
+                                        class="bg-gray-100 dark:bg-gray-700 p-1 rounded-full w-6 h-6 flex items-center justify-center"><i
+                                            class="fas fa-plus text-xs group-open:hidden"></i><i
+                                            class="fas fa-minus text-xs hidden group-open:block"></i></span>
+                                </summary>
+                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Most of our web
+                                    content is free. We do offer premium PDF guides for specific cities which support
+                                    our writers.</p>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-white dark:bg-dark-card p-8 md:p-10 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 h-fit animate-slide-up"
+                    style="animation-delay: 0.2s;">
+                    <h3 class="font-serif font-bold text-2xl mb-6 dark:text-white">Send a Message</h3>
+                    <form class="space-y-6"
+                        onsubmit="event.preventDefault(); alert('Thanks for reaching out! We will get back to you shortly.');">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500">First
+                                    Name</label>
+                                <input type="text"
+                                    class="w-full bg-gray-50 dark:bg-dark-bg border border-gray-200 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 dark:text-white transition"
+                                    required>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-widest text-gray-500">Last
+                                    Name</label>
+                                <input type="text"
+                                    class="w-full bg-gray-50 dark:bg-dark-bg border border-gray-200 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 dark:text-white transition">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-gray-500">Email
+                                Address</label>
+                            <input type="email"
+                                class="w-full bg-gray-50 dark:bg-dark-bg border border-gray-200 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 dark:text-white transition"
+                                required>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-gray-500">Message</label>
+                            <textarea rows="5"
+                                class="w-full bg-gray-50 dark:bg-dark-bg border border-gray-200 dark:border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 dark:text-white transition"
+                                required></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-black dark:bg-white text-white dark:text-black font-bold uppercase tracking-widest text-sm py-4 rounded-lg hover:bg-gold-500 hover:text-white dark:hover:bg-gold-400 transition duration-300 shadow-lg transform hover:-translate-y-1">Send
+                            Message</button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-dark-card border-t border-gray-200 dark:border-gray-800 pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+                <!-- Brand Column -->
+                <div class="space-y-6">
+                    <a href="#" class="text-4xl font-display font-bold text-gray-900 dark:text-white">KC.</a>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+                        Krishna Chronicles is a digital sanctuary for those seeking inspiration in design, technology,
+                        and travel. Built with passion in 2025.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/krishna_websites/" target="_blank"
+                            class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition"><i
+                                class="fab fa-instagram text-lg"></i></a>
+                        <a href="https://github.com/bhanu2006-24" target="_blank"
+                            class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition"><i
+                                class="fab fa-github text-lg"></i></a>
+                        <a href="https://www.linkedin.com/in/bhanu-saini-3bb251391/" target="_blank"
+                            class="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition"><i
+                                class="fab fa-linkedin text-lg"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links Column -->
+                <div>
+                    <h4 class="font-bold uppercase tracking-widest text-xs mb-6 text-gray-900 dark:text-white">Explore
+                    </h4>
+                    <ul class="space-y-4 text-sm text-gray-500 dark:text-gray-400">
+                        <li><a href="#" onclick="navigateTo('lifestyle')"
+                                class="hover:text-gold-600 transition flex items-center"><i
+                                    class="fas fa-chevron-right text-[10px] mr-2"></i> Lifestyle & Wellness</a></li>
+                        <li><a href="#" onclick="navigateTo('tech')"
+                                class="hover:text-gold-600 transition flex items-center"><i
+                                    class="fas fa-chevron-right text-[10px] mr-2"></i> Technology Trends</a></li>
+                        <li><a href="#" onclick="navigateTo('travel')"
+                                class="hover:text-gold-600 transition flex items-center"><i
+                                    class="fas fa-chevron-right text-[10px] mr-2"></i> Travel Diaries</a></li>
+                        <li><a href="#" onclick="navigateTo('about')"
+                                class="hover:text-gold-600 transition flex items-center"><i
+                                    class="fas fa-chevron-right text-[10px] mr-2"></i> About Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Categories Column -->
+                <div>
+                    <h4 class="font-bold uppercase tracking-widest text-xs mb-6 text-gray-900 dark:text-white">Legal
+                    </h4>
+                    <ul class="space-y-4 text-sm text-gray-500 dark:text-gray-400">
+                        <li><a href="#" class="hover:text-gold-600 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-gold-600 transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-gold-600 transition">Cookie Policy</a></li>
+                        <li><a href="#" onclick="navigateTo('connect')" class="hover:text-gold-600 transition">Contact
+                                Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Instagram Feed Placeholder -->
+                <div>
+                    <h4 class="font-bold uppercase tracking-widest text-xs mb-6 text-gray-900 dark:text-white">Instagram
+                    </h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            class="rounded w-full h-20 object-cover opacity-80 hover:opacity-100 transition cursor-pointer hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            class="rounded w-full h-20 object-cover opacity-80 hover:opacity-100 transition cursor-pointer hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1513553404607-988bf2703777?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            class="rounded w-full h-20 object-cover opacity-80 hover:opacity-100 transition cursor-pointer hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            class="rounded w-full h-20 object-cover opacity-80 hover:opacity-100 transition cursor-pointer hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1493863641943-9b68992a8d07?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            class="rounded w-full h-20 object-cover opacity-80 hover:opacity-100 transition cursor-pointer hover:scale-110">
+                        <img src="https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            class="rounded w-full h-20 object-cover opacity-80 hover:opacity-100 transition cursor-pointer hover:scale-110">
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-gray-100 dark:border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-xs text-gray-400 mb-4 md:mb-0">© 2025 Krishna Chronicles. All rights reserved.</p>
+                <div class="flex items-center space-x-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-xs text-gray-500 uppercase tracking-widest">Systems Operational</span>
+                </div>
             </div>
         </div>
-    </main>
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        // --- Loading Screen ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 800);
+        });
+
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows immediately
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with delay (CSS transition handles smoothing)
+            cursorOutline.style.left = `${posX}px`;
+            cursorOutline.style.top = `${posY}px`;
+
+            // Logic to scale on clickable elements
+            // Check if hovering over a clickable element
+            const hoveredElement = document.elementFromPoint(posX, posY);
+            if (hoveredElement && (hoveredElement.tagName === 'A' || hoveredElement.tagName === 'BUTTON' || hoveredElement.closest('a') || hoveredElement.closest('button'))) {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+            } else {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            }
+        });
+
+        // --- Navigation Logic (SPA) ---
+        function navigateTo(pageId) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const activeSection = document.getElementById(pageId);
+            if (activeSection) {
+                setTimeout(() => {
+                    activeSection.classList.add('active');
+                }, 100);
+            }
+
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+            if (!menu.classList.contains('translate-x-full')) {
+                toggleMobileMenu();
+            }
+        }
+
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('translate-x-full');
+        }
+
+        // --- Dark Mode Logic ---
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const body = document.body;
+            if (document.documentElement.classList.contains('dark')) {
+                body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Check Local Storage on Init
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark');
+        }
+
+        // --- Search Modal Logic ---
+        function toggleSearch() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                modal.querySelector('input').focus();
+            }
+        }
+
+        // --- Scroll Progress Bar ---
+        window.onscroll = function () {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+
+            // Navbar styling on scroll
+            const nav = document.getElementById('navbar');
+            const backToTop = document.getElementById('back-to-top');
+
+            if (winScroll > 50) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+
+            // Back to top button visibility
+            if (winScroll > 500) {
+                backToTop.classList.remove('translate-y-20');
+            } else {
+                backToTop.classList.add('translate-y-20');
+            }
+        };
+    </script>
 </body>
 
 </html>

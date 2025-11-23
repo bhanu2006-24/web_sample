@@ -1,67 +1,992 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishna Fitness | Train Like a Pro</title>
+    <meta name="description" content="Krishna Fitness - Elite Training Programs & Gym Membership">
+    <title>Krishna Fitness | Elite Performance Center</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            400: '#facc15', // Yellow-400
+                            500: '#eab308', // Yellow-500
+                            600: '#ca8a04', // Yellow-600
+                            accent: '#ffffff',
+                            black: '#050505',
+                            dark: '#121212',
+                            darker: '#0a0a0a'
+                        }
+                    },
+                    fontFamily: {
+                        oswald: ['Oswald', 'sans-serif'],
+                        roboto: ['Roboto', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
+        /* Base Styles */
         body {
+            background-color: #050505;
+            color: white;
             font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
         }
 
-        h1,
-        h2,
-        h3,
-        .font-oswald {
-            font-family: 'Oswald', sans-serif;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #eab308;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ca8a04;
+        }
+
+        /* Typography Utilities */
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+            color: transparent;
+        }
+
+        .text-stroke-brand {
+            -webkit-text-stroke: 1px #eab308;
+            color: transparent;
+        }
+
+        /* Page Transitions */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Navigation Active State */
+        .nav-link.active {
+            color: #eab308;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
         }
     </style>
 </head>
 
-<body class="bg-black text-white">
-    <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
+<body>
+
+    <!-- Preloader -->
+    <div id="loader">
+        <div class="text-center">
+            <h1 class="text-4xl font-oswald font-bold text-brand-500 italic animate-pulse tracking-widest">KRISHNA
+                FITNESS</h1>
+            <p class="text-xs text-gray-500 mt-2 uppercase tracking-[0.3em]">Loading Experience</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar"
+        class="fixed w-full z-50 transition-all duration-300 bg-black/90 backdrop-blur-md border-b border-white/5">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-tighter italic text-yellow-500">KRISHNA<span
-                    class="text-white">FITNESS</span></div>
-            <div class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest">
-                <a href="#" class="hover:text-yellow-500 transition">Programs</a>
-                <a href="#" class="hover:text-yellow-500 transition">Trainers</a>
-                <a href="#" class="hover:text-yellow-500 transition">Membership</a>
-                <a href="#" class="hover:text-yellow-500 transition">Shop</a>
+            <!-- Logo -->
+            <a href="#" onclick="route(event, 'home')"
+                class="text-2xl md:text-3xl font-oswald font-bold tracking-tighter italic text-brand-500 group cursor-pointer">
+                KRISHNA<span class="text-white group-hover:text-brand-500 transition-colors">FITNESS</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex space-x-8 text-sm font-bold uppercase tracking-widest items-center">
+                <a href="#" onclick="route(event, 'home')"
+                    class="nav-link text-white hover:text-brand-500 transition-colors relative group py-2">
+                    Home
+                    <span
+                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" onclick="route(event, 'programs')"
+                    class="nav-link text-white hover:text-brand-500 transition-colors relative group py-2">
+                    Programs
+                    <span
+                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" onclick="route(event, 'trainers')"
+                    class="nav-link text-white hover:text-brand-500 transition-colors relative group py-2">
+                    Trainers
+                    <span
+                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" onclick="route(event, 'membership')"
+                    class="nav-link text-white hover:text-brand-500 transition-colors relative group py-2">
+                    Membership
+                    <span
+                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" onclick="route(event, 'shop')"
+                    class="nav-link text-white hover:text-brand-500 transition-colors relative group py-2">
+                    Shop
+                    <span
+                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#" onclick="route(event, 'contact')"
+                    class="bg-brand-500 text-black px-6 py-2 font-bold skew-x-[-10deg] hover:bg-brand-400 hover:scale-105 transition duration-300 uppercase tracking-wider shadow-[0_0_15px_rgba(234,179,8,0.4)]">
+                    <span class="skew-x-[10deg] inline-block">Join Now</span>
+                </a>
             </div>
-            <button
-                class="bg-yellow-500 text-black px-6 py-2 font-bold skew-x-[-10deg] hover:bg-yellow-400 transition duration-300 uppercase tracking-wider">Join
-                Now</button>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn"
+                class="lg:hidden text-white text-2xl focus:outline-none hover:text-brand-500 transition">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu"
+            class="hidden lg:hidden bg-black/95 backdrop-blur-xl absolute w-full h-screen top-0 left-0 z-40 flex flex-col justify-center items-center space-y-8 transition-all">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-white text-3xl hover:text-brand-500">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#" onclick="route(event, 'home')"
+                class="text-2xl font-oswald uppercase tracking-wider text-white hover:text-brand-500 mobile-link">Home</a>
+            <a href="#" onclick="route(event, 'programs')"
+                class="text-2xl font-oswald uppercase tracking-wider text-white hover:text-brand-500 mobile-link">Programs</a>
+            <a href="#" onclick="route(event, 'trainers')"
+                class="text-2xl font-oswald uppercase tracking-wider text-white hover:text-brand-500 mobile-link">Trainers</a>
+            <a href="#" onclick="route(event, 'membership')"
+                class="text-2xl font-oswald uppercase tracking-wider text-white hover:text-brand-500 mobile-link">Membership</a>
+            <a href="#" onclick="route(event, 'shop')"
+                class="text-2xl font-oswald uppercase tracking-wider text-white hover:text-brand-500 mobile-link">Shop</a>
+            <a href="#" onclick="route(event, 'contact')"
+                class="text-2xl font-oswald uppercase tracking-wider text-brand-500 mobile-link">Contact</a>
         </div>
     </nav>
 
-    <header class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=2560&q=80"
-                alt="Gym" class="w-full h-full object-cover opacity-50">
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50"></div>
-        </div>
-        <div class="relative z-10 text-center px-4">
-            <h1 class="text-6xl md:text-9xl font-bold mb-4 uppercase italic tracking-tighter animate-pulse">Unleash
-                <br /><span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Your
-                    Power</span></h1>
-            <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto">Elite training programs designed to push
-                your limits and transform your body.</p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <button
-                    class="bg-yellow-500 text-black px-8 py-4 font-bold text-xl skew-x-[-10deg] hover:bg-yellow-400 transition">Start
-                    Free Trial</button>
-                <button
-                    class="border-2 border-white text-white px-8 py-4 font-bold text-xl skew-x-[-10deg] hover:bg-white hover:text-black transition">View
-                    Classes</button>
+    <!-- MAIN CONTENT AREA (SPA Sections) -->
+    <main id="main-content" class="pt-0">
+
+        <!-- ==================== HOME PAGE ==================== -->
+        <section id="home" class="page-section active">
+            <!-- Hero Section -->
+            <div class="relative h-screen flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=2560&q=80"
+                        alt="Gym Background" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/30"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent">
+                    </div>
+                </div>
+
+                <div class="relative z-10 container mx-auto px-6 pt-20">
+                    <div class="max-w-4xl">
+                        <h3 class="text-brand-500 font-bold tracking-[0.5em] uppercase mb-4 animate-slide-up">Welcome to
+                            the Grind</h3>
+                        <h1 class="text-6xl md:text-8xl lg:text-9xl font-oswald font-bold mb-6 uppercase italic leading-none text-white animate-slide-up"
+                            style="animation-delay: 0.2s;">
+                            Unleash <br />
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-600">Your
+                                Power</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl font-light border-l-4 border-brand-500 pl-6 animate-slide-up"
+                            style="animation-delay: 0.4s;">
+                            Stop wishing. Start doing. Join the elite community dedicated to transforming bodies and
+                            minds through iron and sweat.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row gap-6 animate-slide-up" style="animation-delay: 0.6s;">
+                            <a href="#" onclick="route(event, 'membership')"
+                                class="group relative px-8 py-4 bg-brand-500 text-black font-bold text-lg uppercase tracking-wider skew-x-[-10deg] overflow-hidden transition-all hover:bg-brand-400 hover:scale-105">
+                                <span class="relative inline-block skew-x-[10deg]">Join The Cult</span>
+                            </a>
+                            <a href="#" onclick="route(event, 'programs')"
+                                class="group px-8 py-4 border border-white text-white font-bold text-lg uppercase tracking-wider skew-x-[-10deg] hover:bg-white hover:text-black transition-all duration-300">
+                                <span class="inline-block skew-x-[10deg]">View Programs</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="bg-brand-dark py-16 border-y border-white/5">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/10">
+                        <div>
+                            <h3 class="text-4xl md:text-5xl font-oswald font-bold text-brand-500">1.2k+</h3>
+                            <p class="text-gray-400 text-sm uppercase tracking-widest mt-2">Members</p>
+                        </div>
+                        <div>
+                            <h3 class="text-4xl md:text-5xl font-oswald font-bold text-brand-500">24/7</h3>
+                            <p class="text-gray-400 text-sm uppercase tracking-widest mt-2">Access</p>
+                        </div>
+                        <div>
+                            <h3 class="text-4xl md:text-5xl font-oswald font-bold text-brand-500">50+</h3>
+                            <p class="text-gray-400 text-sm uppercase tracking-widest mt-2">Trainers</p>
+                        </div>
+                        <div>
+                            <h3 class="text-4xl md:text-5xl font-oswald font-bold text-brand-500">100%</h3>
+                            <p class="text-gray-400 text-sm uppercase tracking-widest mt-2">Results</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BMI Calculator Teaser -->
+            <section class="py-24 bg-brand-500 relative overflow-hidden">
+                <div
+                    class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10">
+                </div>
+                <div class="container mx-auto px-6 relative z-10">
+                    <div class="flex flex-col lg:flex-row items-center gap-12">
+                        <div class="lg:w-1/2 text-black">
+                            <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase italic mb-4">Check Your <br>
+                                Stats</h2>
+                            <p class="font-bold text-lg mb-6">Input your height and weight to calculate your Body Mass
+                                Index instantly.</p>
+
+                            <div class="bg-black p-8 shadow-2xl skew-x-[-3deg]">
+                                <div class="skew-x-[3deg] space-y-4">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-white text-xs uppercase tracking-wider mb-2">Weight
+                                                (kg)</label>
+                                            <input type="number" id="weight" placeholder="70"
+                                                class="w-full bg-neutral-900 border border-neutral-700 text-white px-4 py-3 focus:outline-none focus:border-brand-500 transition">
+                                        </div>
+                                        <div>
+                                            <label class="block text-white text-xs uppercase tracking-wider mb-2">Height
+                                                (cm)</label>
+                                            <input type="number" id="height" placeholder="175"
+                                                class="w-full bg-neutral-900 border border-neutral-700 text-white px-4 py-3 focus:outline-none focus:border-brand-500 transition">
+                                        </div>
+                                    </div>
+                                    <button onclick="calculateBMI()"
+                                        class="w-full bg-brand-500 text-black font-bold uppercase py-3 hover:bg-white transition duration-300 mt-4">Calculate
+                                        Now</button>
+
+                                    <div id="bmi-result" class="hidden mt-4 text-center border-t border-white/20 pt-4">
+                                        <p class="text-gray-400 text-xs uppercase">Your BMI is</p>
+                                        <p id="bmi-value" class="text-4xl font-oswald font-bold text-brand-500">00.0</p>
+                                        <p id="bmi-status" class="text-white font-bold text-sm mt-1">Normal</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2">
+                            <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                alt="Fitness Stats"
+                                class="w-full h-auto mix-blend-multiply filter contrast-125 grayscale">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- ==================== PROGRAMS PAGE ==================== -->
+        <section id="programs" class="page-section">
+            <!-- Page Header -->
+            <div class="relative h-[50vh] flex items-center justify-center overflow-hidden bg-black">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&auto=format&fit=crop&w=2560&q=80"
+                    class="absolute inset-0 w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/10 to-brand-black"></div>
+                <div class="relative z-10 text-center mt-12">
+                    <h1 class="text-5xl md:text-7xl font-oswald font-bold uppercase italic text-white">Our <span
+                            class="text-brand-500">Programs</span></h1>
+                    <p class="text-gray-300 mt-4 uppercase tracking-widest">Scientifically designed. Brutally effective.
+                    </p>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 py-24">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div
+                        class="group relative h-[500px] overflow-hidden cursor-pointer border border-white/10 hover:border-brand-500 transition-all duration-300">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                            alt="Strength"
+                            class="w-full h-full object-cover transition transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <h3 class="text-3xl font-oswald font-bold uppercase italic mb-2 text-brand-500">Hypertrophy
+                            </h3>
+                            <div class="h-1 w-12 bg-brand-500 mb-4"></div>
+                            <p
+                                class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                                A 12-week program focusing on maximum muscle growth through progressive overload and
+                                high volume training. Includes nutrition guide.
+                            </p>
+                            <button class="text-white uppercase font-bold text-sm border-b border-brand-500 pb-1">View
+                                Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div
+                        class="group relative h-[500px] overflow-hidden cursor-pointer border border-white/10 hover:border-brand-500 transition-all duration-300">
+                        <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                            alt="Endurance"
+                            class="w-full h-full object-cover transition transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <h3 class="text-3xl font-oswald font-bold uppercase italic mb-2 text-brand-500">Endurance
+                            </h3>
+                            <div class="h-1 w-12 bg-brand-500 mb-4"></div>
+                            <p
+                                class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                                HIIT and steady-state cardio designed to shred fat and boost cardiovascular health.
+                                Perfect for athletes looking to improve stamina.
+                            </p>
+                            <button class="text-white uppercase font-bold text-sm border-b border-brand-500 pb-1">View
+                                Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="group relative h-[500px] overflow-hidden cursor-pointer border border-white/10 hover:border-brand-500 transition-all duration-300">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                            alt="Mobility"
+                            class="w-full h-full object-cover transition transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-8 w-full">
+                            <h3 class="text-3xl font-oswald font-bold uppercase italic mb-2 text-brand-500">Mobility &
+                                Flow</h3>
+                            <div class="h-1 w-12 bg-brand-500 mb-4"></div>
+                            <p
+                                class="text-gray-300 text-sm mb-4 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                                Increase range of motion, prevent injury, and find mental clarity through guided flows.
+                                Essential for long-term lifting longevity.
+                            </p>
+                            <button class="text-white uppercase font-bold text-sm border-b border-brand-500 pb-1">View
+                                Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Table -->
+                <div class="mt-24">
+                    <h2
+                        class="text-3xl font-oswald font-bold uppercase text-white mb-8 border-l-4 border-brand-500 pl-4">
+                        Weekly Schedule</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-gray-400 border border-white/10">
+                            <thead class="bg-neutral-900 text-brand-500 uppercase font-bold">
+                                <tr>
+                                    <th class="p-4 border-b border-white/10">Time</th>
+                                    <th class="p-4 border-b border-white/10">Mon</th>
+                                    <th class="p-4 border-b border-white/10">Wed</th>
+                                    <th class="p-4 border-b border-white/10">Fri</th>
+                                    <th class="p-4 border-b border-white/10">Sun</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-black/50">
+                                <tr class="border-b border-white/5 hover:bg-white/5">
+                                    <td class="p-4 font-bold text-white">06:00 AM</td>
+                                    <td class="p-4">Cardio Blast</td>
+                                    <td class="p-4">HIIT</td>
+                                    <td class="p-4">Cardio Blast</td>
+                                    <td class="p-4">Rest</td>
+                                </tr>
+                                <tr class="border-b border-white/5 hover:bg-white/5">
+                                    <td class="p-4 font-bold text-white">08:00 AM</td>
+                                    <td class="p-4">Power Lifting</td>
+                                    <td class="p-4">CrossFit</td>
+                                    <td class="p-4">Power Lifting</td>
+                                    <td class="p-4">Open Gym</td>
+                                </tr>
+                                <tr class="border-b border-white/5 hover:bg-white/5">
+                                    <td class="p-4 font-bold text-white">05:00 PM</td>
+                                    <td class="p-4">Body Building</td>
+                                    <td class="p-4">Yoga Flow</td>
+                                    <td class="p-4">Leg Day</td>
+                                    <td class="p-4">Open Gym</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TRAINERS PAGE ==================== -->
+        <section id="trainers" class="page-section">
+            <div class="bg-brand-dark pt-32 pb-12 border-b border-white/10">
+                <div class="container mx-auto px-6">
+                    <h4 class="text-brand-500 font-bold uppercase tracking-widest mb-2">The Squad</h4>
+                    <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase italic text-white">Meet The <span
+                            class="text-stroke-brand">Legends</span></h2>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 py-24">
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Trainer 1 -->
+                    <div
+                        class="group bg-neutral-900 p-4 border border-white/5 hover:border-brand-500 transition duration-300">
+                        <div class="relative overflow-hidden h-80 mb-6">
+                            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-brand-500 p-2 text-center transform translate-y-full group-hover:translate-y-0 transition duration-300">
+                                <p class="text-black font-bold font-oswald uppercase">Head Coach</p>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-oswald font-bold uppercase text-white">Alex Iron</h3>
+                        <p class="text-gray-400 text-sm mt-2">Specializes in powerlifting and contest prep. Former Mr.
+                            State champion.</p>
+                        <div class="flex gap-4 mt-4 text-gray-500">
+                            <i class="fab fa-instagram hover:text-brand-500 cursor-pointer transition"></i>
+                            <i class="fab fa-twitter hover:text-brand-500 cursor-pointer transition"></i>
+                        </div>
+                    </div>
+
+                    <!-- Trainer 2 -->
+                    <div
+                        class="group bg-neutral-900 p-4 border border-white/5 hover:border-brand-500 transition duration-300">
+                        <div class="relative overflow-hidden h-80 mb-6">
+                            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-brand-500 p-2 text-center transform translate-y-full group-hover:translate-y-0 transition duration-300">
+                                <p class="text-black font-bold font-oswald uppercase">HIIT Expert</p>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-oswald font-bold uppercase text-white">Sarah Speed</h3>
+                        <p class="text-gray-400 text-sm mt-2">Former Olympic sprinter. Focuses on explosive power and
+                            cardiovascular endurance.</p>
+                        <div class="flex gap-4 mt-4 text-gray-500">
+                            <i class="fab fa-instagram hover:text-brand-500 cursor-pointer transition"></i>
+                            <i class="fab fa-linkedin hover:text-brand-500 cursor-pointer transition"></i>
+                        </div>
+                    </div>
+
+                    <!-- Trainer 3 -->
+                    <div
+                        class="group bg-neutral-900 p-4 border border-white/5 hover:border-brand-500 transition duration-300">
+                        <div class="relative overflow-hidden h-80 mb-6">
+                            <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-brand-500 p-2 text-center transform translate-y-full group-hover:translate-y-0 transition duration-300">
+                                <p class="text-black font-bold font-oswald uppercase">Yoga Master</p>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-oswald font-bold uppercase text-white">Marcus Zen</h3>
+                        <p class="text-gray-400 text-sm mt-2">Brings balance to the chaos. Expert in mobility, recovery,
+                            and mindset training.</p>
+                        <div class="flex gap-4 mt-4 text-gray-500">
+                            <i class="fab fa-instagram hover:text-brand-500 cursor-pointer transition"></i>
+                            <i class="fab fa-youtube hover:text-brand-500 cursor-pointer transition"></i>
+                        </div>
+                    </div>
+
+                    <!-- Trainer 4 -->
+                    <div
+                        class="group bg-neutral-900 p-4 border border-white/5 hover:border-brand-500 transition duration-300">
+                        <div class="relative overflow-hidden h-80 mb-6">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-brand-500 p-2 text-center transform translate-y-full group-hover:translate-y-0 transition duration-300">
+                                <p class="text-black font-bold font-oswald uppercase">Strength Coach</p>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-oswald font-bold uppercase text-white">Big Mike</h3>
+                        <p class="text-gray-400 text-sm mt-2">Strongman competitor. Helps you move heavy objects and
+                            build functional strength.</p>
+                        <div class="flex gap-4 mt-4 text-gray-500">
+                            <i class="fab fa-instagram hover:text-brand-500 cursor-pointer transition"></i>
+                            <i class="fab fa-facebook hover:text-brand-500 cursor-pointer transition"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== MEMBERSHIP PAGE ==================== -->
+        <section id="membership" class="page-section">
+            <div class="py-32 bg-brand-dark relative">
+                <div class="container mx-auto px-6 relative z-10">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase italic text-white">Membership
+                            <span class="text-brand-500">Plans</span></h2>
+                        <p class="text-gray-400 mt-4">Invest in your body. It's the only place you have to live.</p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
+                        <!-- Rookie -->
+                        <div
+                            class="bg-black border border-white/10 p-8 relative hover:border-brand-500 transition duration-300">
+                            <h3 class="text-2xl font-oswald font-bold uppercase text-white mb-4">Rookie</h3>
+                            <div class="text-4xl font-bold text-brand-500 mb-6">$29<span
+                                    class="text-lg text-gray-500 font-normal">/mo</span></div>
+                            <ul class="space-y-4 mb-8 text-gray-400 text-sm">
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Gym Access
+                                    (Off-Peak)</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Locker
+                                    Room</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> 1
+                                    Induction Session</li>
+                                <li class="flex items-center opacity-50"><i class="fas fa-times text-red-500 w-6"></i>
+                                    Group Classes</li>
+                                <li class="flex items-center opacity-50"><i class="fas fa-times text-red-500 w-6"></i>
+                                    Sauna Access</li>
+                            </ul>
+                            <button
+                                class="w-full border border-white text-white py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition">Choose
+                                Plan</button>
+                        </div>
+
+                        <!-- Beast Mode -->
+                        <div
+                            class="bg-neutral-900 border-2 border-brand-500 p-12 relative transform lg:-translate-y-4 shadow-[0_0_40px_rgba(234,179,8,0.15)]">
+                            <div
+                                class="absolute top-0 right-0 bg-brand-500 text-black text-xs font-bold px-3 py-1 uppercase">
+                                Best Value</div>
+                            <h3 class="text-3xl font-oswald font-bold uppercase text-white mb-4">Beast Mode</h3>
+                            <div class="text-5xl font-bold text-brand-500 mb-6">$59<span
+                                    class="text-lg text-gray-500 font-normal">/mo</span></div>
+                            <p class="text-gray-400 text-xs mb-6">Everything you need to transform.</p>
+                            <ul class="space-y-4 mb-8 text-gray-300 text-sm">
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> 24/7 Gym
+                                    Access</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> All Group
+                                    Classes</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Sauna &
+                                    Steam</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Free
+                                    Smoothies</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Guest Pass
+                                    (1/mo)</li>
+                            </ul>
+                            <button
+                                class="w-full bg-brand-500 text-black py-4 font-bold uppercase tracking-wider hover:bg-brand-400 transition skew-x-[-5deg]">
+                                <span class="skew-x-[5deg] inline-block">Choose Plan</span>
+                            </button>
+                        </div>
+
+                        <!-- God Like -->
+                        <div
+                            class="bg-black border border-white/10 p-8 relative hover:border-brand-500 transition duration-300">
+                            <h3 class="text-2xl font-oswald font-bold uppercase text-white mb-4">God Like</h3>
+                            <div class="text-4xl font-bold text-brand-500 mb-6">$99<span
+                                    class="text-lg text-gray-500 font-normal">/mo</span></div>
+                            <ul class="space-y-4 mb-8 text-gray-400 text-sm">
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> All Beast
+                                    Mode Benefits</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Personal
+                                    Trainer (4x/mo)</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Nutrition
+                                    Plan</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Private
+                                    Locker</li>
+                                <li class="flex items-center"><i class="fas fa-check text-brand-500 w-6"></i> Massage
+                                    Therapy</li>
+                            </ul>
+                            <button
+                                class="w-full border border-white text-white py-3 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition">Choose
+                                Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SHOP PAGE ==================== -->
+        <section id="shop" class="page-section">
+            <div class="bg-brand-black pt-32 pb-12">
+                <div class="container mx-auto px-6 flex justify-between items-end">
+                    <div>
+                        <h4 class="text-brand-500 font-bold uppercase tracking-widest mb-2">The Merch</h4>
+                        <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase italic text-white">Krishna <span
+                                class="text-stroke">Gear</span></h2>
+                    </div>
+                    <div class="hidden md:flex gap-4">
+                        <button class="text-sm font-bold uppercase text-gray-400 hover:text-white">Apparel</button>
+                        <button class="text-sm font-bold uppercase text-gray-400 hover:text-white">Supplements</button>
+                        <button class="text-sm font-bold uppercase text-gray-400 hover:text-white">Accessories</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 pb-24">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Product 1 -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="bg-neutral-900 p-8 flex items-center justify-center mb-4 relative overflow-hidden h-80 border border-white/5 group-hover:border-brand-500 transition">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                class="h-56 object-contain group-hover:scale-110 transition duration-500 mix-blend-lighten opacity-80 group-hover:opacity-100">
+                            <div class="absolute top-4 right-4 bg-brand-500 text-black font-bold text-xs px-2 py-1">NEW
+                            </div>
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-white text-black py-3 text-center font-bold uppercase text-sm transform translate-y-full group-hover:translate-y-0 transition duration-300">
+                                Add to Cart</div>
+                        </div>
+                        <h4 class="font-oswald font-bold text-xl uppercase">Legacy Hoodie</h4>
+                        <p class="text-gray-500 text-sm mb-1">Oversized fit, heavy cotton</p>
+                        <p class="text-brand-500 font-bold">$45.00</p>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="bg-neutral-900 p-8 flex items-center justify-center mb-4 relative overflow-hidden h-80 border border-white/5 group-hover:border-brand-500 transition">
+                            <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                class="h-56 object-contain group-hover:scale-110 transition duration-500 mix-blend-normal opacity-80 group-hover:opacity-100">
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-white text-black py-3 text-center font-bold uppercase text-sm transform translate-y-full group-hover:translate-y-0 transition duration-300">
+                                Add to Cart</div>
+                        </div>
+                        <h4 class="font-oswald font-bold text-xl uppercase">Whey Isolate Gold</h4>
+                        <p class="text-gray-500 text-sm mb-1">Chocolate Fudge, 2.5kg</p>
+                        <p class="text-brand-500 font-bold">$65.00</p>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="bg-neutral-900 p-8 flex items-center justify-center mb-4 relative overflow-hidden h-80 border border-white/5 group-hover:border-brand-500 transition">
+                            <img src="https://images.unsplash.com/photo-1591304284940-93a4a9c00406?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                class="h-56 object-contain group-hover:scale-110 transition duration-500 mix-blend-lighten opacity-80 group-hover:opacity-100">
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-white text-black py-3 text-center font-bold uppercase text-sm transform translate-y-full group-hover:translate-y-0 transition duration-300">
+                                Add to Cart</div>
+                        </div>
+                        <h4 class="font-oswald font-bold text-xl uppercase">Steel Shaker</h4>
+                        <p class="text-gray-500 text-sm mb-1">Matte Black, 700ml</p>
+                        <p class="text-brand-500 font-bold">$15.00</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CONTACT PAGE ==================== -->
+        <section id="contact" class="page-section">
+            <div class="bg-brand-dark min-h-screen flex flex-col justify-center pt-24 pb-12">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col lg:flex-row gap-12">
+                        <div class="lg:w-1/2">
+                            <h4 class="text-brand-500 font-bold uppercase tracking-widest mb-2">Get in Touch</h4>
+                            <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase italic text-white mb-6">
+                                Start Your <br>Journey</h2>
+                            <p class="text-gray-400 mb-8 max-w-md">Have questions about memberships, personal training,
+                                or our facilities? Fill out the form and we'll get back to you within 24 hours.</p>
+
+                            <div class="space-y-6">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-12 h-12 bg-neutral-900 flex items-center justify-center text-brand-500 border border-white/10">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-white uppercase">Visit Us</h5>
+                                        <p class="text-gray-500 text-sm">123 Iron Street, Muscle City, CA 90210</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-12 h-12 bg-neutral-900 flex items-center justify-center text-brand-500 border border-white/10">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-white uppercase">Email Us</h5>
+                                        <p class="text-gray-500 text-sm">krishnawebsitess@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:w-1/2 bg-black p-8 border border-white/10">
+                            <form
+                                onsubmit="event.preventDefault(); alert('Message Sent! We will contact you shortly.');">
+                                <div class="grid grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="block text-gray-500 text-xs uppercase font-bold mb-2">First
+                                            Name</label>
+                                        <input type="text"
+                                            class="w-full bg-neutral-900 border border-neutral-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 transition">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-500 text-xs uppercase font-bold mb-2">Last
+                                            Name</label>
+                                        <input type="text"
+                                            class="w-full bg-neutral-900 border border-neutral-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 transition">
+                                    </div>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-500 text-xs uppercase font-bold mb-2">Email
+                                        Address</label>
+                                    <input type="email"
+                                        class="w-full bg-neutral-900 border border-neutral-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 transition">
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-500 text-xs uppercase font-bold mb-2">Goal</label>
+                                    <select
+                                        class="w-full bg-neutral-900 border border-neutral-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 transition">
+                                        <option>Muscle Gain</option>
+                                        <option>Weight Loss</option>
+                                        <option>General Fitness</option>
+                                        <option>Competition Prep</option>
+                                    </select>
+                                </div>
+                                <div class="mb-6">
+                                    <label class="block text-gray-500 text-xs uppercase font-bold mb-2">Message</label>
+                                    <textarea rows="4"
+                                        class="w-full bg-neutral-900 border border-neutral-800 text-white px-4 py-3 focus:outline-none focus:border-brand-500 transition"></textarea>
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-brand-500 text-black font-bold uppercase py-4 hover:bg-white transition duration-300">Send
+                                    Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-brand-500/30 pt-16 pb-8 mt-auto">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="text-2xl font-oswald font-bold tracking-tighter italic text-brand-500 mb-6 cursor-pointer"
+                        onclick="route(event, 'home')">KRISHNA<span class="text-white">FITNESS</span></div>
+                    <p class="text-gray-500 text-sm mb-6">
+                        The premier destination for bodybuilding, powerlifting, and fitness transformation. Join the
+                        revolution today.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i
+                                class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-brand-500 transition"><i
+                                class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold uppercase mb-6">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-500 text-sm">
+                        <li><a href="#" onclick="route(event, 'home')" class="hover:text-brand-500 transition">Home</a>
+                        </li>
+                        <li><a href="#" onclick="route(event, 'programs')" class="hover:text-brand-500 transition">Our
+                                Programs</a></li>
+                        <li><a href="#" onclick="route(event, 'trainers')"
+                                class="hover:text-brand-500 transition">Trainers</a></li>
+                        <li><a href="#" onclick="route(event, 'shop')"
+                                class="hover:text-brand-500 transition">Merchandise</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold uppercase mb-6">Developer</h4>
+                    <ul class="space-y-2 text-gray-500 text-sm">
+                        <li><a href="https://github.com/bhanu2006-24" target="_blank"
+                                class="hover:text-brand-500 transition">GitHub</a></li>
+                        <li><a href="#" class="hover:text-brand-500 transition">LinkedIn</a></li>
+                        <li><a href="https://instagram.com/krishna_websites" target="_blank"
+                                class="hover:text-brand-500 transition">Instagram</a></li>
+                        <li><a href="mailto:krishnawebsitess@gmail.com"
+                                class="hover:text-brand-500 transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold uppercase mb-6">Newsletter</h4>
+                    <p class="text-gray-500 text-sm mb-4">Subscribe for workout tips and exclusive offers.</p>
+                    <form class="flex" onsubmit="event.preventDefault(); alert('Subscribed!');">
+                        <input type="email" placeholder="Email"
+                            class="bg-neutral-900 text-white px-4 py-2 w-full border border-neutral-800 focus:border-brand-500 focus:outline-none">
+                        <button class="bg-brand-500 text-black px-4 font-bold hover:bg-white transition"><i
+                                class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+                <p>&copy; 2025 Krishna Fitness. All rights reserved.</p>
+                <p class="mt-2 md:mt-0">Developed by Bhanu Pratap Saini.</p>
             </div>
         </div>
-    </header>
+    </footer>
+
+    <script>
+        // ================== ROUTING LOGIC ==================
+        // This simulates a multi-page Single Page Application (SPA)
+
+        function route(event, pageId) {
+            event.preventDefault();
+
+            // 1. Mobile Menu Logic
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            // 2. Get all sections
+            const sections = document.querySelectorAll('.page-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // 3. Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // 4. Hide all sections with a slight delay for transition effect
+            sections.forEach(section => {
+                section.classList.remove('active');
+                // Optional: Add fade-out class here if desired
+            });
+
+            // 5. Update Navigation Styling
+            navLinks.forEach(link => {
+                // Simple check to see if the link text matches the page ID
+                if (link.getAttribute('onclick').includes(pageId)) {
+                    link.classList.add('active');
+                    link.classList.add('text-brand-500');
+                    link.classList.remove('text-white');
+                } else {
+                    link.classList.remove('active');
+                    link.classList.remove('text-brand-500');
+                    link.classList.add('text-white');
+                }
+            });
+
+            // 6. Show requested section
+            setTimeout(() => {
+                const targetSection = document.getElementById(pageId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    // Re-trigger animations for the new section
+                    const animatedElements = targetSection.querySelectorAll('.animate-slide-up');
+                    animatedElements.forEach(el => {
+                        el.style.animation = 'none';
+                        el.offsetHeight; /* trigger reflow */
+                        el.style.animation = null;
+                    });
+                }
+            }, 100); // Short delay for smoothness
+        }
+
+        // ================== INITIALIZATION ==================
+
+        // Preloader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1500); // 1.5s fake loading time
+        });
+
+        // Mobile Menu Toggles
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
+        closeMenuBtn.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.classList.replace('bg-black/90', 'bg-black');
+                navbar.classList.replace('py-4', 'py-2'); // Shrink effect
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.classList.replace('bg-black', 'bg-black/90');
+                navbar.classList.replace('py-2', 'py-4');
+            }
+        });
+
+        // BMI Calculator Logic
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100;
+            const resultDiv = document.getElementById('bmi-result');
+            const bmiValue = document.getElementById('bmi-value');
+            const bmiStatus = document.getElementById('bmi-status');
+
+            if (weight > 0 && height > 0) {
+                const bmi = (weight / (height * height)).toFixed(1);
+                resultDiv.classList.remove('hidden');
+                resultDiv.classList.add('animate-fade-in');
+                bmiValue.innerText = bmi;
+
+                if (bmi < 18.5) {
+                    bmiStatus.innerText = "Underweight - Time to Bulk!";
+                    bmiStatus.className = "text-blue-400 font-bold mt-1";
+                } else if (bmi >= 18.5 && bmi < 24.9) {
+                    bmiStatus.innerText = "Normal Weight - Keep Grinding!";
+                    bmiStatus.className = "text-green-400 font-bold mt-1";
+                } else if (bmi >= 25 && bmi < 29.9) {
+                    bmiStatus.innerText = "Overweight - Let's Cut!";
+                    bmiStatus.className = "text-brand-500 font-bold mt-1";
+                } else {
+                    bmiStatus.innerText = "Obese - Join the Program Now!";
+                    bmiStatus.className = "text-red-500 font-bold mt-1";
+                }
+            } else {
+                alert("Please enter valid weight and height values.");
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 # 👟 Krishna Shoes
 
-![Krishna Shoes](./screenshot.png)
+![Krishna Shoes](./public/screenshot.png)
 
 > Step into style. From athletic performance to casual elegance, find your perfect fit.
 

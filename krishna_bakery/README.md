@@ -1,6 +1,5 @@
 # 🥐 Krishna Bakery
 
-![Krishna Bakery](./screenshot.png)
 
 > Freshly baked happiness. From artisan breads to decadent pastries, taste the love in every bite.
 

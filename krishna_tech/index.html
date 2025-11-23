@@ -1,77 +1,1014 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishna Tech | Future of SaaS</title>
+    <title>Krishna Tech | Scale Without Limits</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap"
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <style>
+        :root {
+            --cursor-x: 50%;
+            --cursor-y: 50%;
+        }
+
         body {
             font-family: 'Space Grotesk', sans-serif;
+            background-color: #020617;
+            /* Slate 950 */
+            cursor: default;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+
+        /* Premium Gradients & Text */
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientMove 5s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        /* Glassmorphism Cards */
+        .card-glass {
+            background: rgba(30, 41, 59, 0.3);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(800px circle at var(--cursor-x) var(--cursor-y), rgba(255, 255, 255, 0.06), transparent 40%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card-glass:hover {
+            border-color: rgba(129, 140, 248, 0.5);
+            transform: translateY(-5px) scale(1.01);
+            background: rgba(30, 41, 59, 0.5);
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Spotlight Background */
+        .spotlight {
+            background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* Marquee */
+        .marquee-container {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .marquee-content {
+            animation: scroll 30s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Grid Background */
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+        }
+
+        /* Code Block Styling */
+        pre {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
         }
     </style>
 </head>
 
-<body class="bg-slate-900 text-white overflow-x-hidden">
-    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+<body
+    class="bg-slate-950 text-slate-100 overflow-x-hidden min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
+
+    <!-- Interactive Spotlight -->
+    <div class="spotlight"></div>
+
+    <!-- Background Ambience -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-indigo-600/10 rounded-full blur-[120px] animate-pulse">
+        </div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40rem] h-[40rem] bg-fuchsia-600/10 rounded-full blur-[120px] animate-pulse"
+            style="animation-delay: 2s;"></div>
+        <div class="absolute inset-0 bg-grid z-0"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-slate-950/70 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-tighter text-indigo-400">KRISHNA<span class="text-white">TECH</span>
+            <a href="#" onclick="router('home')"
+                class="text-2xl font-bold tracking-tighter text-white flex items-center gap-2 group">
+                <div class="relative">
+                    <div
+                        class="absolute inset-0 bg-indigo-500 blur-lg opacity-50 group-hover:opacity-100 transition duration-500">
+                    </div>
+                    <i data-lucide="zap" class="relative w-6 h-6 text-indigo-400 group-hover:text-white transition"></i>
+                </div>
+                KRISHNA<span class="text-indigo-400">TECH</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div
+                class="hidden md:flex items-center space-x-1 p-1 bg-white/5 rounded-full border border-white/5 backdrop-blur-md">
+                <button onclick="router('product')"
+                    class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition">Product</button>
+                <button onclick="router('solutions')"
+                    class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition">Solutions</button>
+                <button onclick="router('pricing')"
+                    class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition">Pricing</button>
+                <button onclick="router('docs')"
+                    class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition">Docs</button>
             </div>
-            <div class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="#" class="hover:text-indigo-400 transition">Product</a>
-                <a href="#" class="hover:text-indigo-400 transition">Solutions</a>
-                <a href="#" class="hover:text-indigo-400 transition">Pricing</a>
-                <a href="#" class="hover:text-indigo-400 transition">Docs</a>
+
+            <!-- CTA -->
+            <div class="flex items-center space-x-4">
+                <button onclick="router('pricing')"
+                    class="hidden md:block bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-6 py-2.5 rounded-full hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 text-sm font-semibold border border-white/10 hover:-translate-y-0.5">
+                    Get Started
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white transition">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
             </div>
-            <div class="flex space-x-4">
-                <button class="text-slate-300 hover:text-white transition">Log In</button>
-                <button
-                    class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20">Get
-                    Started</button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-950 border-b border-slate-800">
+            <div class="flex flex-col p-4 space-y-4">
+                <button onclick="router('product'); toggleMobileMenu()"
+                    class="text-left text-slate-400 hover:text-indigo-400 p-2">Product</button>
+                <button onclick="router('solutions'); toggleMobileMenu()"
+                    class="text-left text-slate-400 hover:text-indigo-400 p-2">Solutions</button>
+                <button onclick="router('pricing'); toggleMobileMenu()"
+                    class="text-left text-slate-400 hover:text-indigo-400 p-2">Pricing</button>
+                <button onclick="router('docs'); toggleMobileMenu()"
+                    class="text-left text-slate-400 hover:text-indigo-400 p-2">Docs</button>
             </div>
         </div>
     </nav>
 
-    <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div class="container mx-auto px-6 relative z-10 text-center">
+    <!-- Main Content Area -->
+    <main id="app" class="flex-grow relative z-10 pt-24">
+        <!-- Content injected via JS -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-slate-950 border-t border-slate-800/50 pt-20 pb-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i data-lucide="zap" class="w-5 h-5 text-indigo-400"></i> KRISHNA TECH
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        Architecting the future of SaaS. We provide the infrastructure, analytics, and speed you need to
+                        dominate your market.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/bhanu2006-24" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition border border-white/5">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/bhanu-pratap-saini-56570624a" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition border border-white/5">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://instagram.com/krishna_websites" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition border border-white/5">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Platform</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><button onclick="router('product')"
+                                class="hover:text-indigo-400 transition flex items-center gap-2"><span
+                                    class="w-1 h-1 bg-indigo-500 rounded-full"></span> Features</button></li>
+                        <li><button onclick="router('pricing')"
+                                class="hover:text-indigo-400 transition flex items-center gap-2"><span
+                                    class="w-1 h-1 bg-indigo-500 rounded-full"></span> Pricing</button></li>
+                        <li><button onclick="router('docs')"
+                                class="hover:text-indigo-400 transition flex items-center gap-2"><span
+                                    class="w-1 h-1 bg-indigo-500 rounded-full"></span> API Reference</button></li>
+                        <li><button onclick="router('status')"
+                                class="hover:text-indigo-400 transition flex items-center gap-2"><span
+                                    class="w-1 h-1 bg-indigo-500 rounded-full"></span> System Status</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Resources</h4>
+                    <ul class="space-y-3 text-sm text-slate-400">
+                        <li><button onclick="router('docs')"
+                                class="hover:text-indigo-400 transition flex items-center gap-2"><span
+                                    class="w-1 h-1 bg-indigo-500 rounded-full"></span> Documentation</button></li>
+                        <li><button onclick="router('solutions')"
+                                class="hover:text-indigo-400 transition flex items-center gap-2"><span
+                                    class="w-1 h-1 bg-indigo-500 rounded-full"></span> Case Studies</button></li>
+                        <li><button onclick="router('community')"
+                                class="hover:text-indigo-400 transition flex items-center gap-2"><span
+                                    class="w-1 h-1 bg-indigo-500 rounded-full"></span> Community</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Contact</h4>
+                    <ul class="space-y-4 text-sm text-slate-400">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-indigo-400 mt-0.5"></i>
+                            <div>
+                                <span class="block text-white font-medium mb-1">Email Us</span>
+                                <a href="mailto:krishnawebsitess@gmail.com"
+                                    class="hover:text-indigo-400 transition">krishnawebsitess@gmail.com</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-indigo-400 mt-0.5"></i>
+                            <div>
+                                <span class="block text-white font-medium mb-1">Global HQ</span>
+                                <span>Tech Park, Sector 5<br>Innovation City</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div
-                class="inline-block px-4 py-1.5 mb-6 text-xs font-semibold tracking-wider text-indigo-300 uppercase bg-indigo-900/30 rounded-full border border-indigo-500/30 animate-pulse">
-                v2.0 is now live
-            </div>
-            <h1
-                class="text-5xl md:text-7xl font-bold mb-8 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-indigo-400">
-                Scale Your Business <br /> Without Limits
-            </h1>
-            <p class="text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                The all-in-one platform for modern teams. Automate workflows, analyze data, and ship faster than ever
-                before.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <button
-                    class="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-500 transition shadow-xl shadow-indigo-600/20">Start
-                    Free Trial</button>
-                <button
-                    class="bg-slate-800 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-700 transition border border-slate-700">View
-                    Demo</button>
-            </div>
-
-            <div class="mt-20 relative">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10"></div>
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2400&q=80"
-                    alt="Dashboard"
-                    class="rounded-xl shadow-2xl border border-slate-700 mx-auto w-full max-w-5xl opacity-80 hover:opacity-100 transition duration-700 transform hover:-translate-y-2">
+                class="border-t border-slate-800/50 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500 font-medium">
+                <p>&copy; 2024 Krishna Tech Inc. All rights reserved.</p>
+                <div class="flex space-x-8 mt-4 md:mt-0">
+                    <button onclick="router('privacy')" class="hover:text-white transition">Privacy Policy</button>
+                    <button onclick="router('terms')" class="hover:text-white transition">Terms of Service</button>
+                    <button onclick="router('cookies')" class="hover:text-white transition">Cookie Settings</button>
+                </div>
             </div>
         </div>
+    </footer>
 
-        <!-- Background Glow -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
-            <div class="absolute top-20 left-20 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
-        </div>
-    </header>
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Update Mouse Position for Spotlight Effect
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            document.documentElement.style.setProperty('--cursor-x', x + 'px');
+            document.documentElement.style.setProperty('--cursor-y', y + 'px');
+        });
+
+        // Helper to scroll to element within a page
+        function scrollToId(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Page Content Data
+        const pages = {
+            home: `
+                <div class="fade-in">
+                    <!-- Hero Section -->
+                    <header class="relative pt-20 pb-32 lg:pt-32 lg:pb-40 overflow-hidden text-center">
+                        <div class="container mx-auto px-6 relative z-10">
+                            <!-- Badge -->
+                            <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 text-xs font-bold tracking-widest text-indigo-300 uppercase bg-indigo-500/10 rounded-full border border-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition duration-300 cursor-default">
+                                <span class="relative flex h-2 w-2">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                                </span>
+                                v2.0 Platform is now live
+                            </div>
+                            
+                            <!-- Headline -->
+                            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight text-white tracking-tight">
+                                Scale Your Business <br />
+                                <span class="text-gradient">Without Limits</span>
+                            </h1>
+                            
+                            <p class="text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+                                The all-in-one platform for modern teams. Automate workflows, analyze data, and ship faster than ever before using our <span class="text-white font-medium">Next-Gen Engine</span>.
+                            </p>
+                            
+                            <!-- CTAs -->
+                            <div class="flex flex-col sm:flex-row justify-center gap-5 mb-20">
+                                <button onclick="router('pricing')" class="group relative bg-white text-slate-950 px-8 py-4 rounded-full font-bold text-lg hover:bg-indigo-50 transition shadow-xl shadow-white/10 overflow-hidden">
+                                    <span class="relative z-10">Start Free Trial</span>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-indigo-200 to-purple-200 opacity-0 group-hover:opacity-100 transition duration-300 blur-lg"></div>
+                                </button>
+                                <button onclick="router('docs')" class="px-8 py-4 rounded-full font-bold text-lg text-white hover:bg-white/5 transition border border-white/10 backdrop-blur-sm flex items-center gap-2 justify-center group">
+                                    Read Documentation 
+                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+                                </button>
+                            </div>
+
+                            <!-- Floating Code Interface -->
+                            <div class="relative max-w-5xl mx-auto float">
+                                <div class="absolute inset-0 bg-gradient-to-t from-indigo-600 to-purple-600 blur-[100px] opacity-20 -z-10 rounded-full"></div>
+                                <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl">
+                                    <!-- Window Controls -->
+                                    <div class="flex items-center justify-between px-6 py-4 bg-white/5 border-b border-white/5">
+                                        <div class="flex gap-2">
+                                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                        </div>
+                                        <div class="text-xs font-mono text-slate-500">krishna_config.js</div>
+                                        <div class="w-10"></div>
+                                    </div>
+                                    <!-- Code Area -->
+                                    <div class="p-8 text-left font-mono text-sm md:text-base overflow-x-auto bg-slate-950/50">
+                                        <div class="text-slate-400"><span class="text-purple-400">import</span> { KrishnaClient } <span class="text-purple-400">from</span> <span class="text-green-400">'@krishna/sdk'</span>;</div>
+                                        <div class="text-slate-400 mt-4"><span class="text-slate-500">// Initialize the Next-Gen Engine</span></div>
+                                        <div class="text-slate-400"><span class="text-purple-400">const</span> client = <span class="text-purple-400">new</span> KrishnaClient({</div>
+                                        <div class="text-slate-400 pl-4">apiKey: <span class="text-green-400">'kr_live_51H7...'</span>,</div>
+                                        <div class="text-slate-400 pl-4">mode: <span class="text-green-400">'super_scale'</span>,</div>
+                                        <div class="text-slate-400 pl-4">analytics: <span class="text-blue-400">true</span></div>
+                                        <div class="text-slate-400">});</div>
+                                        <div class="text-slate-400 mt-4"><span class="text-slate-500">// Deploy instantly</span></div>
+                                        <div class="text-slate-400"><span class="text-purple-400">await</span> client.deploy({ <span class="text-orange-400">target:</span> <span class="text-green-400">'global-edge'</span> });</div>
+                                        <div class="text-green-400 mt-4">>> Deployment successful (0.42s)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <!-- Logo Marquee -->
+                    <section class="py-12 border-y border-white/5 bg-white/[0.02]">
+                        <div class="container mx-auto px-6 mb-8 text-center">
+                            <p class="text-slate-500 text-sm font-semibold tracking-widest uppercase">Powering industry leaders</p>
+                        </div>
+                        <div class="marquee-container overflow-hidden relative max-w-7xl mx-auto">
+                            <div class="marquee-content flex gap-16 whitespace-nowrap px-4">
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="triangle" class="fill-current"></i> VERCEL</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="box" class="fill-current"></i> DROPBOX</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="circle" class="fill-current"></i> CIRCLE</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="hexagon" class="fill-current"></i> LINEAR</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="wind" class="fill-current"></i> TAILWIND</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="cloud" class="fill-current"></i> GOOGLE</span>
+                                <!-- Second Set for seamless loop -->
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="triangle" class="fill-current"></i> VERCEL</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="box" class="fill-current"></i> DROPBOX</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="circle" class="fill-current"></i> CIRCLE</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="hexagon" class="fill-current"></i> LINEAR</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="wind" class="fill-current"></i> TAILWIND</span>
+                                <span class="text-2xl font-bold text-slate-600 flex items-center gap-2"><i data-lucide="cloud" class="fill-current"></i> GOOGLE</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Features Grid -->
+                    <section class="py-32 container mx-auto px-6">
+                         <div class="text-center max-w-3xl mx-auto mb-20">
+                            <h2 class="text-4xl md:text-5xl font-bold mb-6">Why Krishna Tech?</h2>
+                            <p class="text-slate-400 text-lg">We didn't just build another tool. We rebuilt the foundation of how SaaS scales.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                             <div class="card-glass p-10 rounded-3xl group">
+                                <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 mb-8 group-hover:scale-110 transition duration-300">
+                                    <i data-lucide="zap" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-4 text-white">Lightning Fast</h3>
+                                <p class="text-slate-400 leading-relaxed">Built on Rust for nearly zero-latency execution. Your users won't even have time to blink.</p>
+                             </div>
+                             <div class="card-glass p-10 rounded-3xl group">
+                                <div class="w-16 h-16 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 mb-8 group-hover:scale-110 transition duration-300">
+                                    <i data-lucide="shield-check" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-4 text-white">Unbreakable Security</h3>
+                                <p class="text-slate-400 leading-relaxed">End-to-end encryption with rotating keys. We take security seriously so you don't have to worry.</p>
+                             </div>
+                             <div class="card-glass p-10 rounded-3xl group">
+                                <div class="w-16 h-16 bg-pink-500/10 rounded-2xl flex items-center justify-center text-pink-400 mb-8 group-hover:scale-110 transition duration-300">
+                                    <i data-lucide="globe" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-4 text-white">Global Edge</h3>
+                                <p class="text-slate-400 leading-relaxed">Deploy once, run everywhere. Our CDN covers 190+ countries with instant propagation.</p>
+                             </div>
+                        </div>
+                    </section>
+                </div>
+            `,
+            product: `
+                <div class="container mx-auto px-6 py-20 fade-in">
+                    <div class="text-center max-w-3xl mx-auto mb-24">
+                        <span class="text-indigo-400 font-semibold tracking-wider text-sm uppercase">Features</span>
+                        <h2 class="text-4xl md:text-6xl font-bold mb-6 mt-4">The Complete <br /><span class="text-gradient">Ecosystem</span></h2>
+                        <p class="text-slate-400 text-xl">Everything is connected. Experience a seamless workflow from code to customer.</p>
+                    </div>
+
+                    <!-- Interactive Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32">
+                        <!-- Feature Cards -->
+                        <div class="card-glass p-8 rounded-2xl hover:bg-slate-800/80 transition group">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 bg-indigo-500/10 rounded-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition">
+                                    <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-mono text-slate-500">v2.1</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Deep Analytics</h3>
+                            <p class="text-slate-400 text-sm">Visualize user journeys with granular precision. Understand churn before it happens.</p>
+                        </div>
+                        
+                        <div class="card-glass p-8 rounded-2xl hover:bg-slate-800/80 transition group">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 bg-fuchsia-500/10 rounded-lg text-fuchsia-400 group-hover:bg-fuchsia-500 group-hover:text-white transition">
+                                    <i data-lucide="layers" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-mono text-slate-500">BETA</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Smart Stacks</h3>
+                            <p class="text-slate-400 text-sm">Automatically optimize your tech stack based on traffic patterns.</p>
+                        </div>
+
+                        <div class="card-glass p-8 rounded-2xl hover:bg-slate-800/80 transition group">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 bg-cyan-500/10 rounded-lg text-cyan-400 group-hover:bg-cyan-500 group-hover:text-white transition">
+                                    <i data-lucide="code-2" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">API Gateway</h3>
+                            <p class="text-slate-400 text-sm">Manage, throttle, and secure your API endpoints with a single config file.</p>
+                        </div>
+                        
+                        <div class="card-glass p-8 rounded-2xl hover:bg-slate-800/80 transition group">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 bg-orange-500/10 rounded-lg text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition">
+                                    <i data-lucide="users" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Team Sync</h3>
+                            <p class="text-slate-400 text-sm">Real-time multiplayer cursors and comments on all your deployment previews.</p>
+                        </div>
+
+                        <div class="card-glass p-8 rounded-2xl hover:bg-slate-800/80 transition group">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition">
+                                    <i data-lucide="server" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Serverless SQL</h3>
+                            <p class="text-slate-400 text-sm">Spin up databases instantly. Scale storage automatically without downtime.</p>
+                        </div>
+
+                        <div class="card-glass p-8 rounded-2xl hover:bg-slate-800/80 transition group">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="p-3 bg-rose-500/10 rounded-lg text-rose-400 group-hover:bg-rose-500 group-hover:text-white transition">
+                                    <i data-lucide="lock" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">Vault Identity</h3>
+                            <p class="text-slate-400 text-sm">Passwordless auth, SSO, and MFA integrated in under 5 minutes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Workflow Section -->
+                    <div class="bg-slate-900/50 border border-white/5 rounded-3xl p-12 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[80px]"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
+                            <div class="w-full md:w-1/2">
+                                <h3 class="text-3xl font-bold mb-4">Integrates with your flow</h3>
+                                <p class="text-slate-400 mb-8">We don't want to change how you work. We just make it faster. Krishna Tech plugins are available for VS Code, GitHub, and Slack.</p>
+                                <button onclick="router('docs')" class="text-white border-b border-indigo-500 hover:text-indigo-400 transition pb-1">View Integration Docs</button>
+                            </div>
+                            <div class="w-full md:w-1/2 flex justify-center">
+                                <div class="flex items-center gap-4 text-4xl text-slate-600">
+                                    <i data-lucide="github" class="w-12 h-12 hover:text-white transition"></i>
+                                    <span class="text-slate-800">→</span>
+                                    <div class="w-16 h-16 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/50">
+                                        <i data-lucide="zap" class="w-8 h-8"></i>
+                                    </div>
+                                    <span class="text-slate-800">→</span>
+                                    <i data-lucide="slack" class="w-12 h-12 hover:text-white transition"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            solutions: `
+                <div class="container mx-auto px-6 py-20 fade-in">
+                    <!-- Stats Header -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-32 border-b border-white/5 pb-12">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-white mb-2">99.99%</div>
+                            <div class="text-slate-500 text-sm uppercase tracking-wider">Uptime</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-white mb-2">500ms</div>
+                            <div class="text-slate-500 text-sm uppercase tracking-wider">Deploy Time</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-white mb-2">10M+</div>
+                            <div class="text-slate-500 text-sm uppercase tracking-wider">Requests/Day</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-white mb-2">24/7</div>
+                            <div class="text-slate-500 text-sm uppercase tracking-wider">Support</div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-20">
+                         <span class="text-indigo-400 font-semibold tracking-wider text-sm uppercase">Use Cases</span>
+                         <h2 class="text-4xl md:text-5xl font-bold mt-2">Built for every stage</h2>
+                    </div>
+
+                    <!-- Solution 1 -->
+                    <div class="card-glass rounded-3xl p-10 mb-16 flex flex-col md:flex-row items-center gap-12 group hover:border-indigo-500/30 transition duration-500">
+                        <div class="w-full md:w-1/2 order-2 md:order-1">
+                            <h3 class="text-3xl font-bold mb-4 text-white">For Startups</h3>
+                            <p class="text-slate-400 text-lg mb-8">Move fast and break nothing. Our startup tier gives you the infrastructure of a unicorn at a fraction of the cost. Skip the DevOps hiring and focus on product.</p>
+                            <ul class="space-y-4 mb-8">
+                                <li class="flex items-center gap-3 text-slate-300 bg-white/5 p-3 rounded-lg"><i data-lucide="rocket" class="w-5 h-5 text-indigo-400"></i> One-click staging environments</li>
+                                <li class="flex items-center gap-3 text-slate-300 bg-white/5 p-3 rounded-lg"><i data-lucide="database" class="w-5 h-5 text-indigo-400"></i> Free tier scalable database</li>
+                            </ul>
+                            <button onclick="router('pricing')" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-indigo-500 transition shadow-lg shadow-indigo-600/20">Start Building</button>
+                        </div>
+                        <div class="w-full md:w-1/2 order-1 md:order-2 flex justify-center">
+                            <div class="w-64 h-64 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full blur-[80px] opacity-20 absolute"></div>
+                            <div class="relative z-10 bg-slate-900 border border-slate-700 p-6 rounded-xl w-full max-w-sm shadow-2xl rotate-3 group-hover:rotate-0 transition duration-500">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-slate-800"></div>
+                                    <div class="h-2 w-24 bg-slate-800 rounded"></div>
+                                </div>
+                                <div class="h-32 bg-slate-800/50 rounded w-full mb-4"></div>
+                                <div class="h-2 w-1/2 bg-slate-800 rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solution 2 -->
+                    <div class="card-glass rounded-3xl p-10 flex flex-col md:flex-row items-center gap-12 group hover:border-cyan-500/30 transition duration-500">
+                         <div class="w-full md:w-1/2 flex justify-center">
+                            <div class="w-64 h-64 bg-gradient-to-tr from-cyan-500 to-blue-500 rounded-full blur-[80px] opacity-20 absolute"></div>
+                            <div class="relative z-10 bg-slate-900 border border-slate-700 p-6 rounded-xl w-full max-w-sm shadow-2xl -rotate-3 group-hover:rotate-0 transition duration-500">
+                                <div class="flex justify-between mb-4">
+                                    <div class="h-2 w-12 bg-green-500 rounded"></div>
+                                    <div class="h-2 w-12 bg-slate-800 rounded"></div>
+                                </div>
+                                <div class="h-4 w-full bg-slate-800/50 rounded mb-2"></div>
+                                <div class="h-4 w-full bg-slate-800/50 rounded mb-2"></div>
+                                <div class="h-4 w-3/4 bg-slate-800/50 rounded"></div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-3xl font-bold mb-4 text-white">For Enterprise</h3>
+                            <p class="text-slate-400 text-lg mb-8">Governance, compliance, and control. Manage thousands of users across multiple organizations with ease. SOC2 Type II Certified.</p>
+                             <ul class="space-y-4 mb-8">
+                                <li class="flex items-center gap-3 text-slate-300 bg-white/5 p-3 rounded-lg"><i data-lucide="lock" class="w-5 h-5 text-cyan-400"></i> SSO & SAML Enforcement</li>
+                                <li class="flex items-center gap-3 text-slate-300 bg-white/5 p-3 rounded-lg"><i data-lucide="file-text" class="w-5 h-5 text-cyan-400"></i> 10-Year Audit Logs</li>
+                            </ul>
+                            <a href="mailto:krishnawebsitess@gmail.com" class="text-cyan-400 font-bold hover:text-cyan-300 flex items-center gap-2">Contact Enterprise Sales <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+                        </div>
+                    </div>
+                </div>
+            `,
+            pricing: `
+                <div class="container mx-auto px-6 py-20 fade-in">
+                    <div class="text-center mb-20">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-6">Simple, transparent pricing</h2>
+                        <p class="text-slate-400 text-lg max-w-2xl mx-auto">Start for free, scale as you grow. No hidden fees or surprise overages.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <!-- Starter -->
+                        <div class="card-glass p-8 rounded-3xl flex flex-col border border-white/5">
+                            <h3 class="text-xl font-bold text-slate-300 mb-2">Starter</h3>
+                            <div class="text-4xl font-bold text-white mb-6">$0 <span class="text-sm font-normal text-slate-500">/mo</span></div>
+                            <p class="text-slate-400 mb-8 text-sm leading-relaxed">Perfect for hobbyists and side projects to explore the platform.</p>
+                            
+                            <ul class="space-y-4 text-sm text-slate-300 flex-grow mb-8">
+                                <li class="flex items-center gap-3"><div class="p-1 bg-green-500/20 rounded-full"><i data-lucide="check" class="w-3 h-3 text-green-500"></i></div> Up to 3 projects</li>
+                                <li class="flex items-center gap-3"><div class="p-1 bg-green-500/20 rounded-full"><i data-lucide="check" class="w-3 h-3 text-green-500"></i></div> Basic Analytics</li>
+                                <li class="flex items-center gap-3"><div class="p-1 bg-green-500/20 rounded-full"><i data-lucide="check" class="w-3 h-3 text-green-500"></i></div> Community Support</li>
+                            </ul>
+                            <a href="https://github.com/bhanu2006-24" target="_blank" class="block text-center w-full py-4 px-6 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition">Start for Free</a>
+                        </div>
+
+                        <!-- Pro -->
+                        <div class="relative card-glass p-8 rounded-3xl flex flex-col border border-indigo-500 bg-slate-800/40 transform md:-translate-y-4">
+                            <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
+                            <div class="absolute top-4 right-4 bg-indigo-500/20 text-indigo-300 text-[10px] font-bold px-2 py-1 rounded border border-indigo-500/30 uppercase tracking-wide">Most Popular</div>
+                            
+                            <h3 class="text-xl font-bold text-white mb-2">Pro</h3>
+                            <div class="text-4xl font-bold text-white mb-6">$29 <span class="text-sm font-normal text-slate-500">/mo</span></div>
+                            <p class="text-slate-400 mb-8 text-sm leading-relaxed">For growing teams and businesses needing power.</p>
+                            
+                            <ul class="space-y-4 text-sm text-slate-300 flex-grow mb-8">
+                                <li class="flex items-center gap-3"><div class="p-1 bg-indigo-500/20 rounded-full"><i data-lucide="check" class="w-3 h-3 text-indigo-400"></i></div> Unlimited projects</li>
+                                <li class="flex items-center gap-3"><div class="p-1 bg-indigo-500/20 rounded-full"><i data-lucide="check" class="w-3 h-3 text-indigo-400"></i></div> Advanced Analytics</li>
+                                <li class="flex items-center gap-3"><div class="p-1 bg-indigo-500/20 rounded-full"><i data-lucide="check" class="w-3 h-3 text-indigo-400"></i></div> Priority Email Support</li>
+                                <li class="flex items-center gap-3"><div class="p-1 bg-indigo-500/20 rounded-full"><i data-lucide="check" class="w-3 h-3 text-indigo-400"></i></div> Custom Domains</li>
+                            </ul>
+                            <a href="mailto:krishnawebsitess@gmail.com?subject=Upgrade to Pro" class="block text-center w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition shadow-lg shadow-indigo-600/30">Get Started</a>
+                        </div>
+
+                        <!-- Enterprise -->
+                        <div class="card-glass p-8 rounded-3xl flex flex-col border border-white/5">
+                            <h3 class="text-xl font-bold text-slate-300 mb-2">Enterprise</h3>
+                            <div class="text-4xl font-bold text-white mb-6">Custom</div>
+                            <p class="text-slate-400 mb-8 text-sm leading-relaxed">For large scale organizations requiring control.</p>
+                            
+                            <ul class="space-y-4 text-sm text-slate-300 flex-grow mb-8">
+                                <li class="flex items-center gap-3"><div class="p-1 bg-slate-700 rounded-full"><i data-lucide="check" class="w-3 h-3 text-slate-400"></i></div> Dedicated Infrastructure</li>
+                                <li class="flex items-center gap-3"><div class="p-1 bg-slate-700 rounded-full"><i data-lucide="check" class="w-3 h-3 text-slate-400"></i></div> 99.99% SLA</li>
+                                <li class="flex items-center gap-3"><div class="p-1 bg-slate-700 rounded-full"><i data-lucide="check" class="w-3 h-3 text-slate-400"></i></div> Dedicated Account Manager</li>
+                            </ul>
+                            <a href="mailto:krishnawebsitess@gmail.com?subject=Enterprise Inquiry" class="block text-center w-full py-4 px-6 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition">Contact Sales</a>
+                        </div>
+                    </div>
+                </div>
+            `,
+            docs: `
+                <div class="container mx-auto px-6 py-12 fade-in flex flex-col md:flex-row gap-12">
+                    <!-- Sidebar -->
+                    <aside class="w-full md:w-64 flex-shrink-0">
+                        <div class="sticky top-28 bg-slate-900/50 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
+                            <h3 class="font-bold text-white mb-6 text-sm uppercase tracking-wider">Documentation</h3>
+                            <ul class="space-y-1 text-sm text-slate-400">
+                                <li><button onclick="scrollToId('intro')" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition">Introduction</button></li>
+                                <li><button onclick="scrollToId('quickstart')" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition">Quick Start</button></li>
+                                <li><button onclick="scrollToId('auth')" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition">Authentication</button></li>
+                                <li><button onclick="scrollToId('api')" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition">API Reference</button></li>
+                                <li><button onclick="scrollToId('sdk')" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition">SDKs</button></li>
+                                <li><button onclick="scrollToId('errors')" class="block w-full text-left py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition">Error Codes</button></li>
+                            </ul>
+                        </div>
+                    </aside>
+
+                    <!-- Main Doc Content -->
+                    <div class="flex-grow max-w-4xl">
+                        <!-- Introduction -->
+                        <div id="intro" class="mb-16 pt-4">
+                            <h1 class="text-5xl font-bold mb-6 text-white">Introduction</h1>
+                            <p class="text-slate-400 text-lg leading-relaxed mb-6">
+                                Welcome to the Krishna Tech platform documentation. Our API allows you to integrate powerful scaling, analytics, and automation features directly into your application.
+                            </p>
+                        </div>
+
+                        <!-- Quick Start -->
+                        <div id="quickstart" class="mb-16 pt-16 border-t border-white/5">
+                            <h2 class="text-3xl font-bold mb-6 text-white">Quick Start</h2>
+                            <p class="text-slate-400 mb-6">Install the SDK and initialize your first client in under 2 minutes.</p>
+                            
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden mb-6">
+                                <div class="bg-slate-950 px-6 py-3 border-b border-slate-800 flex justify-between items-center">
+                                    <span class="text-xs font-mono text-slate-500">TERMINAL</span>
+                                </div>
+                                <div class="p-6 font-mono text-sm">
+                                    <div class="flex gap-2 text-slate-300">
+                                        <span class="text-indigo-400">$</span> npm install @krishna-tech/sdk
+                                    </div>
+                                    <div class="flex gap-2 text-green-400 mt-2">
+                                        + @krishna-tech/sdk@2.0.1
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Authentication -->
+                        <div id="auth" class="mb-16 pt-16 border-t border-white/5">
+                            <h2 class="text-3xl font-bold mb-6 text-white">Authentication</h2>
+                            <p class="text-slate-400 mb-6 leading-relaxed">
+                                All API requests require a valid API key. You can find your keys in the dashboard under Settings > API.
+                            </p>
+                            
+                            <div class="bg-indigo-500/10 border-l-4 border-indigo-500 p-6 rounded-r-lg mb-8">
+                                <div class="flex items-start gap-4">
+                                    <i data-lucide="info" class="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1"></i>
+                                    <div>
+                                        <h4 class="text-indigo-200 font-bold mb-1">Security Notice</h4>
+                                        <p class="text-indigo-300/80 text-sm">Never expose your Secret Key (sk_live...) in client-side code.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- API Reference -->
+                        <div id="api" class="mb-16 pt-16 border-t border-white/5">
+                            <h2 class="text-3xl font-bold mb-6 text-white">API Reference</h2>
+                            <div class="space-y-6">
+                                <div class="bg-slate-900/50 rounded-xl border border-white/5 p-6">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded text-xs font-bold">GET</span>
+                                        <code class="text-sm">/v1/projects</code>
+                                    </div>
+                                    <p class="text-slate-400 text-sm">List all projects associated with your account.</p>
+                                </div>
+                                <div class="bg-slate-900/50 rounded-xl border border-white/5 p-6">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded text-xs font-bold">POST</span>
+                                        <code class="text-sm">/v1/deployments</code>
+                                    </div>
+                                    <p class="text-slate-400 text-sm">Trigger a new deployment from a git branch.</p>
+                                </div>
+                                <div class="bg-slate-900/50 rounded-xl border border-white/5 p-6">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <span class="bg-red-500/20 text-red-400 px-3 py-1 rounded text-xs font-bold">DELETE</span>
+                                        <code class="text-sm">/v1/domains/:id</code>
+                                    </div>
+                                    <p class="text-slate-400 text-sm">Remove a custom domain from your project.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Errors -->
+                        <div id="errors" class="mb-16 pt-16 border-t border-white/5">
+                            <h2 class="text-3xl font-bold mb-6 text-white">Error Codes</h2>
+                            <table class="w-full text-left text-sm text-slate-400">
+                                <thead class="text-slate-200 border-b border-slate-800">
+                                    <tr>
+                                        <th class="py-3 pr-4">Code</th>
+                                        <th class="py-3">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800">
+                                    <tr>
+                                        <td class="py-3 font-mono text-indigo-400">400 Bad Request</td>
+                                        <td class="py-3">The request was unacceptable, often due to missing parameters.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono text-indigo-400">401 Unauthorized</td>
+                                        <td class="py-3">No valid API key provided.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono text-indigo-400">429 Too Many Requests</td>
+                                        <td class="py-3">Too many requests hit the API too quickly.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 font-mono text-indigo-400">500 Server Error</td>
+                                        <td class="py-3">Something went wrong on Krishna Tech's end.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-12 bg-slate-900 p-8 rounded-2xl text-center border border-white/5">
+                            <h3 class="text-xl font-bold mb-2">Still need help?</h3>
+                            <p class="text-slate-400 mb-6">Our engineering team is available on Discord.</p>
+                            <button onclick="router('community')" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white font-medium transition">Join Community</button>
+                        </div>
+                    </div>
+                </div>
+            `,
+            status: `
+                <div class="container mx-auto px-6 py-20 fade-in max-w-4xl">
+                    <div class="flex items-center justify-between mb-12">
+                        <h1 class="text-4xl font-bold text-white">System Status</h1>
+                        <div class="flex items-center gap-2 bg-green-500/10 text-green-400 px-4 py-2 rounded-full border border-green-500/20">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            All Systems Operational
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-12">
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl flex justify-between items-center">
+                            <span class="font-medium text-slate-200">API Endpoint (US-East)</span>
+                            <span class="text-green-400 text-sm font-mono">99.99%</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl flex justify-between items-center">
+                            <span class="font-medium text-slate-200">API Endpoint (EU-West)</span>
+                            <span class="text-green-400 text-sm font-mono">100.00%</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl flex justify-between items-center">
+                            <span class="font-medium text-slate-200">Dashboard UI</span>
+                            <span class="text-green-400 text-sm font-mono">100.00%</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl flex justify-between items-center">
+                            <span class="font-medium text-slate-200">CDN Delivery</span>
+                            <span class="text-green-400 text-sm font-mono">99.98%</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl flex justify-between items-center">
+                            <span class="font-medium text-slate-200">Database Clusters</span>
+                            <span class="text-green-400 text-sm font-mono">99.99%</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center text-slate-500 text-sm">
+                        Last updated: <span class="text-slate-400 font-mono">${new Date().toUTCString()}</span>
+                    </div>
+                </div>
+            `,
+            community: `
+                <div class="container mx-auto px-6 py-20 fade-in text-center max-w-4xl">
+                    <span class="text-indigo-400 font-bold tracking-widest text-xs uppercase mb-4 block">Connect with us</span>
+                    <h1 class="text-5xl font-bold text-white mb-6">Join the Community</h1>
+                    <p class="text-slate-400 text-xl mb-16">Connect with 50,000+ developers building the future of SaaS on Krishna Tech.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                        <a href="#" class="card-glass p-8 rounded-2xl group hover:bg-[#5865F2]/10 transition border border-white/5">
+                            <i data-lucide="message-circle" class="w-12 h-12 text-[#5865F2] mx-auto mb-6"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">Discord</h3>
+                            <p class="text-slate-400 text-sm">Chat with the team and get real-time help.</p>
+                        </a>
+                         <a href="https://github.com/bhanu2006-24" target="_blank" class="card-glass p-8 rounded-2xl group hover:bg-white/10 transition border border-white/5">
+                            <i data-lucide="github" class="w-12 h-12 text-white mx-auto mb-6"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">GitHub</h3>
+                            <p class="text-slate-400 text-sm">Report bugs, contribute, and explore our open source SDKs.</p>
+                        </a>
+                         <a href="https://instagram.com/krishna_websites" target="_blank" class="card-glass p-8 rounded-2xl group hover:bg-[#E1306C]/10 transition border border-white/5">
+                            <i data-lucide="instagram" class="w-12 h-12 text-[#E1306C] mx-auto mb-6"></i>
+                            <h3 class="text-xl font-bold text-white mb-2">Instagram</h3>
+                            <p class="text-slate-400 text-sm">Follow for updates, tips, and behind the scenes.</p>
+                        </a>
+                    </div>
+                </div>
+            `,
+            privacy: `
+                <div class="container mx-auto px-6 py-20 fade-in max-w-3xl">
+                    <h1 class="text-4xl font-bold text-white mb-8">Privacy Policy</h1>
+                    <div class="prose prose-invert prose-slate">
+                        <p class="text-slate-400 mb-6">Effective Date: October 2024</p>
+                        <p class="text-slate-400 mb-6">At Krishna Tech, we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your information.</p>
+                        
+                        <h3 class="text-xl font-bold text-white mb-4">1. Information We Collect</h3>
+                        <p class="text-slate-400 mb-6">We collect information you provide directly to us, such as when you create an account, subscribe to our newsletter, or request customer support.</p>
+                        
+                        <h3 class="text-xl font-bold text-white mb-4">2. How We Use Your Information</h3>
+                        <p class="text-slate-400 mb-6">We use the information we collect to provide, maintain, and improve our services, to develop new ones, and to protect Krishna Tech and our users.</p>
+                        
+                        <h3 class="text-xl font-bold text-white mb-4">3. Data Security</h3>
+                        <p class="text-slate-400 mb-6">We implement security measures designed to protect your information from unauthorized access, disclosure, or destruction.</p>
+
+                        <div class="mt-8 pt-8 border-t border-slate-800">
+                            <p class="text-slate-500 text-sm">Contact <a href="mailto:krishnawebsitess@gmail.com" class="text-indigo-400 underline">privacy@krishnatech.com</a> for concerns.</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            terms: `
+                <div class="container mx-auto px-6 py-20 fade-in max-w-3xl">
+                    <h1 class="text-4xl font-bold text-white mb-8">Terms of Service</h1>
+                    <div class="prose prose-invert prose-slate">
+                        <p class="text-slate-400 mb-6">By accessing or using Krishna Tech, you agree to be bound by these Terms.</p>
+                        
+                        <h3 class="text-xl font-bold text-white mb-4">1. Use of Services</h3>
+                        <p class="text-slate-400 mb-6">You may use our services only as permitted by law, including applicable export and re-export control laws and regulations.</p>
+                        
+                        <h3 class="text-xl font-bold text-white mb-4">2. Account Responsibilities</h3>
+                        <p class="text-slate-400 mb-6">You are responsible for safeguarding the password that you use to access the Services and for any activities or actions under your password.</p>
+                        
+                        <h3 class="text-xl font-bold text-white mb-4">3. Termination</h3>
+                        <p class="text-slate-400 mb-6">We may terminate or suspend your access to our services immediately, without prior notice or liability, for any reason whatsoever.</p>
+                    </div>
+                </div>
+            `,
+            cookies: `
+                <div class="container mx-auto px-6 py-20 fade-in max-w-3xl">
+                    <h1 class="text-4xl font-bold text-white mb-8">Cookie Policy</h1>
+                    <p class="text-slate-400 mb-6">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+                    
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-bold text-white">Essential Cookies</h4>
+                            <span class="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-1 rounded">Required</span>
+                        </div>
+                        <p class="text-sm text-slate-400">Necessary for the website to function, such as authentication and security.</p>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-bold text-white">Analytics Cookies</h4>
+                             <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                <label for="toggle" class="toggle-label block overflow-hidden h-5 rounded-full bg-gray-700 cursor-pointer"></label>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-400">Help us understand how visitors interact with the website.</p>
+                    </div>
+
+                    <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg font-medium transition mt-4">Save Preferences</button>
+                </div>
+            `
+        };
+
+        // Navigation Router
+        function router(pageName) {
+            const app = document.getElementById('app');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // Render content
+            if (pages[pageName]) {
+                app.innerHTML = pages[pageName];
+                window.scrollTo(0, 0);
+            }
+
+            // Re-initialize icons for the new content
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Initialize Home Page
+        document.addEventListener('DOMContentLoaded', () => {
+            router('home');
+        });
+
+    </script>
 </body>
 
 </html>

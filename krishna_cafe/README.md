@@ -1,6 +1,5 @@
 # ☕ Krishna Cafe
 
-![Krishna Cafe](./screenshot.png)
 
 > Experience the warmth and aroma of the finest blends at Krishna Cafe. A digital gateway to your favorite cozy spot.
 

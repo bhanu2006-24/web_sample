@@ -4,92 +4,882 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krishna Care | Making a Difference</title>
+    <title>Krishna Care | Empowering Humanity</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
         rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Configuration for Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#f97316', // Orange
+                            600: '#ea580c',
+                            700: '#c2410c',
+                        },
+                        secondary: {
+                            800: '#1e293b', // Slate Blue
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body {
-            font-family: 'Open Sans', sans-serif;
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
         }
 
-        h1,
-        h2,
-        h3,
-        .font-heading {
-            font-family: 'Nunito', sans-serif;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fff7ed;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ea580c;
+            border-radius: 4px;
+        }
+
+        /* Navigation Glass Effect */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Page Transitions */
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Hero Image Overlay Gradient */
+        .hero-gradient {
+            background: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4));
+        }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
         }
     </style>
 </head>
 
-<body class="bg-emerald-50 text-gray-800">
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-emerald-100 shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">K
+<body
+    class="font-sans text-slate-700 bg-orange-50/30 selection:bg-orange-200 selection:text-orange-900 flex flex-col min-h-screen">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300 top-0" id="navbar">
+        <div class="container mx-auto px-4 md:px-6 py-3 md:py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 cursor-pointer group" onclick="navigateTo('home')">
+                    <div
+                        class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-hands-holding-child text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl md:text-2xl font-bold text-secondary-900 tracking-tight leading-none">
+                            Krishna<span class="text-orange-600">Care</span></h1>
+                        <p class="text-[10px] text-gray-500 font-medium tracking-widest uppercase hidden sm:block">
+                            Foundation</p>
+                    </div>
                 </div>
-                <div class="text-2xl font-heading font-bold text-emerald-800">Krishna Care</div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium text-sm text-secondary-800">
+                    <button onclick="navigateTo('home')" class="hover:text-orange-600 transition nav-btn"
+                        data-target="home">Home</button>
+                    <button onclick="navigateTo('mission')" class="hover:text-orange-600 transition nav-btn"
+                        data-target="mission">Mission</button>
+                    <button onclick="navigateTo('programs')" class="hover:text-orange-600 transition nav-btn"
+                        data-target="programs">Programs</button>
+                    <button onclick="navigateTo('impact')" class="hover:text-orange-600 transition nav-btn"
+                        data-target="impact">Impact</button>
+                    <button onclick="navigateTo('contact')" class="hover:text-orange-600 transition nav-btn"
+                        data-target="contact">Contact</button>
+                </div>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center gap-4">
+                    <button onclick="openDonateModal()"
+                        class="hidden md:flex bg-secondary-900 text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-500/30 transition-all duration-300 items-center gap-2 transform active:scale-95">
+                        <span>Donate Now</span>
+                        <i class="fa-solid fa-heart text-xs text-orange-400"></i>
+                    </button>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()"
+                        class="md:hidden text-secondary-900 focus:outline-none p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars-staggered text-2xl"></i>
+                    </button>
+                </div>
             </div>
-            <div class="hidden md:flex space-x-8 text-sm font-bold text-gray-600">
-                <a href="#" class="hover:text-emerald-600 transition">Our Mission</a>
-                <a href="#" class="hover:text-emerald-600 transition">Programs</a>
-                <a href="#" class="hover:text-emerald-600 transition">Volunteer</a>
-                <a href="#" class="hover:text-emerald-600 transition">Impact</a>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="bg-white border-t border-gray-100 shadow-xl md:hidden">
+            <div class="flex flex-col p-4 space-y-2 text-center font-medium text-secondary-800">
+                <button onclick="mobileNavigate('home')"
+                    class="py-3 hover:bg-orange-50 rounded-xl hover:text-orange-600 transition w-full">Home</button>
+                <button onclick="mobileNavigate('mission')"
+                    class="py-3 hover:bg-orange-50 rounded-xl hover:text-orange-600 transition w-full">Mission</button>
+                <button onclick="mobileNavigate('programs')"
+                    class="py-3 hover:bg-orange-50 rounded-xl hover:text-orange-600 transition w-full">Programs</button>
+                <button onclick="mobileNavigate('impact')"
+                    class="py-3 hover:bg-orange-50 rounded-xl hover:text-orange-600 transition w-full">Impact</button>
+                <button onclick="mobileNavigate('contact')"
+                    class="py-3 hover:bg-orange-50 rounded-xl hover:text-orange-600 transition w-full">Contact</button>
+                <div class="h-px bg-gray-100 my-2"></div>
+                <button onclick="openDonateModal(); toggleMobileMenu()"
+                    class="py-3 bg-orange-600 text-white rounded-xl font-bold shadow-md w-full">Donate Now</button>
             </div>
-            <button
-                class="bg-emerald-500 text-white px-6 py-2 rounded-full font-bold hover:bg-emerald-600 transition shadow-lg shadow-emerald-500/30">Donate
-                Now</button>
         </div>
     </nav>
 
-    <header class="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=2560&q=80"
-                alt="Charity" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-emerald-900/40 mix-blend-multiply"></div>
-        </div>
-        <div class="relative z-10 text-center text-white px-4 max-w-4xl">
-            <h1 class="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight">Empowering
-                Communities,<br />Changing Lives</h1>
-            <p class="text-xl md:text-2xl mb-10 font-light opacity-90">Join us in our mission to provide education,
-                healthcare, and hope to those who need it most.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <button
-                    class="bg-white text-emerald-800 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition shadow-xl">Become
-                    a Volunteer</button>
-                <button
-                    class="bg-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-emerald-700 transition shadow-xl border border-emerald-500">Our
-                    Projects</button>
-            </div>
-        </div>
-    </header>
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-[72px]">
 
-    <section class="py-20 container mx-auto px-6 -mt-20 relative z-20">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-8 rounded-2xl shadow-xl text-center hover:-translate-y-2 transition duration-300">
-                <div
-                    class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
-                    📚</div>
-                <h3 class="text-xl font-heading font-bold mb-4">Education First</h3>
-                <p class="text-gray-600">Building schools and providing scholarships for underprivileged children.</p>
+        <!-- ==================== HOME PAGE ==================== -->
+        <section id="home" class="page-section active">
+            <!-- Hero -->
+            <div class="relative min-h-[85vh] flex items-center bg-gray-900">
+                <!-- Reliable Image Source -->
+                <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                    alt="Child smiling" class="absolute inset-0 w-full h-full object-cover opacity-80"
+                    onerror="this.src='https://via.placeholder.com/1920x1080?text=Krishna+Care+Foundation'">
+
+                <div class="hero-gradient absolute inset-0"></div>
+
+                <div class="container mx-auto px-6 relative z-10 pt-10">
+                    <div class="max-w-3xl animate-slide-up">
+                        <span
+                            class="inline-block py-1 px-3 rounded-full bg-orange-500/20 border border-orange-500/40 text-orange-300 text-xs font-bold tracking-widest mb-6 uppercase backdrop-blur-sm">
+                            Non-Profit Organization
+                        </span>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight">
+                            Hope begins with <br>
+                            <span class="text-orange-500">your helping hand.</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-xl font-light leading-relaxed">
+                            Join Krishna Care in our mission to provide education, healthcare, and sustainable living to
+                            underprivileged communities across India.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="openDonateModal()"
+                                class="bg-orange-600 text-white px-8 py-4 rounded-full font-bold hover:bg-orange-700 transition shadow-lg shadow-orange-600/30 text-center">
+                                Start Donating
+                            </button>
+                            <button onclick="navigateTo('programs')"
+                                class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full font-bold hover:bg-white/20 transition text-center">
+                                View Programs
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-white p-8 rounded-2xl shadow-xl text-center hover:-translate-y-2 transition duration-300">
-                <div
-                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
-                    💧</div>
-                <h3 class="text-xl font-heading font-bold mb-4">Clean Water</h3>
-                <p class="text-gray-600">Installing wells and filtration systems in remote villages.</p>
+
+            <!-- Stats Ribbon -->
+            <div class="bg-secondary-900 text-white py-12">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div class="space-y-2">
+                            <i class="fa-solid fa-people-group text-3xl text-orange-500 mb-2"></i>
+                            <div class="text-3xl font-bold counter" data-target="12500">0</div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wider">Lives Touched</div>
+                        </div>
+                        <div class="space-y-2">
+                            <i class="fa-solid fa-school text-3xl text-orange-500 mb-2"></i>
+                            <div class="text-3xl font-bold counter" data-target="45">0</div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wider">Schools Built</div>
+                        </div>
+                        <div class="space-y-2">
+                            <i class="fa-solid fa-hand-holding-medical text-3xl text-orange-500 mb-2"></i>
+                            <div class="text-3xl font-bold counter" data-target="180">0</div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wider">Medical Camps</div>
+                        </div>
+                        <div class="space-y-2">
+                            <i class="fa-solid fa-users-viewfinder text-3xl text-orange-500 mb-2"></i>
+                            <div class="text-3xl font-bold counter" data-target="350">0</div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wider">Volunteers</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-white p-8 rounded-2xl shadow-xl text-center hover:-translate-y-2 transition duration-300">
-                <div
-                    class="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-6 text-2xl">
-                    ❤️</div>
-                <h3 class="text-xl font-heading font-bold mb-4">Healthcare Access</h3>
-                <p class="text-gray-600">Mobile clinics and medical camps for rural communities.</p>
+
+            <!-- Features Grid -->
+            <section class="py-20 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-serif font-bold text-secondary-900 mb-4">Our Core Pillars
+                        </h2>
+                        <div class="w-20 h-1 bg-orange-500 mx-auto rounded-full"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div
+                            class="group p-8 rounded-2xl bg-orange-50 hover:bg-white border border-transparent hover:border-orange-100 hover:shadow-2xl transition-all duration-300 text-center">
+                            <div
+                                class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center text-3xl text-orange-600 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary-900 mb-3">Education</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">Empowering children with knowledge,
+                                digital skills, and resources to build a better future.</p>
+                            <button onclick="navigateTo('programs')"
+                                class="text-orange-600 font-bold text-sm hover:underline">Learn More</button>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div
+                            class="group p-8 rounded-2xl bg-blue-50 hover:bg-white border border-transparent hover:border-blue-100 hover:shadow-2xl transition-all duration-300 text-center">
+                            <div
+                                class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center text-3xl text-blue-600 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-bowl-food"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary-900 mb-3">Nutrition</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">Fighting hunger with daily nutritious
+                                meals for children in slums and rural schools.</p>
+                            <button onclick="navigateTo('programs')"
+                                class="text-blue-600 font-bold text-sm hover:underline">Learn More</button>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div
+                            class="group p-8 rounded-2xl bg-green-50 hover:bg-white border border-transparent hover:border-green-100 hover:shadow-2xl transition-all duration-300 text-center">
+                            <div
+                                class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center text-3xl text-green-600 shadow-sm mb-6 group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary-900 mb-3">Healthcare</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6">Providing accessible medical checkups,
+                                medicines, and hygiene awareness.</p>
+                            <button onclick="navigateTo('programs')"
+                                class="text-green-600 font-bold text-sm hover:underline">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- ==================== MISSION PAGE ==================== -->
+        <section id="mission" class="page-section">
+            <div class="bg-secondary-900 text-white py-20 relative overflow-hidden">
+                <div class="container mx-auto px-6 relative z-10">
+                    <h2 class="text-4xl font-serif font-bold mb-4">Our Mission</h2>
+                    <p class="text-gray-400 text-lg max-w-2xl">To bridge the gap between privilege and poverty through
+                        sustainable community development.</p>
+                </div>
+                <!-- Decorative Circle -->
+                <div class="absolute -right-20 -top-20 w-96 h-96 bg-orange-600 rounded-full opacity-10 blur-3xl"></div>
+            </div>
+
+            <div class="container mx-auto px-6 py-16">
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
+                    <div class="lg:w-1/2">
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                class="rounded-2xl shadow-lg w-full h-48 object-cover transform translate-y-8"
+                                alt="Volunteers">
+                            <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                class="rounded-2xl shadow-lg w-full h-48 object-cover" alt="Helping hand">
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <h3 class="text-3xl font-bold text-secondary-900 mb-6">Why We Started</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Krishna Care was born in 2018 from a simple observation: while resources exist, they often
+                            don't reach those who need them most. What started as a weekend food drive by students in
+                            Jaipur has grown into a structured organization helping thousands.
+                        </p>
+                        <div class="space-y-4">
+                            <div
+                                class="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                <div
+                                    class="bg-orange-100 text-orange-600 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-eye"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-secondary-900">Vision</h4>
+                                    <p class="text-sm text-gray-500">A world where dignity is a right, not a privilege.
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                <div
+                                    class="bg-blue-100 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-bullseye"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-secondary-900">Goal</h4>
+                                    <p class="text-sm text-gray-500">To impact 100,000 lives by 2026.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PROGRAMS PAGE ==================== -->
+        <section id="programs" class="page-section">
+            <div class="bg-orange-50 py-12">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-secondary-900">Our Initiatives</h2>
+                    <p class="text-gray-600 mt-2">Real solutions for real problems.</p>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-6 py-12 space-y-16">
+                <!-- Program 1 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-xl flex flex-col md:flex-row">
+                    <div class="md:w-1/2 h-64 md:h-auto relative">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                            class="absolute inset-0 w-full h-full object-cover" alt="Education">
+                    </div>
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                        <div class="text-orange-500 font-bold tracking-widest text-xs mb-2">EDUCATION</div>
+                        <h3 class="text-2xl font-bold text-secondary-900 mb-4">Project Vidya</h3>
+                        <p class="text-gray-600 mb-6">Providing tuition, books, and digital devices to children in rural
+                            areas who dropped out of school due to financial constraints.</p>
+                        <ul class="space-y-2 mb-6 text-sm text-gray-500">
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 12 Learning Centers</li>
+                            <li><i class="fa-solid fa-check text-green-500 mr-2"></i> 1500+ Students Enrolled</li>
+                        </ul>
+                        <button onclick="openDonateModal()"
+                            class="w-max px-6 py-2 border-2 border-secondary-900 text-secondary-900 font-bold rounded-full hover:bg-secondary-900 hover:text-white transition">Support
+                            a Student</button>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-xl flex flex-col md:flex-row">
+                    <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center order-2 md:order-1">
+                        <div class="text-blue-500 font-bold tracking-widest text-xs mb-2">WATER & SANITATION</div>
+                        <h3 class="text-2xl font-bold text-secondary-900 mb-4">Clean Jal</h3>
+                        <p class="text-gray-600 mb-6">Installing hand pumps and filtration systems in drought-prone
+                            villages. We also build toilets to promote hygiene and safety for women.</p>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 mb-6">
+                            <span class="text-2xl font-bold text-blue-600 block">50+</span>
+                            <span class="text-xs text-gray-500 uppercase">Wells Drilled this year</span>
+                        </div>
+                        <button onclick="openDonateModal()"
+                            class="w-max px-6 py-2 border-2 border-blue-600 text-blue-600 font-bold rounded-full hover:bg-blue-600 hover:text-white transition">Donate
+                            Water</button>
+                    </div>
+                    <div class="md:w-1/2 h-64 md:h-auto relative order-1 md:order-2">
+                        <img src="https://images.unsplash.com/photo-1541913299-25e2529c96f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                            class="absolute inset-0 w-full h-full object-cover" alt="Water">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== IMPACT PAGE ==================== -->
+        <section id="impact" class="page-section">
+            <div class="container mx-auto px-6 py-16">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-secondary-900 mb-4">Stories of Change</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Behind every number is a name, a face, and a story.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Story 1 -->
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                            class="h-56 w-full object-cover" alt="Story">
+                        <div class="p-6 flex-grow">
+                            <h3 class="font-bold text-lg mb-2">Riya's First Day</h3>
+                            <p class="text-gray-600 text-sm">Riya used to work in a brick kiln. Today, she tops her
+                                class in math thanks to Project Vidya.</p>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 text-xs font-bold text-orange-600 uppercase tracking-wide">
+                            Education
+                        </div>
+                    </div>
+
+                    <!-- Story 2 -->
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1617838547477-90fb3b01859b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            class="h-56 w-full object-cover" alt="Story">
+                        <div class="p-6 flex-grow">
+                            <h3 class="font-bold text-lg mb-2">Village Transformation</h3>
+                            <p class="text-gray-600 text-sm">The village of Rampur now has 24/7 solar electricity and
+                                clean water access.</p>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 text-xs font-bold text-blue-600 uppercase tracking-wide">
+                            Infrastructure
+                        </div>
+                    </div>
+
+                    <!-- Story 3 -->
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1594708767771-a7502209ff51?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            class="h-56 w-full object-cover" alt="Story">
+                        <div class="p-6 flex-grow">
+                            <h3 class="font-bold text-lg mb-2">Healing Hands</h3>
+                            <p class="text-gray-600 text-sm">Our mobile clinic treated over 500 seniors for cataracts in
+                                just one month.</p>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-50 text-xs font-bold text-green-600 uppercase tracking-wide">
+                            Healthcare
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CONTACT PAGE ==================== -->
+        <section id="contact" class="page-section">
+            <div class="min-h-[80vh] bg-orange-50 flex items-center py-16">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h2 class="text-3xl font-serif font-bold text-secondary-900 mb-4">Let's Connect</h2>
+                            <p class="text-gray-600">Have questions? Want to volunteer? We'd love to hear from you.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- GitHub -->
+                            <a href="https://github.com/bhanu2006-24" target="_blank"
+                                class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center text-xl">
+                                    <i class="fa-brands fa-github"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-secondary-900">GitHub</h4>
+                                    <p class="text-sm text-gray-500">bhanu2006-24</p>
+                                </div>
+                            </a>
+
+                            <!-- LinkedIn -->
+                            <a href="https://linkedin.com/in/Bhanu Pratap Saini" target="_blank"
+                                class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-blue-700 text-white rounded-full flex items-center justify-center text-xl">
+                                    <i class="fa-brands fa-linkedin-in"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-secondary-900">LinkedIn</h4>
+                                    <p class="text-sm text-gray-500">Bhanu Pratap Saini</p>
+                                </div>
+                            </a>
+
+                            <!-- Instagram -->
+                            <a href="https://instagram.com/krishna_websites" target="_blank"
+                                class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white rounded-full flex items-center justify-center text-xl">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-secondary-900">Instagram</h4>
+                                    <p class="text-sm text-gray-500">@krishna_websites</p>
+                                </div>
+                            </a>
+
+                            <!-- Email -->
+                            <a href="mailto:krishnawebsitess@gmail.com"
+                                class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-secondary-900">Email</h4>
+                                    <p class="text-sm text-gray-500 truncate w-40 md:w-auto">krishnawebsitess@gmail.com
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FOOTER PAGES (HIDDEN CONTENT) ==================== -->
+
+        <!-- PRIVACY POLICY -->
+        <section id="privacy" class="page-section">
+            <div class="container mx-auto px-6 py-16 max-w-4xl">
+                <h2 class="text-3xl font-bold mb-8">Privacy Policy</h2>
+                <div class="prose prose-orange text-gray-600 space-y-6">
+                    <p>Last updated: October 2024</p>
+                    <p>At Krishna Care, we value your trust. This policy explains how we handle your data.</p>
+                    <h3 class="text-xl font-bold text-gray-800">1. Information We Collect</h3>
+                    <p>We collect information you provide directly to us when you make a donation, sign up for our
+                        newsletter, or fill out a form. This includes name, email, and payment details (processed
+                        securely by third parties).</p>
+                    <h3 class="text-xl font-bold text-gray-800">2. How We Use Information</h3>
+                    <p>We use your information to process donations, send tax receipts, and keep you updated on our
+                        impact. We never sell your data.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TERMS OF SERVICE -->
+        <section id="terms" class="page-section">
+            <div class="container mx-auto px-6 py-16 max-w-4xl">
+                <h2 class="text-3xl font-bold mb-8">Terms of Service</h2>
+                <div class="prose prose-orange text-gray-600 space-y-6">
+                    <p>Welcome to Krishna Care. By using our website, you agree to these terms.</p>
+                    <h3 class="text-xl font-bold text-gray-800">Use of Site</h3>
+                    <p>You may use our site for lawful purposes only. You may not use our site to transmit any harmful
+                        code or content.</p>
+                    <h3 class="text-xl font-bold text-gray-800">Donations</h3>
+                    <p>All donations are final. If you believe an error has been made, please contact us at
+                        krishnawebsitess@gmail.com within 24 hours.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINANCIAL REPORTS -->
+        <section id="reports" class="page-section">
+            <div class="container mx-auto px-6 py-16 max-w-4xl">
+                <h2 class="text-3xl font-bold mb-6">Financial Reports</h2>
+                <p class="text-gray-600 mb-8">We believe in radical transparency. Review our audited financial
+                    statements below.</p>
+
+                <div class="bg-white rounded-xl shadow border border-gray-100 divide-y divide-gray-100">
+                    <div class="p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-file-pdf text-red-500 text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold">Annual Report 2023-2024</h4>
+                                <p class="text-xs text-gray-400">Audited • 2.4 MB</p>
+                            </div>
+                        </div>
+                        <button class="text-orange-600 hover:text-orange-800 font-bold text-sm">Download</button>
+                    </div>
+                    <div class="p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-file-pdf text-red-500 text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold">Impact Assessment Q1 2024</h4>
+                                <p class="text-xs text-gray-400">Internal Review • 1.1 MB</p>
+                            </div>
+                        </div>
+                        <button class="text-orange-600 hover:text-orange-800 font-bold text-sm">Download</button>
+                    </div>
+                    <div class="p-6 flex justify-between items-center hover:bg-gray-50 transition">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-file-pdf text-red-500 text-2xl"></i>
+                            <div>
+                                <h4 class="font-bold">Tax Exemption Certificate (80G)</h4>
+                                <p class="text-xs text-gray-400">Legal • 0.5 MB</p>
+                            </div>
+                        </div>
+                        <button class="text-orange-600 hover:text-orange-800 font-bold text-sm">Download</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="page-section">
+            <div class="container mx-auto px-6 py-16 max-w-3xl">
+                <h2 class="text-3xl font-bold mb-2">Frequently Asked Questions</h2>
+                <p class="text-gray-500 mb-10">Common questions about donating and volunteering.</p>
+
+                <div class="space-y-4">
+                    <details class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 group">
+                        <summary
+                            class="font-bold text-gray-800 cursor-pointer list-none flex justify-between items-center">
+                            Is my donation tax-deductible?
+                            <span class="transition group-open:rotate-180"><i
+                                    class="fa-solid fa-chevron-down text-orange-500"></i></span>
+                        </summary>
+                        <p class="text-gray-600 mt-4 text-sm leading-relaxed">Yes, all donations made to Krishna Care
+                            are eligible for 50% tax exemption under Section 80G of the Income Tax Act.</p>
+                    </details>
+
+                    <details class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 group">
+                        <summary
+                            class="font-bold text-gray-800 cursor-pointer list-none flex justify-between items-center">
+                            Can I sponsor a specific child?
+                            <span class="transition group-open:rotate-180"><i
+                                    class="fa-solid fa-chevron-down text-orange-500"></i></span>
+                        </summary>
+                        <p class="text-gray-600 mt-4 text-sm leading-relaxed">Yes! Through our 'Project Vidya', you can
+                            sponsor a child's education for a year. You will receive quarterly progress reports.</p>
+                    </details>
+
+                    <details class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 group">
+                        <summary
+                            class="font-bold text-gray-800 cursor-pointer list-none flex justify-between items-center">
+                            How do I volunteer?
+                            <span class="transition group-open:rotate-180"><i
+                                    class="fa-solid fa-chevron-down text-orange-500"></i></span>
+                        </summary>
+                        <p class="text-gray-600 mt-4 text-sm leading-relaxed">Simply fill out the form on our Contact
+                            page or DM us on Instagram. We have weekend volunteering slots available in Jaipur.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-secondary-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+
+                <!-- Brand Info -->
+                <div class="col-span-1 lg:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-hands-holding-child text-orange-500 text-xl"></i>
+                        <span class="text-xl font-bold">Krishna<span class="text-orange-500">Care</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Registered Non-Profit working towards a hunger-free, educated, and healthy India.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-orange-600 transition text-white text-sm"><i
+                                class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/krishna_websites"
+                            class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-orange-600 transition text-white text-sm"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-orange-600 transition text-white text-sm"><i
+                                class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Footer Links -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 border-l-4 border-orange-500 pl-3">Explore</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><button onclick="navigateTo('home')" class="hover:text-orange-500 transition">Home</button>
+                        </li>
+                        <li><button onclick="navigateTo('mission')" class="hover:text-orange-500 transition">Our
+                                Mission</button></li>
+                        <li><button onclick="navigateTo('programs')"
+                                class="hover:text-orange-500 transition">Programs</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-orange-500 transition">Contact
+                                Us</button></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Links (NOW WORKING) -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 border-l-4 border-orange-500 pl-3">Transparency</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><button onclick="navigateTo('privacy')"
+                                class="hover:text-orange-500 transition text-left">Privacy Policy</button></li>
+                        <li><button onclick="navigateTo('terms')"
+                                class="hover:text-orange-500 transition text-left">Terms of Service</button></li>
+                        <li><button onclick="navigateTo('reports')"
+                                class="hover:text-orange-500 transition text-left">Financial Reports</button></li>
+                        <li><button onclick="navigateTo('faq')"
+                                class="hover:text-orange-500 transition text-left">FAQ</button></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-white font-bold mb-6 border-l-4 border-orange-500 pl-3">Stay Updated</h4>
+                    <form onsubmit="event.preventDefault(); alert('Subscribed!');" class="space-y-3">
+                        <input type="email" placeholder="Email Address"
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-orange-500 text-white placeholder-gray-500">
+                        <button type="submit"
+                            class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-lg text-sm transition">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                <p>&copy; 2024 Krishna Care Foundation. Reg No: 1234/5678</p>
+                <p>Designed with <i class="fa-solid fa-heart text-red-500 mx-1"></i> by Krishna Websites</p>
             </div>
         </div>
-    </section>
+    </footer>
+
+    <!-- DONATE MODAL -->
+    <div id="donateModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity" onclick="closeDonateModal()">
+        </div>
+        <div
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-full max-w-lg rounded-2xl shadow-2xl p-0 overflow-hidden animate-slide-up mx-4 md:mx-0">
+            <!-- Modal Header -->
+            <div class="bg-orange-600 p-6 text-white relative">
+                <button onclick="closeDonateModal()" class="absolute top-4 right-4 text-white/70 hover:text-white">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+                <h3 class="text-2xl font-bold">Make a Donation</h3>
+                <p class="text-orange-100 text-sm mt-1">Your support changes lives instantly.</p>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-8">
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <button
+                        class="border border-gray-200 rounded-xl py-3 font-bold text-gray-600 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-600 transition focus:ring-2 ring-orange-500 focus:bg-orange-50 focus:text-orange-600">₹500</button>
+                    <button
+                        class="border border-gray-200 rounded-xl py-3 font-bold text-gray-600 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-600 transition focus:ring-2 ring-orange-500 focus:bg-orange-50 focus:text-orange-600">₹1000</button>
+                    <button
+                        class="border border-gray-200 rounded-xl py-3 font-bold text-gray-600 hover:border-orange-500 hover:bg-orange-50 hover:text-orange-600 transition focus:ring-2 ring-orange-500 focus:bg-orange-50 focus:text-orange-600">₹2500</button>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Other Amount (₹)</label>
+                    <input type="number"
+                        class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                        placeholder="Enter amount">
+                </div>
+
+                <button
+                    class="w-full bg-secondary-900 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-orange-600 transition duration-300 flex items-center justify-center gap-2">
+                    <span>Secure Payment</span>
+                    <i class="fa-solid fa-lock text-xs"></i>
+                </button>
+
+                <div class="mt-4 flex justify-center gap-4 text-gray-400 text-2xl">
+                    <i class="fa-brands fa-cc-visa hover:text-blue-900"></i>
+                    <i class="fa-brands fa-cc-mastercard hover:text-red-600"></i>
+                    <i class="fa-brands fa-google-pay hover:text-gray-600"></i>
+                    <i class="fa-brands fa-apple-pay hover:text-black"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Router Logic
+        function navigateTo(pageId) {
+            // Hide all sections
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+
+            // Show target section
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+
+            // Update Navbar State (optional visual cue)
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.target === pageId) {
+                    btn.classList.add('text-orange-600');
+                } else {
+                    btn.classList.remove('text-orange-600');
+                }
+            });
+
+            // Start counters if home
+            if (pageId === 'home') runCounters();
+        }
+
+        // Mobile Nav Helper
+        function mobileNavigate(pageId) {
+            navigateTo(pageId);
+            toggleMobileMenu();
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden'); // Tailwind's hidden utility
+
+            // Or for animation toggle classes (simplified here for reliability)
+            // menu.classList.toggle('open');
+        }
+
+        // Donation Modal
+        function openDonateModal() {
+            document.getElementById('donateModal').classList.remove('hidden');
+        }
+        function closeDonateModal() {
+            document.getElementById('donateModal').classList.add('hidden');
+        }
+
+        // Animated Counters
+        function runCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                counter.innerText = '0';
+                const target = +counter.getAttribute('data-target');
+                const increment = target / 100;
+
+                const updateCounter = () => {
+                    const c = +counter.innerText;
+                    if (c < target) {
+                        counter.innerText = Math.ceil(c + increment);
+                        setTimeout(updateCounter, 10);
+                    } else {
+                        counter.innerText = target + "+";
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            runCounters();
+        });
+    </script>
 </body>
 
 </html>
