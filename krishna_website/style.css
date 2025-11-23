@@ -1,10 +1,14 @@
 /* Custom Styles */
 body {
     font-family: 'Outfit', sans-serif;
-    cursor: none; /* Hide default cursor for custom one */
+    cursor: none;
+    /* Hide default cursor for custom one */
 }
 
-h1, h2, h3, .font-serif {
+h1,
+h2,
+h3,
+.font-serif {
     font-family: 'Playfair Display', serif;
 }
 
@@ -33,9 +37,7 @@ h1, h2, h3, .font-serif {
     transition: width 0.2s, height 0.2s, background-color 0.2s;
 }
 
-body:hover .cursor-outline {
-    /* Hover effect handled by JS */
-}
+
 
 /* Glassmorphism Card */
 .glass-card {
@@ -48,15 +50,24 @@ body:hover .cursor-outline {
 .glass-card:hover {
     background: rgba(255, 255, 255, 0.08);
     transform: translateY(-10px);
-    border-color: rgba(168, 85, 247, 0.4); /* Purple border on hover */
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    border-color: rgba(168, 85, 247, 0.4);
+    /* Purple border on hover */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 /* Animations */
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .animate-float {
@@ -69,5 +80,6 @@ body:hover .cursor-outline {
 
 .social-icon-link:hover {
     transform: translateY(-5px);
-    color: #a855f7; /* Purple-500 */
+    color: #a855f7;
+    /* Purple-500 */
 }
