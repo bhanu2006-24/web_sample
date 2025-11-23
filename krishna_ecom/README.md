@@ -19,6 +19,13 @@
 - **Order Tracking**: Real-time updates on your package's journey.
 - **Wishlist**: Save your favorites for later.
 
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/ecom_hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/ecom_products.png" width="45%" alt="Products" />
+</div>
+
 ## 🛠️ Tech Stack
 
 - **HTML5**: The skeleton.

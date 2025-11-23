@@ -19,6 +19,14 @@
 - **Online Ordering**: Seamless flow from selection to checkout.
 - **Responsive Design**: Order from your phone on the go.
 
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/bakery_hero_png_1763867727730.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/bakery_products_png_1763867754582.png" width="45%" alt="Products" />
+  <img src="./screenshots/bakery_footer_png_1763867778838.png" width="45%" alt="Footer" />
+</div>
+
 ## 🛠️ Tech Stack
 
 - **HTML5**: The base ingredients.

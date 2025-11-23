@@ -19,6 +19,13 @@
 - **Cart Functionality**: Smooth shopping cart integration.
 - **Mobile First**: optimized shopping experience on any device.
 
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/ecom2_hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/ecom2_products.png" width="45%" alt="Products" />
+</div>
+
 ## 🛠️ Tech Stack
 
 - **HTML5**: Structure and semantics.

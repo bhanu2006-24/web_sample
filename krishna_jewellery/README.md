@@ -19,6 +19,13 @@
 - **Virtual Try-On**: (Concept) Interactive elements for visualizing pieces.
 - **Secure Inquiries**: Direct line to concierge for pricing and availability.
 
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/jewellery_hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/jewellery_collection.png" width="45%" alt="Collection" />
+</div>
+
 ## 🛠️ Tech Stack
 
 - **HTML5**: Semantic structure.

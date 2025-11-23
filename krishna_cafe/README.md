@@ -19,6 +19,14 @@
 - **Dynamic Menu**: Interactive menu display with mouth-watering visuals.
 - **Smooth Animations**: Subtle transitions for a premium user experience.
 
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/cafe_hero_png_1763867804726.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/cafe_menu_png_1763867841595.png" width="45%" alt="Menu" />
+  <img src="./screenshots/cafe_ambiance_png_1763867877600.png" width="45%" alt="Ambiance" />
+</div>
+
 ## 🛠️ Tech Stack
 
 - **HTML5**: Semantic structure.
