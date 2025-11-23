@@ -1,35 +1,31 @@
-# Éclat Pâtisserie (Krishna Bakery)
+# 🥐 Krishna Bakery
 
-A premium, single-page artisan bakery portfolio website designed with a focus on elegance and visual storytelling.
+![Krishna Bakery](./screenshot.png)
 
-## 🌟 Features
+> Freshly baked happiness. From artisan breads to decadent pastries, taste the love in every bite.
 
-- **Single Page Application (SPA) Feel**: Uses vanilla JavaScript hash routing for seamless navigation between Home, About, Collection, and Contact sections without page reloads.
-- **Responsive Design**: Fully responsive layout built with Tailwind CSS, ensuring a great experience on mobile, tablet, and desktop.
-- **Premium Aesthetic**: Features a curated color palette (Gold & White), custom fonts (Inter), and high-quality imagery to convey luxury.
-- **Interactive Elements**: Smooth scrolling, hover effects, and a dynamic gallery grid.
-- **Contact Form**: A styled inquiry form for custom orders.
+<div align="center">
+
+<a href="https://krishnabakerysample.pages.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/ORDER_NOW-E67E22?style=for-the-badge&logo=cakephp&logoColor=white" alt="Live Preview" />
+</a>
+
+</div>
+
+## ✨ Features
+
+- **Appetizing Visuals**: Photography that makes you hungry.
+- **Daily Specials**: Dynamic updates for the day's fresh bakes.
+- **Online Ordering**: Seamless flow from selection to checkout.
+- **Responsive Design**: Order from your phone on the go.
 
 ## 🛠️ Tech Stack
 
-- **HTML5**: Semantic structure.
-- **CSS3 (Tailwind CSS)**: Utility-first styling for rapid and consistent design.
-- **JavaScript (Vanilla)**: Lightweight routing and interaction logic.
+- **HTML5**: The base ingredients.
+- **CSS3**: The icing on the cake.
+- **JavaScript**: The secret flavor.
 
-## 📸 Screenshots
-
-### Hero Section
-![Hero Section](screenshots/bakery_hero.png)
-
-### Products Collection
-![Products Collection](screenshots/bakery_products.png)
-
-## 🚀 How to Run
+## 🚀 Getting Started
 
 1. Clone the repository.
-2. Open `index.html` in your browser.
-3. No build step required! (Tailwind is loaded via CDN for simplicity in this sample).
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+2. Open `index.html` to smell the coffee and bread.

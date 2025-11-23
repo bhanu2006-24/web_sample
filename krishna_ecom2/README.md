@@ -1,36 +1,31 @@
-# The Artisan's Atelier (Krishna E-commerce 2)
+# 🎨 The Artisan's Atelier
 
-A premium, single-page e-commerce experience for handcrafted jewelry, featuring a sophisticated dark and gold aesthetic.
+![The Artisan's Atelier](./screenshot.png)
 
-## 💎 Features
+> curated collection of handcrafted excellence. Where tradition meets modern elegance in a seamless e-commerce experience.
 
-- **Premium Design**: A luxurious dark theme with gold accents (`#fbbf24`) and serif typography (`Playfair Display`) to evoke elegance.
-- **Single Page Application (SPA)**: Smooth navigation between Home, Shop, About, and Cart sections without page reloads.
-- **Local Storage Cart**: Persistent shopping cart functionality that saves items even after refreshing the page.
-- **Toast Notifications**: Interactive feedback for actions like adding to cart or checking out.
-- **Simulated Checkout**: A complete flow from browsing to a simulated purchase confirmation.
-- **Responsive Layout**: Beautifully adapted for mobile and desktop viewing.
+<div align="center">
+
+<a href="https://krishnaecomsample2.pages.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/SHOP_NOW-2C3E50?style=for-the-badge&logo=shopify&logoColor=white" alt="Live Preview" />
+</a>
+
+</div>
+
+## ✨ Features
+
+- **Elegant Design**: Minimalist aesthetic focusing on product beauty.
+- **Product Showcase**: High-quality image galleries with zoom capabilities.
+- **Cart Functionality**: Smooth shopping cart integration.
+- **Mobile First**: optimized shopping experience on any device.
 
 ## 🛠️ Tech Stack
 
-- **HTML5**: Semantic structure.
-- **Tailwind CSS**: Utility-first styling for rapid and responsive design.
-- **JavaScript (Vanilla)**: Handles routing, cart state management (Local Storage), and UI interactions.
+- **HTML5**: Structure and semantics.
+- **CSS3**: Advanced styling and responsive grids.
+- **JavaScript**: Cart logic and UI interactions.
 
-## 📸 Screenshots
-
-### Hero Section
-![Hero Section](screenshots/ecom2_hero.png)
-
-### Products Collection
-![Products Collection](screenshots/ecom2_products.png)
-
-## 🚀 How to Run
+## 🚀 Getting Started
 
 1. Clone the repository.
-2. Open `index.html` in your browser.
-3. Browse the collection and test the persistent cart!
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+2. Open `index.html` to browse the collection.
