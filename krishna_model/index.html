@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ethereal Models - V8 Mobile Hero Fix</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
     <style>
         /* --- Custom Hyper-Premium Styles --- */
         :root {
@@ -20,15 +23,15 @@
             color: var(--text-color);
             scroll-behavior: smooth;
             /* Global fix to ensure no random element causes scrolling */
-     width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
-    }
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
 
-    /* ✅ Optional safety nets */
-    .container {
+        /* ✅ Optional safety nets - Removed override to allow proper container behavior */
+        /* .container {
       max-width: 100% !important;
-    }
+    } */
 
         .premium-text {
             font-family: 'Playfair Display', serif;
@@ -55,13 +58,15 @@
         }
 
         @media (max-width: 480px) {
-  .premium-text.hero-title-main {
-    letter-spacing: 0.15em; /* reduce spacing so text fits */
-  }
-  .premium-text.hero-title-sub {
-    letter-spacing: 0.1em;
-  }
-}
+            .premium-text.hero-title-main {
+                letter-spacing: 0.15em;
+                /* reduce spacing so text fits */
+            }
+
+            .premium-text.hero-title-sub {
+                letter-spacing: 0.1em;
+            }
+        }
 
 
         /* Kinetic Text */
@@ -69,8 +74,9 @@
             display: inline-block;
             overflow: hidden;
             /* white-space: nowrap is required for the kinetic animation to look correct */
-            white-space: nowrap; 
+            white-space: nowrap;
         }
+
         .kinetic-text span {
             display: inline-block;
             opacity: 0;
@@ -78,49 +84,57 @@
             transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.2, 0.6, 0.4, 1);
         }
 
-/* --- Hero Font Sizes (Responsive with clamp) --- */
-.hero-title-main {
-    font-size: clamp(2rem, 8vw, 6rem); /* scales with screen, min 2rem, max 6rem */
-    line-height: 1.1;
-    word-break: break-word;
-    text-align: center;
-}
+        /* --- Hero Font Sizes (Responsive with clamp) --- */
+        .hero-title-main {
+            font-size: clamp(2rem, 8vw, 6rem);
+            /* scales with screen, min 2rem, max 6rem */
+            line-height: 1.1;
+            word-break: break-word;
+            text-align: center;
+        }
 
-.hero-title-sub {
-    font-size: clamp(1.25rem, 4vw, 3rem); /* scales smoothly for subtitle */
-    line-height: 1.2;
-    text-align: center;
-}
+        .hero-title-sub {
+            font-size: clamp(1.25rem, 4vw, 3rem);
+            /* scales smoothly for subtitle */
+            line-height: 1.2;
+            text-align: center;
+        }
 
         /* --- Gallery Styles (Masonry Layout via CSS Columns) --- */
         .gallery-grid {
-            column-count: 2; /* Default for mobile/small screens */
-            column-gap: 20px; 
+            column-count: 2;
+            /* Default for mobile/small screens */
+            column-gap: 20px;
             padding-bottom: 20px;
         }
+
         @media (min-width: 768px) {
             .gallery-grid {
-                column-count: 3; /* 3 columns for desktop */
+                column-count: 3;
+                /* 3 columns for desktop */
             }
         }
+
         .gallery-item {
             overflow: hidden;
             position: relative;
-            margin-bottom: 20px; 
+            margin-bottom: 20px;
             display: inline-block;
             width: 100%;
             background-color: #111;
             /* Essential for card height to match image height */
-            break-inside: avoid; 
+            break-inside: avoid;
         }
+
         .gallery-image {
             width: 100%;
-            height: auto; 
+            height: auto;
             display: block;
             object-fit: cover;
             transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
             cursor: pointer;
         }
+
         .gallery-item:hover .gallery-image {
             transform: scale(1.05);
         }
@@ -132,13 +146,14 @@
             font-weight: 500;
             font-size: 0.85rem;
         }
-        
+
         /* --- Scroll Animation Utility --- */
         .fade-in-section {
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 1.2s ease-out, transform 1.2s ease-out;
         }
+
         .is-visible {
             opacity: 1;
             transform: translateY(0);
@@ -155,6 +170,7 @@
             user-select: none;
             cursor: default;
         }
+
         .marquee-content {
             display: inline-block;
             font-family: 'Playfair Display', serif;
@@ -163,23 +179,28 @@
             color: #1a1a1a;
             animation: marquee 35s linear infinite;
         }
+
         @media (min-width: 640px) {
             .marquee-content {
                 font-size: 2.5rem;
             }
+
             .marquee-container {
                 padding: 30px 0;
             }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Header & Navigation -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-[#030303] transition-all duration-500 border-b border-[#151515] shadow-lg">
-            <div class="container mx-auto px-4 sm:px-6 py-3 sm:py-5 flex justify-between items-center">
+    <header id="main-header"
+        class="fixed top-0 left-0 right-0 z-50 bg-[#030303] transition-all duration-500 border-b border-[#151515] shadow-lg">
+        <div class="container mx-auto px-4 sm:px-6 py-3 sm:py-5 flex justify-between items-center">
             <!-- Logo -->
-            <a href="#hero" class="text-2xl sm:text-4xl font-extrabold premium-text text-white hover:text-gray-400 transition duration-300">
+            <a href="#hero"
+                class="text-2xl sm:text-4xl font-extrabold premium-text text-white hover:text-gray-400 transition duration-300">
                 E T H E R E A L
             </a>
             <!-- Desktop Nav: Space-x adjusted slightly for better tablet responsiveness -->
@@ -191,42 +212,58 @@
                 <a href="#contact" class="text-white hover:text-gray-400 transition duration-300">Contact</a>
             </nav>
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden p-3 rounded-full text-white hover:bg-[#151515] transition duration-300">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            <button id="mobile-menu-button"
+                class="md:hidden p-3 rounded-full text-white hover:bg-[#151515] transition duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
             </button>
         </div>
     </header>
 
     <!-- Mobile Menu Drawer -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#030303] transform -translate-x-full transition-transform duration-500 md:hidden pt-20">
+    <div id="mobile-menu"
+        class="fixed inset-0 z-40 bg-[#030303] transform -translate-x-full transition-transform duration-500 md:hidden pt-20">
         <nav class="flex flex-col items-center space-y-10 text-3xl uppercase font-light header-nav-text p-10">
-            <a href="#hero" class="text-white hover:text-gray-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Home</a>
-            <a href="#gallery" class="text-white hover:text-gray-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Portfolio</a>
-            <a href="#services" class="text-white hover:text-gray-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Services</a>
-            <a href="#about" class="text-white hover:text-gray-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">About Us</a>
-            <a href="#contact" class="text-white hover:text-gray-400 transition duration-300" onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Contact</a>
+            <a href="#hero" class="text-white hover:text-gray-400 transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Home</a>
+            <a href="#gallery" class="text-white hover:text-gray-400 transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Portfolio</a>
+            <a href="#services" class="text-white hover:text-gray-400 transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Services</a>
+            <a href="#about" class="text-white hover:text-gray-400 transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">About Us</a>
+            <a href="#contact" class="text-white hover:text-gray-400 transition duration-300"
+                onclick="document.getElementById('mobile-menu').classList.add('-translate-x-full')">Contact</a>
         </nav>
     </div>
 
     <!-- 1. Hero Section -->
-<section id="hero" class="hero-section pt-20 sm:pt-24">
+    <section id="hero" class="hero-section pt-20 sm:pt-24">
         <div class="absolute inset-0 hero-overlay flex items-center justify-center">
             <div class="text-center p-6 sm:p-12 fade-in-section is-visible transition-opacity duration-1000">
-                <p class="premium-text text-lg sm:text-2xl mb-8 text-gray-400 tracking-[0.4em] transform translate-y-[-20px] opacity-0 transition-all duration-1000 ease-out" id="hero-tagline">
+                <p class="premium-text text-lg sm:text-2xl mb-8 text-gray-400 tracking-[0.4em] transform translate-y-[-20px] opacity-0 transition-all duration-1000 ease-out"
+                    id="hero-tagline">
                     WHERE VISION MEETS LEGACY
                 </p>
-                
-                <h1 id="kinetic-header-main" class="font-extrabold leading-none text-white premium-text kinetic-text cursor-default hero-title-main">
+
+                <h1 id="kinetic-header-main"
+                    class="font-extrabold leading-none text-white premium-text kinetic-text cursor-default hero-title-main">
                     E T H E R E A L
                 </h1>
 
                 <p class="text-white text-3xl sm:text-5xl font-extrabold premium-text py-4 hidden sm:block">|</p>
-                
-                <h1 id="kinetic-header-sub" class="font-extrabold leading-none text-white premium-text kinetic-text cursor-default hero-title-sub">
+
+                <h1 id="kinetic-header-sub"
+                    class="font-extrabold leading-none text-white premium-text kinetic-text cursor-default hero-title-sub">
                     T H E V O Y A G E
                 </h1>
 
-                <a href="#gallery" class="mt-12 sm:mt-16 inline-block px-8 sm:px-12 py-3 sm:py-5 text-xs sm:text-sm uppercase border border-white text-white hover:bg-white hover:text-black transition duration-700 font-semibold tracking-[0.3em] rounded-full shadow-2xl transform translate-y-[20px] opacity-0 transition-all duration-1000 ease-out" id="hero-cta">
+                <a href="#gallery"
+                    class="mt-12 sm:mt-16 inline-block px-8 sm:px-12 py-3 sm:py-5 text-xs sm:text-sm uppercase border border-white text-white hover:bg-white hover:text-black transition duration-700 font-semibold tracking-[0.3em] rounded-full shadow-2xl transform translate-y-[20px] opacity-0 transition-all duration-1000 ease-out"
+                    id="hero-cta">
                     Explore The Portfolio
                 </a>
             </div>
@@ -238,23 +275,31 @@
         <div class="container mx-auto px-6 max-w-7xl">
             <div class="text-center mb-16 md:mb-24 fade-in-section">
                 <h2 class="text-4xl sm:text-6xl font-bold mb-3 premium-text">Our Expertise</h2>
-                <p class="text-base sm:text-xl text-gray-500 tracking-wider font-light mt-4">Defining the narrative across every visual medium.</p>
+                <p class="text-base sm:text-xl text-gray-500 tracking-wider font-light mt-4">Defining the narrative
+                    across every visual medium.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8 md:gap-16">
                 <!-- Service 1 -->
-                <div class="text-center fade-in-section p-6 sm:p-8 border border-[#151515] hover:border-white transition duration-500">
+                <div
+                    class="text-center fade-in-section p-6 sm:p-8 border border-[#151515] hover:border-white transition duration-500">
                     <h3 class="text-2xl sm:text-3xl font-semibold mb-3 premium-text text-white">Editorial</h3>
-                    <p class="text-sm sm:text-base text-gray-400 leading-relaxed font-light">From high-concept magazine spreads to exclusive digital features, our talent commands attention with unparalleled storytelling ability.</p>
+                    <p class="text-sm sm:text-base text-gray-400 leading-relaxed font-light">From high-concept magazine
+                        spreads to exclusive digital features, our talent commands attention with unparalleled
+                        storytelling ability.</p>
                 </div>
                 <!-- Service 2 -->
-                <div class="text-center fade-in-section p-6 sm:p-8 border border-[#151515] hover:border-white transition duration-500" style="transition-delay: 0.1s;">
+                <div class="text-center fade-in-section p-6 sm:p-8 border border-[#151515] hover:border-white transition duration-500"
+                    style="transition-delay: 0.1s;">
                     <h3 class="text-2xl sm:text-3xl font-semibold mb-3 premium-text text-white">Runway & Couture</h3>
-                    <p class="text-sm sm:text-base text-gray-400 leading-relaxed font-light">Representing the world's most sought-after faces for major fashion weeks and haute couture presentations globally.</p>
+                    <p class="text-sm sm:text-base text-gray-400 leading-relaxed font-light">Representing the world's
+                        most sought-after faces for major fashion weeks and haute couture presentations globally.</p>
                 </div>
                 <!-- Service 3 -->
-                <div class="text-center fade-in-section p-6 sm:p-8 border border-[#151515] hover:border-white transition duration-500" style="transition-delay: 0.2s;">
+                <div class="text-center fade-in-section p-6 sm:p-8 border border-[#151515] hover:border-white transition duration-500"
+                    style="transition-delay: 0.2s;">
                     <h3 class="text-2xl sm:text-3xl font-semibold mb-3 premium-text text-white">Commercial</h3>
-                    <p class="text-sm sm:text-base text-gray-400 leading-relaxed font-light">Connecting top-tier models with luxury brands for effective, high-impact advertising campaigns and lookbooks.</p>
+                    <p class="text-sm sm:text-base text-gray-400 leading-relaxed font-light">Connecting top-tier models
+                        with luxury brands for effective, high-impact advertising campaigns and lookbooks.</p>
                 </div>
             </div>
         </div>
@@ -265,7 +310,8 @@
         <div class="container mx-auto px-6">
             <div class="text-center mb-16 fade-in-section">
                 <h2 class="text-5xl sm:text-7xl font-bold mb-3 premium-text">The Complete Portfolio</h2>
-                <p class="text-lg sm:text-2xl text-gray-500 tracking-wider font-light mt-4">27 unique visions. Curated elegance.</p>
+                <p class="text-lg sm:text-2xl text-gray-500 tracking-wider font-light mt-4">27 unique visions. Curated
+                    elegance.</p>
             </div>
 
             <!-- Image Grid Container - Now uses Masonry/Column layout -->
@@ -278,7 +324,8 @@
     <!-- 4. Marquee Banner -->
     <div class="marquee-container my-16">
         <div id="marquee-text" class="marquee-content">
-            NYC &bull; PARIS &bull; MILAN &bull; LONDON &bull; COUTURE &bull; EDITORIAL &bull; RUNWAY &bull; GLOBAL TALENT &bull; E T H E R E A L &bull; &nbsp;
+            NYC &bull; PARIS &bull; MILAN &bull; LONDON &bull; COUTURE &bull; EDITORIAL &bull; RUNWAY &bull; GLOBAL
+            TALENT &bull; E T H E R E A L &bull; &nbsp;
         </div>
     </div>
 
@@ -288,20 +335,23 @@
             <div class="md:grid md:grid-cols-2 md:gap-24 items-center">
                 <div class="mb-12 md:mb-0 fade-in-section">
                     <img src="https://images.pexels.com/photos/34165005/pexels-photo-34165005.jpeg?auto=compress&cs=tinysrgb&h=1000"
-                         alt="Elegant woman in soft natural light"
-                         class="w-full h-auto object-cover shadow-2xl border border-gray-800"
-                         onerror="this.onerror=null;this.src='https://placehold.co/800x1000/111/444?text=ETHEREAL+VISION';"
-                    >
+                        alt="Elegant woman in soft natural light"
+                        class="w-full h-auto object-cover shadow-2xl border border-gray-800"
+                        onerror="this.onerror=null;this.src='https://placehold.co/800x1000/111/444?text=ETHEREAL+VISION';">
                 </div>
                 <div class="fade-in-section" style="transition-delay: 0.1s;">
                     <h2 class="text-4xl sm:text-6xl font-bold mb-8 premium-text">A Legacy of Light</h2>
                     <p class="text-lg sm:text-xl leading-relaxed text-gray-300 mb-8 font-light">
-                        Ethereal is more than an agency; we are a collective shaping the future of fashion imagery. We rigorously select models who possess not just striking beauty, but a profound ability to embody a narrative, transforming the ordinary into the editorial.
+                        Ethereal is more than an agency; we are a collective shaping the future of fashion imagery. We
+                        rigorously select models who possess not just striking beauty, but a profound ability to embody
+                        a narrative, transforming the ordinary into the editorial.
                     </p>
                     <p class="text-base sm:text-lg leading-relaxed text-gray-400 mb-10 font-light">
-                        Our philosophy centers on partnership, ensuring every career is meticulously guided toward long-term success and creative fulfillment. We craft legacies, not just temporary careers.
+                        Our philosophy centers on partnership, ensuring every career is meticulously guided toward
+                        long-term success and creative fulfillment. We craft legacies, not just temporary careers.
                     </p>
-                    <a href="#contact" class="inline-block mt-4 text-sm uppercase tracking-[0.2em] border-b-2 border-white pb-1 hover:border-gray-500 transition duration-300 font-semibold">
+                    <a href="#contact"
+                        class="inline-block mt-4 text-sm uppercase tracking-[0.2em] border-b-2 border-white pb-1 hover:border-gray-500 transition duration-300 font-semibold">
                         Discover Our Story &rarr;
                     </a>
                 </div>
@@ -310,16 +360,20 @@
     </section>
 
     <!-- 6. CTA Section -->
-    <section id="cta" class="py-20 lg:py-32 text-center bg-[#030303] border-t border-gray-800">
-        <div class="container mx-auto px-6 fade-in-section">
-            <h2 class="text-5xl sm:text-7xl font-extrabold mb-4 premium-text text-white">COLLABORATE. CREATE.</h2>
-            <p class="text-lg sm:text-xl text-gray-400 mb-10 font-light tracking-wide">Elevate your brand with the world's most evocative talent.</p>
+    <section id="cta" class="py-12 sm:py-20 lg:py-32 text-center bg-[#030303] border-t border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 fade-in-section">
+            <h2 class="text-3xl sm:text-5xl lg:text-7xl font-extrabold mb-4 premium-text text-white break-words">
+                COLLABORATE. CREATE.</h2>
+            <p class="text-base sm:text-lg lg:text-xl text-gray-400 mb-8 sm:mb-10 font-light tracking-wide">Elevate your
+                brand with the world's most evocative talent.</p>
 
-            <div class="flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-10">
-                <a href="mailto:booking@ethereal.com" class="inline-block px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg uppercase bg-white text-black font-bold tracking-[0.2em] rounded-full hover:bg-gray-200 transition duration-300 shadow-xl transform hover:scale-105">
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-10">
+                <a href="mailto:booking@ethereal.com"
+                    class="w-full sm:w-auto inline-block px-8 sm:px-14 py-3 sm:py-5 text-sm sm:text-lg uppercase bg-white text-black font-bold tracking-[0.2em] rounded-full hover:bg-gray-200 transition duration-300 shadow-xl transform hover:scale-105">
                     Book Talent
                 </a>
-                <a href="#contact" class="inline-block px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg uppercase border border-gray-500 text-gray-500 font-bold tracking-[0.2em] rounded-full hover:border-white hover:text-white transition duration-300 transform hover:scale-105">
+                <a href="#contact"
+                    class="w-full sm:w-auto inline-block px-8 sm:px-14 py-3 sm:py-5 text-sm sm:text-lg uppercase border border-gray-500 text-gray-500 font-bold tracking-[0.2em] rounded-full hover:border-white hover:text-white transition duration-300 transform hover:scale-105">
                     Apply Now
                 </a>
             </div>
@@ -330,32 +384,48 @@
     <footer id="contact" class="bg-[#030303] py-16 border-t border-gray-900">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-4xl sm:text-6xl font-extrabold uppercase mb-6 premium-text">Connect</h2>
-            <p class="text-gray-500 mb-12 text-base sm:text-xl font-light tracking-wide">Inquiries. Partnerships. Global Vision.</p>
+            <p class="text-gray-500 mb-12 text-base sm:text-xl font-light tracking-wide">Inquiries. Partnerships. Global
+                Vision.</p>
 
-            <a href="mailto:booking@ethereal.com" class="block text-2xl sm:text-4xl font-light text-gray-300 hover:text-white transition duration-300 tracking-wider mb-2">booking@ethereal.com</a>
+            <a href="mailto:booking@ethereal.com"
+                class="block text-2xl sm:text-4xl font-light text-gray-300 hover:text-white transition duration-300 tracking-wider mb-2">booking@ethereal.com</a>
             <p class="text-gray-700 text-base sm:text-lg uppercase font-light tracking-widest mb-12">E T H E R E A L</p>
 
             <div class="flex justify-center space-x-8 text-2xl text-gray-500">
                 <!-- Social Media Icons (SVGs) -->
                 <a href="#" class="hover:text-white transition duration-300" aria-label="Instagram">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.686 2 8.356 2.015 7.152 2.072 5.092 2.169 3.431 3.829 3.334 5.889 3.277 7.093 3.262 7.423 3.262 12s.015 4.907.072 6.111c.097 2.06 1.758 3.721 3.818 3.818 1.204.057 1.534.072 6.111.072s4.907-.015 6.111-.072c2.06-.097 3.721-1.758 3.818-3.818.057-1.204.072-1.534.072-6.111s-.015-4.907-.072-6.111c-.097-2.06-1.758-3.721-3.818-3.818-1.204-.057-1.534-.072-6.111-.072zm0 1.5c4.76 0 5.044.022 6.103.078 1.802.085 2.76.993 2.95 2.95.056 1.059.078 1.343.078 6.103s-.022 5.044-.078 6.103c-.19 1.957-.993 2.865-2.95 2.95-1.059.056-1.343.078-6.103.078s-5.044-.022-6.103-.078c-1.957-.19-2.865-.993-2.95-2.95-.056-1.059-.078-1.343-.078-6.103s.022-5.044.078-6.103c.19-1.957.993-2.865 2.95-2.95 1.059-.056 1.343-.078 6.103-.078z"/></svg>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.686 2 8.356 2.015 7.152 2.072 5.092 2.169 3.431 3.829 3.334 5.889 3.277 7.093 3.262 7.423 3.262 12s.015 4.907.072 6.111c.097 2.06 1.758 3.721 3.818 3.818 1.204.057 1.534.072 6.111.072s4.907-.015 6.111-.072c2.06-.097 3.721-1.758 3.818-3.818.057-1.204.072-1.534.072-6.111s-.015-4.907-.072-6.111c-.097-2.06-1.758-3.721-3.818-3.818-1.204-.057-1.534-.072-6.111-.072zm0 1.5c4.76 0 5.044.022 6.103.078 1.802.085 2.76.993 2.95 2.95.056 1.059.078 1.343.078 6.103s-.022 5.044-.078 6.103c-.19 1.957-.993 2.865-2.95 2.95-1.059.056-1.343.078-6.103.078s-5.044-.022-6.103-.078c-1.957-.19-2.865-.993-2.95-2.95-.056-1.059-.078-1.343-.078-6.103s.022-5.044.078-6.103c.19-1.957.993-2.865 2.95-2.95 1.059-.056 1.343-.078 6.103-.078z" />
+                    </svg>
                 </a>
                 <a href="#" class="hover:text-white transition duration-300" aria-label="LinkedIn">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8h-3c-1.65 0-2 1.52-2 2.5v1.5H9v3h2v7h3v-7h3.35l.65-3H14v-1.5c0-.65.23-1.5 1.5-1.5H16V8z"/></svg>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M16 8h-3c-1.65 0-2 1.52-2 2.5v1.5H9v3h2v7h3v-7h3.35l.65-3H14v-1.5c0-.65.23-1.5 1.5-1.5H16V8z" />
+                    </svg>
                 </a>
                 <a href="#" class="hover:text-white transition duration-300" aria-label="Pinterest">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12c0 4.25 2.76 7.86 6.58 9.24.48.09.66-.2.66-.45v-1.5c-2.36.52-2.86-.98-2.86-.98-.38-.96-.91-1.22-.91-1.22-.74-.5.06-.49.06-.49.82.06 1.25.84 1.25.84.73 1.25 1.91.89 2.37.68.07-.53.28-.89.51-1.1-.98-.11-2.01-.5-2.01-2.22 0-.49.18-.89.46-1.21-.05-.11-.18-.57.04-1.2.4-.11 1.3.46 1.3.46.36-.1.74-.15 1.13-.15.39 0 .77.05 1.13.15 0 0 .9-.57 1.3-.46.22.63.09 1.09.04 1.21.28.32.46.72.46 1.21 0 1.72-1.03 2.11-2.01 2.22.3.26.56.78.56 1.57v2.21c0 .25.18.54.66.45C19.24 19.86 22 16.25 22 12 22 6.47 17.53 2 12 2z"/></svg>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C6.47 2 2 6.47 2 12c0 4.25 2.76 7.86 6.58 9.24.48.09.66-.2.66-.45v-1.5c-2.36.52-2.86-.98-2.86-.98-.38-.96-.91-1.22-.91-1.22-.74-.5.06-.49.06-.49.82.06 1.25.84 1.25.84.73 1.25 1.91.89 2.37.68.07-.53.28-.89.51-1.1-.98-.11-2.01-.5-2.01-2.22 0-.49.18-.89.46-1.21-.05-.11-.18-.57.04-1.2.4-.11 1.3.46 1.3.46.36-.1.74-.15 1.13-.15.39 0 .77.05 1.13.15 0 0 .9-.57 1.3-.46.22.63.09 1.09.04 1.21.28.32.46.72.46 1.21 0 1.72-1.03 2.11-2.01 2.22.3.26.56.78.56 1.57v2.21c0 .25.18.54.66.45C19.24 19.86 22 16.25 22 12 22 6.47 17.53 2 12 2z" />
+                    </svg>
                 </a>
             </div>
 
-            <p class="text-xs text-gray-800 mt-16 tracking-widest">&copy; 2024 ETHEREAL. All Rights Reserved. Images Sourced from Pexels.</p>
+            <p class="text-xs text-gray-800 mt-16 tracking-widest">&copy; 2024 ETHEREAL. All Rights Reserved. Images
+                Sourced from Pexels.</p>
         </div>
     </footer>
 
     <!-- Image Modal for Full View -->
-    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-95 z-[100] hidden items-center justify-center p-4 transition duration-300" onclick="this.style.display='none'">
-        <img id="modal-image" src="" alt="Full-size gallery image" class="max-w-full max-h-full object-contain" onclick="event.stopPropagation()">
-        <button class="absolute top-6 right-6 text-white text-5xl hover:text-gray-400 transition" onclick="document.getElementById('image-modal').style.display='none'">&times;</button>
+    <div id="image-modal"
+        class="fixed inset-0 bg-black bg-opacity-95 z-[100] hidden items-center justify-center p-4 transition duration-300"
+        onclick="this.style.display='none'">
+        <img id="modal-image" src="" alt="Full-size gallery image" class="max-w-full max-h-full object-contain"
+            onclick="event.stopPropagation()">
+        <button class="absolute top-6 right-6 text-white text-5xl hover:text-gray-400 transition"
+            onclick="document.getElementById('image-modal').style.display='none'">&times;</button>
     </div>
 
 
@@ -413,7 +483,7 @@
             });
 
             // Fallback for image loading error
-            img.onerror = function() {
+            img.onerror = function () {
                 this.src = 'https://placehold.co/800x1000/111/444?text=IMAGE+ERROR';
                 this.style.objectFit = 'contain';
                 this.className = 'w-full h-auto p-10 bg-gray-800';
@@ -457,16 +527,16 @@
 
         // 5. Hero CTA Fade In
         function animateHeroElements() {
-             const tagline = document.getElementById('hero-tagline');
-             const cta = document.getElementById('hero-cta');
+            const tagline = document.getElementById('hero-tagline');
+            const cta = document.getElementById('hero-cta');
 
-             tagline.style.transform = 'translateY(0)';
-             tagline.style.opacity = '1';
+            tagline.style.transform = 'translateY(0)';
+            tagline.style.opacity = '1';
 
-             setTimeout(() => {
-                 cta.style.transform = 'translateY(0)';
-                 cta.style.opacity = '1';
-             }, 3500); // Wait longer for the slow text animation to finish
+            setTimeout(() => {
+                cta.style.transform = 'translateY(0)';
+                cta.style.opacity = '1';
+            }, 3500); // Wait longer for the slow text animation to finish
         }
 
         // 6. Scroll-based fade-in animations
@@ -477,7 +547,7 @@
             rootMargin: "0px 0px -150px 0px"
         };
 
-        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+        const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
             entries.forEach(entry => {
                 if (!entry.isIntersecting) {
                     return;
@@ -495,15 +565,15 @@
         });
 
         // Mobile menu toggle
-document.getElementById('mobile-menu-button').addEventListener('click', () => {
-    const menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('-translate-x-full');
-    menu.classList.toggle('translate-x-0');
-});
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('-translate-x-full');
+            menu.classList.toggle('translate-x-0');
+        });
 
 
         // Execute dynamic features on load
-        window.onload = function() {
+        window.onload = function () {
             initKineticText('kinetic-header-main', 0);
             initKineticText('kinetic-header-sub', 2000); // Subtitle delayed further
 
@@ -514,4 +584,5 @@ document.getElementById('mobile-menu-button').addEventListener('click', () => {
 
     </script>
 </body>
+
 </html>

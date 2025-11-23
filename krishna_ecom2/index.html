@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Artisan's Atelier</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Load Firebase Modules (MANDATORY for "real website" features like the cart) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global Firebase variables setup
-        let db, auth, userId, appId;
-        
+    <!-- LocalStorage Cart Logic (No Firebase) -->
+    <script>
+        // Global variables
+        let cartItems = [];
+
         // Function to hide loading screen and show content
         function hideLoadingScreen() {
             document.getElementById('loading-overlay').style.display = 'none';
@@ -25,151 +21,82 @@
             document.getElementById('main-footer').classList.remove('opacity-0');
         }
 
-        // --- 1. FIRESTORE/FIREBASE INITIALIZATION AND AUTHENTICATION ---
-        window.onload = async function() {
-            setLogLevel('Debug');
-            
-            appId = typeof __app_id !== 'undefined' ? __app_id : 'artisan-jewelry-app';
-            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-            
-            if (firebaseConfig) {
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                
-                try {
-                    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                    
-                    if (initialAuthToken) {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                    
-                } catch (error) {
-                    console.error("Firebase Auth Error:", error);
-                    // Fallback to anonymous sign-in if custom token fails
-                    await signInAnonymously(auth);
+        // --- INITIALIZATION ---
+        window.onload = function () {
+            // Load cart from local storage
+            try {
+                const storedCart = localStorage.getItem('artisan_cart');
+                if (storedCart) {
+                    cartItems = JSON.parse(storedCart);
                 }
-
-                // Wait for auth state change to get the final user ID
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        document.getElementById('current-user-id').textContent = userId;
-                        console.log("Authenticated User ID:", userId);
-                        // Start cart listener once authenticated
-                        startCartListener();
-                        
-                    } else {
-                        // If auth fails completely, use a local random UUID as a fallback identifier
-                        userId = crypto.randomUUID();
-                        console.warn("Using fallback User ID:", userId);
-                    }
-                    // Initialize page view and hide loading screen
-                    const hash = window.location.hash.substring(1); 
-                    showPage(hash && document.getElementById(hash) ? hash : 'home');
-                    hideLoadingScreen();
-                });
-            } else {
-                console.error("Firebase configuration not available. Cart will be non-persistent (simulated).");
-                // Initialize page view if Firebase setup is skipped
-                const hash = window.location.hash.substring(1); 
-                showPage(hash && document.getElementById(hash) ? hash : 'home');
-                hideLoadingScreen();
+            } catch (e) {
+                console.error("Error loading cart from local storage", e);
             }
+
+            // Expose to window for other scripts
+            window.currentCartItems = cartItems;
+
+            // Render cart
+            renderCart(cartItems);
+
+            // Set user ID
+            const userIdElement = document.getElementById('current-user-id');
+            if (userIdElement) userIdElement.textContent = "Guest-User";
+
+            // Initialize page view and hide loading screen
+            const hash = window.location.hash.substring(1);
+            showPage(hash && document.getElementById(hash) ? hash : 'home');
+            hideLoadingScreen();
         };
 
-        // --- 2. FIRESTORE CART OPERATIONS ---
-        
-        // Get the reference for the user's cart document
-        function getCartDocRef() {
-             // Path: /artifacts/{appId}/users/{userId}/cart/main
-            return doc(db, 'artifacts', appId, 'users', userId, 'cart', 'main');
-        }
+        // --- CART OPERATIONS ---
 
-        // Add or update an item in the cart
-        window.addToCart = async function(productId, name, price, imageUrl) {
-            if (!db || !userId) { 
-                console.error("Database or User ID not ready."); 
-                showToast("Cart temporarily disabled. Please wait for the site to load.", 'error');
-                return; 
-            }
+        // Add to cart
+        window.addToCart = function (productId, name, price, imageUrl) {
+            const existingItemIndex = cartItems.findIndex(item => item.id === productId);
 
-            try {
-                // The cart logic is handled by the real-time listener, we just update Firestore.
-                const newCartItem = {
+            if (existingItemIndex > -1) {
+                // Item exists, increment quantity
+                cartItems[existingItemIndex].quantity += 1;
+            } else {
+                // New item, add to array
+                cartItems.push({
                     id: productId,
                     name: name,
                     price: price,
                     imageUrl: imageUrl,
-                    quantity: 1 // Default quantity on add
-                };
-                
-                // Get the current cart state from the global window.currentCartItems (updated by listener)
-                const cartItems = window.currentCartItems || [];
-                const existingItemIndex = cartItems.findIndex(item => item.id === productId);
-
-                if (existingItemIndex > -1) {
-                    // Item exists, increment quantity
-                    cartItems[existingItemIndex].quantity += 1;
-                } else {
-                    // New item, add to array
-                    cartItems.push(newCartItem);
-                }
-
-                // Update Firestore document with the new array
-                await setDoc(getCartDocRef(), { items: cartItems }, { merge: false });
-                showToast(`Added ${name} to cart!`, 'success');
-
-            } catch (e) {
-                console.error("Error adding document: ", e);
-                showToast("Failed to update cart. Please check console.", 'error');
+                    quantity: 1
+                });
             }
+
+            saveCart();
+            showToast(`Added ${name} to cart!`, 'success');
         }
-        
+
         // Update item quantity or remove if quantity is 0
-        window.updateCartItem = async function(productId, newQuantity) {
-            if (!db || !userId) return;
-
-            const cartItems = window.currentCartItems || [];
-            
-            let updatedItems = cartItems.map(item => {
-                if (item.id === productId) {
-                    item.quantity = Math.max(0, newQuantity); // Ensure quantity is not negative
+        window.updateCartItem = function (productId, newQuantity) {
+            if (newQuantity <= 0) {
+                cartItems = cartItems.filter(item => item.id !== productId);
+                showToast("Item removed from cart.", 'info');
+            } else {
+                const item = cartItems.find(item => item.id === productId);
+                if (item) {
+                    item.quantity = newQuantity;
                 }
-                return item;
-            }).filter(item => item.quantity > 0); // Remove if quantity hits 0
-
-            try {
-                 await setDoc(getCartDocRef(), { items: updatedItems }, { merge: false });
-                 if (newQuantity === 0) {
-                     showToast("Item removed from cart.", 'info');
-                 }
-            } catch (e) {
-                console.error("Error updating cart: ", e);
             }
+            saveCart();
         }
 
-        // Set up the real-time listener for the user's cart
-        function startCartListener() {
-            if (!db || !userId) return;
-
-            const cartRef = getCartDocRef();
-            onSnapshot(cartRef, (doc) => {
-                const cartData = doc.data();
-                const items = cartData && cartData.items ? cartData.items : [];
-                window.currentCartItems = items; // Store globally for access in addToCart
-                renderCart(items);
-                console.log("Cart updated:", items);
-            }, (error) => {
-                console.error("Error listening to cart changes:", error);
-            });
+        // Save cart to local storage and update UI
+        function saveCart() {
+            localStorage.setItem('artisan_cart', JSON.stringify(cartItems));
+            window.currentCartItems = cartItems;
+            renderCart(cartItems);
         }
 
-        // --- 3. DOM & UI RENDERING FUNCTIONS (Outside of the module scope) ---
-        
-        // Render the cart UI based on the latest Firestore data
+        // --- UI RENDERING FUNCTIONS ---
+
+        // Render the cart UI
         function renderCart(items) {
             const cartList = document.getElementById('cart-items-list');
             const cartCountElement = document.getElementById('cart-count');
@@ -185,11 +112,15 @@
 
             if (items.length === 0) {
                 cartList.innerHTML = `<p class="text-gray-500 text-center py-8">Your unique collection is waiting! Add some artisan pieces.</p>`;
-                cartCheckoutButton.disabled = true;
-                cartCheckoutButton.classList.add('opacity-50', 'cursor-not-allowed');
+                if (cartCheckoutButton) {
+                    cartCheckoutButton.disabled = true;
+                    cartCheckoutButton.classList.add('opacity-50', 'cursor-not-allowed');
+                }
             } else {
-                cartCheckoutButton.disabled = false;
-                cartCheckoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                if (cartCheckoutButton) {
+                    cartCheckoutButton.disabled = false;
+                    cartCheckoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
 
                 items.forEach(item => {
                     const itemTotal = item.price * item.quantity;
@@ -220,18 +151,20 @@
             }
 
             cartCountElement.textContent = itemCount;
-            cartCountMobileElement.textContent = itemCount; // Sync mobile cart count
+            cartCountMobileElement.textContent = itemCount;
             cartTotalElement.textContent = total.toFixed(2);
         }
-        
-        // Simple Toast Notification Implementation
+
+        // Toast Notification
         function showToast(message, type) {
             const toast = document.getElementById('toast-notification');
+            if (!toast) return;
+
             const color = type === 'success' ? 'bg-green-600' : (type === 'error' ? 'bg-red-600' : 'bg-blue-600');
-            
+
             toast.textContent = message;
             toast.className = `fixed bottom-5 right-5 z-[100] p-4 rounded-lg shadow-2xl text-white opacity-0 transition-opacity duration-300 ${color}`;
-            
+
             setTimeout(() => {
                 toast.classList.remove('opacity-0');
                 toast.classList.add('opacity-100');
@@ -264,13 +197,13 @@
         function showPage(pageId) {
             const sections = document.querySelectorAll('.page-content');
             const navLinks = document.querySelectorAll('.nav-link');
-            
+
             // 1. Hide all sections
             sections.forEach(section => {
                 section.classList.remove('active-page');
                 section.classList.add('hidden-page');
             });
-            
+
             // 2. Highlight the active navigation link
             navLinks.forEach(link => {
                 link.classList.remove('text-yellow-400', 'font-semibold', 'border-b-2', 'border-yellow-400');
@@ -288,7 +221,7 @@
             const targetSection = document.getElementById(pageId);
             if (targetSection) {
                 targetSection.classList.remove('hidden-page');
-                void targetSection.offsetWidth; 
+                void targetSection.offsetWidth;
                 targetSection.classList.add('active-page');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -296,18 +229,18 @@
             // 4. Hide mobile menu on navigation
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenu && mobileMenu.style.display === 'block') {
-                 mobileMenu.style.display = 'none';
+                mobileMenu.style.display = 'none';
             }
         }
-        
+
         // Function to simulate checkout (since we don't have real payment processing)
-        window.checkout = function() {
-            if (window.currentCartItems && window.currentCartItems.length > 0) {
+        // Function to simulate checkout
+        window.checkout = function () {
+            if (cartItems && cartItems.length > 0) {
                 showToast("Order Placed Successfully! (Simulated)", 'success');
-                // Clear cart in Firestore after simulated checkout
-                // Note: Using a placeholder ID that will result in clearing the entire array in Firestore
-                // since the filter will remove all items.
-                window.updateCartItem('non-existent-id-to-clear', 0); 
+                // Clear cart
+                cartItems = [];
+                saveCart();
                 showPage('shop'); // Redirect to shop
             } else {
                 showToast("Your cart is empty!", 'error');
@@ -316,41 +249,44 @@
 
         // Mobile Menu Toggle Logic
         document.addEventListener('DOMContentLoaded', () => {
-             const mobileMenuButton = document.getElementById('mobile-menu-button');
-             if(mobileMenuButton) {
-                 mobileMenuButton.addEventListener('click', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', function () {
                     const mobileMenu = document.getElementById('mobile-menu');
                     mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
                 });
-             }
+            }
         });
 
     </script>
-    
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap');
-        
+
         /* Custom Fonts for Premium Look */
         .font-serif-premium {
             font-family: 'Playfair Display', serif;
         }
+
         .font-sans-premium {
             font-family: 'Inter', sans-serif;
         }
-        
+
         /* Smooth transition for page visibility */
         .page-content {
             transition: opacity 0.5s ease-in-out;
         }
+
         .hidden-page {
             display: none;
             opacity: 0;
         }
+
         .active-page {
             display: block;
             opacity: 1;
         }
-        
+
         /* Custom image styling */
         .hero-img-premium {
             object-fit: cover;
@@ -363,6 +299,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
         }
+
         .btn-gold:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -4px rgba(0, 0, 0, 0.7);
@@ -374,6 +311,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
         }
+
         .product-card-hover:hover {
             transform: scale(1.03);
             box-shadow: 0 15px 25px rgba(255, 255, 255, 0.05);
@@ -381,42 +319,63 @@
     </style>
 </head>
 <!-- Deep Charcoal Background with Inter font for text -->
+
 <body class="bg-gray-900 font-sans-premium text-gray-300 min-h-screen flex flex-col">
 
     <!-- LOADING OVERLAY (New Feature) -->
-    <div id="loading-overlay" class="fixed inset-0 bg-gray-900 z-[200] flex flex-col items-center justify-center text-yellow-400">
+    <div id="loading-overlay"
+        class="fixed inset-0 bg-gray-900 z-[200] flex flex-col items-center justify-center text-yellow-400">
         <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-yellow-400 mb-4"></div>
         <p class="text-xl font-serif-premium">Loading Atelier...</p>
         <p class="text-sm text-gray-500 mt-2">Connecting to secure services...</p>
     </div>
-    
+
     <!-- Toast Notification (Hidden by default) -->
-    <div id="toast-notification" class="fixed bottom-5 right-5 z-[100] p-4 rounded-lg shadow-2xl text-white opacity-0 transition-opacity duration-300 bg-green-600"></div>
+    <div id="toast-notification"
+        class="fixed bottom-5 right-5 z-[100] p-4 rounded-lg shadow-2xl text-white opacity-0 transition-opacity duration-300 bg-green-600">
+    </div>
 
     <!-- Navigation Bar (Fixed for a premium feel) -->
-    <header id="main-header" class="sticky top-0 z-50 bg-gray-800 border-b border-gray-700 shadow-xl opacity-0 transition-opacity duration-500">
+    <header id="main-header"
+        class="sticky top-0 z-50 bg-gray-800 border-b border-gray-700 shadow-xl opacity-0 transition-opacity duration-500">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo/Brand -->
                 <div class="flex-shrink-0">
-                    <span class="text-3xl font-serif-premium font-extrabold text-yellow-400 tracking-wider">Atelier</span>
+                    <span
+                        class="text-3xl font-serif-premium font-extrabold text-yellow-400 tracking-wider">Atelier</span>
                 </div>
                 <!-- Desktop Navigation Links -->
                 <div class="hidden md:flex items-center space-x-8">
                     <!-- Added pb-1 and font-medium class to be overridden by JS for active state -->
-                    <a href="#home" onclick="showPage('home')" class="nav-link text-gray-300 hover:text-yellow-400 text-lg font-medium transition duration-150 pb-1">Home</a>
-                    <a href="#shop" onclick="showPage('shop')" class="nav-link text-gray-300 hover:text-yellow-400 text-lg font-medium transition duration-150 pb-1">Shop Collection</a>
-                    <a href="#about" onclick="showPage('about')" class="nav-link text-gray-300 hover:text-yellow-400 text-lg font-medium transition duration-150 pb-1">Our Story</a>
-                    <a href="#cart" onclick="showPage('cart')" class="flex items-center space-x-1 nav-link text-gray-300 hover:text-yellow-400 p-2 rounded-full transition duration-150 relative">
-                         <!-- Cart Icon (Lucide-react style using SVG) -->
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 12H6L5 9z"></path></svg>
-                        <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-gray-900 transform translate-x-1/2 -translate-y-1/2 bg-yellow-400 rounded-full">0</span>
+                    <a href="#home" onclick="showPage('home')"
+                        class="nav-link text-gray-300 hover:text-yellow-400 text-lg font-medium transition duration-150 pb-1">Home</a>
+                    <a href="#shop" onclick="showPage('shop')"
+                        class="nav-link text-gray-300 hover:text-yellow-400 text-lg font-medium transition duration-150 pb-1">Shop
+                        Collection</a>
+                    <a href="#about" onclick="showPage('about')"
+                        class="nav-link text-gray-300 hover:text-yellow-400 text-lg font-medium transition duration-150 pb-1">Our
+                        Story</a>
+                    <a href="#cart" onclick="showPage('cart')"
+                        class="flex items-center space-x-1 nav-link text-gray-300 hover:text-yellow-400 p-2 rounded-full transition duration-150 relative">
+                        <!-- Cart Icon (Lucide-react style using SVG) -->
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 12H6L5 9z"></path>
+                        </svg>
+                        <span id="cart-count"
+                            class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-gray-900 transform translate-x-1/2 -translate-y-1/2 bg-yellow-400 rounded-full">0</span>
                     </a>
                 </div>
                 <!-- Mobile Menu Button (Hamburger) -->
-                <button id="mobile-menu-button" type="button" class="md:hidden p-2 rounded-md text-gray-300 hover:text-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400" aria-controls="mobile-menu" aria-expanded="false">
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                <button id="mobile-menu-button" type="button"
+                    class="md:hidden p-2 rounded-md text-gray-300 hover:text-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400"
+                    aria-controls="mobile-menu" aria-expanded="false">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
@@ -425,13 +384,20 @@
         <!-- Mobile Menu (Hidden by default) -->
         <div class="md:hidden bg-gray-900 border-t border-gray-700" id="mobile-menu" style="display: none;">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#home" onclick="showPage('home')" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">Home</a>
-                <a href="#shop" onclick="showPage('shop')" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">Shop Collection</a>
-                <a href="#about" onclick="showPage('about')" class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">Our Story</a>
-                <a href="#cart" onclick="showPage('cart')" class="nav-link flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">
+                <a href="#home" onclick="showPage('home')"
+                    class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">Home</a>
+                <a href="#shop" onclick="showPage('shop')"
+                    class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">Shop
+                    Collection</a>
+                <a href="#about" onclick="showPage('about')"
+                    class="nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">Our
+                    Story</a>
+                <a href="#cart" onclick="showPage('cart')"
+                    class="nav-link flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-yellow-400">
                     <span>View Cart</span>
                     <!-- Cart Count Mobile is now synced by renderCart function -->
-                    <span id="cart-count-mobile" class="px-2 py-0.5 text-xs font-bold leading-none text-gray-900 bg-yellow-400 rounded-full">0</span>
+                    <span id="cart-count-mobile"
+                        class="px-2 py-0.5 text-xs font-bold leading-none text-gray-900 bg-yellow-400 rounded-full">0</span>
                 </a>
             </div>
         </div>
@@ -448,58 +414,66 @@
 
             <!-- 1. HOME Section -->
             <section id="home" class="page-content active-page">
-                <div class="grid md:grid-cols-2 gap-10 items-center bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
+                <div
+                    class="grid md:grid-cols-2 gap-10 items-center bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
                     <!-- Text Panel -->
                     <div class="p-8 lg:p-12 order-2 md:order-1">
-                        <h1 class="text-5xl md:text-6xl font-serif-premium font-extrabold text-white mb-6 leading-tight">
+                        <h1
+                            class="text-5xl md:text-6xl font-serif-premium font-extrabold text-white mb-6 leading-tight">
                             The Artisan's <span class="text-yellow-400">Atelier</span>
                         </h1>
                         <p class="text-lg text-gray-400 mb-8 border-l-2 border-yellow-500 pl-4 italic">
-                            Discover jewelry woven from the heart—each piece connects tradition with timeless, ethical design.
+                            Discover jewelry woven from the heart—each piece connects tradition with timeless, ethical
+                            design.
                         </p>
-                        <a href="#shop" onclick="showPage('shop')" class="inline-flex items-center justify-center px-10 py-3 text-base font-semibold rounded-full text-gray-900 btn-gold">
+                        <a href="#shop" onclick="showPage('shop')"
+                            class="inline-flex items-center justify-center px-10 py-3 text-base font-semibold rounded-full text-gray-900 btn-gold">
                             Browse the Collection &rarr;
                         </a>
                     </div>
-                     <!-- Image Panel (User-specified hero image) -->
+                    <!-- Image Panel (User-specified hero image) -->
                     <div class="h-96 md:h-full order-1 md:order-2">
-                        <img class="hero-img-premium w-full h-full" 
-                             src="https://images.pexels.com/photos/1666472/pexels-photo-1666472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                             alt="Artisan woman selling handcrafted jewelry at an outdoor market."
-                             onerror="this.onerror=null; this.src='https://placehold.co/600x900/4b5563/fff?text=Market+Artisan+Image';">
+                        <img class="hero-img-premium w-full h-full"
+                            src="https://images.pexels.com/photos/1666472/pexels-photo-1666472.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                            alt="Artisan woman selling handcrafted jewelry at an outdoor market."
+                            onerror="this.onerror=null; this.src='https://placehold.co/600x900/4b5563/fff?text=Market+Artisan+Image';">
                     </div>
                 </div>
 
                 <!-- Featured Section - Crafting Focus -->
                 <div class="mt-20 text-center">
                     <h2 class="text-4xl font-serif-premium text-white mb-4">Our Commitment to Craft</h2>
-                    <p class="text-lg text-gray-400 mb-10 max-w-3xl mx-auto">We honor the process, using time-tested methods and ethically sourced materials to create pieces of enduring beauty.</p>
-                    
+                    <p class="text-lg text-gray-400 mb-10 max-w-3xl mx-auto">We honor the process, using time-tested
+                        methods and ethically sourced materials to create pieces of enduring beauty.</p>
+
                     <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700">
                         <div class="grid md:grid-cols-3 gap-8">
-                             <!-- Feature 1 -->
+                            <!-- Feature 1 -->
                             <div class="text-center">
-                                <img class="w-full h-48 object-cover rounded-lg mb-4 shadow-xl" 
-                                    src="https://images.pexels.com/photos/7166969/pexels-photo-7166969.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" 
+                                <img class="w-full h-48 object-cover rounded-lg mb-4 shadow-xl"
+                                    src="https://images.pexels.com/photos/7166969/pexels-photo-7166969.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2"
                                     alt="Close-up of hands using tools for jewelry making.">
                                 <h3 class="text-xl font-semibold text-yellow-400">Traditional Techniques</h3>
-                                <p class="text-gray-400 text-sm mt-2">Patience and precision in every curve and setting.</p>
+                                <p class="text-gray-400 text-sm mt-2">Patience and precision in every curve and setting.
+                                </p>
                             </div>
                             <!-- Feature 2 -->
                             <div class="text-center">
-                                <img class="w-full h-48 object-cover rounded-lg mb-4 shadow-xl" 
-                                    src="https://images.pexels.com/photos/3617724/pexels-photo-3617724.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" 
+                                <img class="w-full h-48 object-cover rounded-lg mb-4 shadow-xl"
+                                    src="https://images.pexels.com/photos/3617724/pexels-photo-3617724.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2"
                                     alt="Handcrafted jewelry on display at a market stall.">
                                 <h3 class="text-xl font-semibold text-yellow-400">Ethical Sourcing</h3>
-                                <p class="text-gray-400 text-sm mt-2">Fair trade materials support local communities.</p>
+                                <p class="text-gray-400 text-sm mt-2">Fair trade materials support local communities.
+                                </p>
                             </div>
                             <!-- Feature 3 -->
                             <div class="text-center">
-                                <img class="w-full h-48 object-cover rounded-lg mb-4 shadow-xl" 
-                                    src="https://images.pexels.com/photos/10406302/pexels-photo-10406302.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" 
+                                <img class="w-full h-48 object-cover rounded-lg mb-4 shadow-xl"
+                                    src="https://images.pexels.com/photos/10406302/pexels-photo-10406302.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2"
                                     alt="Man wearing tribal beaded necklaces, showcasing cultural influence.">
                                 <h3 class="text-xl font-semibold text-yellow-400">Cultural Legacy</h3>
-                                <p class="text-gray-400 text-sm mt-2">Designs inspired by generations of heritage and craft.</p>
+                                <p class="text-gray-400 text-sm mt-2">Designs inspired by generations of heritage and
+                                    craft.</p>
                             </div>
                         </div>
                     </div>
@@ -509,9 +483,9 @@
             <!-- 2. SHOP Section -->
             <section id="shop" class="page-content hidden-page">
                 <h2 class="text-5xl font-serif-premium text-white text-center mb-12">The Full Collection</h2>
-                
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    
+
                     <!-- PRODUCT CARDS (Dynamically rendered using the PRODUCTS array) -->
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
@@ -542,9 +516,9 @@
                             }
                         });
                     </script>
-                    
+
                 </div>
-                
+
                 <div class="text-center mt-12">
                     <p class="text-gray-500 italic">Showing all 8 items.</p>
                 </div>
@@ -553,19 +527,21 @@
             <!-- 3. CART Section (New Feature) -->
             <section id="cart" class="page-content hidden-page">
                 <div class="bg-gray-800 p-8 md:p-12 rounded-2xl shadow-2xl border border-gray-700 max-w-4xl mx-auto">
-                    <h2 class="text-5xl font-serif-premium text-white text-center mb-10 border-b border-gray-700 pb-4">Your Shopping Cart</h2>
-                    
+                    <h2 class="text-5xl font-serif-premium text-white text-center mb-10 border-b border-gray-700 pb-4">
+                        Your Shopping Cart</h2>
+
                     <ul id="cart-items-list" class="space-y-4">
                         <!-- Cart items will be rendered here by JavaScript/Firestore listener -->
                     </ul>
-                    
+
                     <div class="mt-8 pt-6 border-t border-gray-700 flex justify-between items-center">
                         <p class="text-2xl font-semibold text-gray-300">Total:</p>
                         <p class="text-3xl font-bold text-yellow-400">$<span id="cart-total">0.00</span></p>
                     </div>
-                    
+
                     <div class="mt-8">
-                        <button id="checkout-button" onclick="checkout()" class="w-full py-4 text-lg font-bold rounded-full text-gray-900 btn-gold disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button id="checkout-button" onclick="checkout()"
+                            class="w-full py-4 text-lg font-bold rounded-full text-gray-900 btn-gold disabled:opacity-50 disabled:cursor-not-allowed">
                             Proceed to Checkout (Simulated)
                         </button>
                     </div>
@@ -577,27 +553,36 @@
                 <div class="bg-gray-800 p-8 md:p-12 rounded-2xl shadow-2xl border border-gray-700">
                     <h2 class="text-5xl font-serif-premium text-white text-center mb-10">The Story Behind the Craft</h2>
                     <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 items-center">
-                        
+
                         <!-- About Text -->
                         <div class="md:col-span-2">
-                            <p class="text-xl leading-relaxed text-yellow-400 mb-6 border-l-4 border-yellow-600 pl-4 italic font-serif-premium">
-                                "Every knot tied, every bead selected, carries the whisper of history and the promise of a future heirloom."
+                            <p
+                                class="text-xl leading-relaxed text-yellow-400 mb-6 border-l-4 border-yellow-600 pl-4 italic font-serif-premium">
+                                "Every knot tied, every bead selected, carries the whisper of history and the promise of
+                                a future heirloom."
                             </p>
                             <p class="text-lg text-gray-400 mb-4">
-                                The **Artisan's Atelier** is rooted in the legacy of **Fatima**, a master craftswoman who inherited her skills from her family's tradition of market artisans. For over twenty years, she has dedicated herself to blending intricate traditional techniques with a sleek, contemporary vision.
+                                The **Artisan's Atelier** is rooted in the legacy of **Fatima**, a master craftswoman
+                                who inherited her skills from her family's tradition of market artisans. For over twenty
+                                years, she has dedicated herself to blending intricate traditional techniques with a
+                                sleek, contemporary vision.
                             </p>
                             <p class="text-lg text-gray-400 mb-4">
-                                Our commitment extends beyond beauty. We believe in **transparent sourcing** and **fair-trade partnerships**, ensuring that the prosperity generated by our unique pieces circles back to the communities that provide our incredible materials. Buying from the Atelier is supporting global artistry.
+                                Our commitment extends beyond beauty. We believe in **transparent sourcing** and
+                                **fair-trade partnerships**, ensuring that the prosperity generated by our unique pieces
+                                circles back to the communities that provide our incredible materials. Buying from the
+                                Atelier is supporting global artistry.
                             </p>
                             <p class="text-lg text-gray-400">
-                                This is more than jewelry; it's a wearable piece of art, imbued with care, purpose, and story.
+                                This is more than jewelry; it's a wearable piece of art, imbued with care, purpose, and
+                                story.
                             </p>
                         </div>
 
                         <!-- Supporting Image -->
                         <div class="md:col-span-1">
-                            <img class="w-full h-auto object-cover rounded-xl shadow-xl border-2 border-yellow-600" 
-                                src="https://images.pexels.com/photos/7585695/pexels-photo-7585695.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2" 
+                            <img class="w-full h-auto object-cover rounded-xl shadow-xl border-2 border-yellow-600"
+                                src="https://images.pexels.com/photos/7585695/pexels-photo-7585695.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=2"
                                 alt="Woman making a bracelet indoors, focused on her work."
                                 onerror="this.onerror=null; this.src='https://placehold.co/400x600/374151/fff?text=Artisan+At+Work';">
                         </div>
@@ -611,8 +596,10 @@
     <!-- Footer -->
     <footer id="main-footer" class="bg-gray-900 border-t border-gray-700 opacity-0 transition-opacity duration-500">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-            <p>&copy; 2025 The Artisan's Atelier | All Rights Reserved. | <span class="text-yellow-400">Crafted with Integrity</span></p>
+            <p>&copy; 2025 The Artisan's Atelier | All Rights Reserved. | <span class="text-yellow-400">Crafted with
+                    Integrity</span></p>
         </div>
     </footer>
 </body>
+
 </html>
