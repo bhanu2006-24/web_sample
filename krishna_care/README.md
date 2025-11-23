@@ -6,8 +6,8 @@
 
 <div align="center">
 
-<a href="#">
-  <img src="https://img.shields.io/badge/LIVE_PREVIEW-COMING_SOON-emerald?style=for-the-badge&logo=gofundme&logoColor=white" alt="Live Preview" />
+<a href="https://krishnacaresample.pages.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/LIVE_PREVIEW-10B981?style=for-the-badge&logo=gofundme&logoColor=white" alt="Live Preview" />
 </a>
 
 </div>
@@ -18,6 +18,16 @@
 - **Volunteer Signup**: Easy registration for events and programs.
 - **Impact Dashboard**: Transparent reporting of funds and results.
 - **Storytelling**: Blog section for sharing beneficiary stories.
+
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/img1.png" width="45%" alt="Donation Portal" />
+  <img src="./screenshots/img2.png" width="45%" alt="Impact Stories" />
+  <img src="./screenshots/img3.png" width="45%" alt="Volunteer Programs" />
+</div>
+
 
 ## 🛠️ Tech Stack
 

@@ -1,6 +1,6 @@
 # 🌿 Krishna Mehandi
 
-![Krishna Mehandi](./public/screenshot.png)
+![Krishna Mehandi](./screenshots/hero.png)
 
 > Celebrating tradition. Intricate henna designs that tell a story of beauty and celebration.
 

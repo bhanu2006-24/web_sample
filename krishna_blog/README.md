@@ -6,8 +6,8 @@
 
 <div align="center">
 
-<a href="#">
-  <img src="https://img.shields.io/badge/LIVE_PREVIEW-COMING_SOON-black?style=for-the-badge&logo=medium&logoColor=white" alt="Live Preview" />
+<a href="https://krishnablogsample.pages.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/LIVE_PREVIEW-333333?style=for-the-badge&logo=medium&logoColor=white" alt="Live Preview" />
 </a>
 
 </div>
@@ -18,6 +18,16 @@
 - **Category Filtering**: Easy navigation through topics.
 - **Newsletter Signup**: Integrated subscription form.
 - **Comment System**: Engage with readers and build community.
+
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/img1.png" width="45%" alt="Blog Posts" />
+  <img src="./screenshots/img2.png" width="45%" alt="Article View" />
+  <img src="./screenshots/img3.png" width="45%" alt="Categories" />
+</div>
+
 
 ## 🛠️ Tech Stack
 

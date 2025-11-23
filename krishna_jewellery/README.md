@@ -20,7 +20,7 @@
 ## 📸 Gallery
 
 <div align="center">
-  <img src="./screenshots/jewellery_hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/hero.png" width="45%" alt="Hero Section" />
   <img src="./screenshots/jewellery_collection.png" width="45%" alt="Collection" />
 </div>
 

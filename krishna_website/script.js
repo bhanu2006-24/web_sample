@@ -37,6 +37,60 @@ const projects = [
         link: "https://krishnaartistsample.pages.dev/"
     },
     {
+        title: "Krishna Estates",
+        category: "Real Estate",
+        image: "public/screenshots/estates.png",
+        link: "https://krishnaestatesample.pages.dev/"
+    },
+    {
+        title: "Krishna Fitness",
+        category: "Health & Wellness",
+        image: "public/screenshots/fitness.png",
+        link: "https://krishnafitnesssample.pages.dev/"
+    },
+    {
+        title: "Krishna Travels",
+        category: "Travel & Tourism",
+        image: "public/screenshots/travels.png",
+        link: "https://krishnatravelssample.pages.dev/"
+    },
+    {
+        title: "Krishna Lens",
+        category: "Photography",
+        image: "public/screenshots/lens.png",
+        link: "https://krishnalenssample.pages.dev/"
+    },
+    {
+        title: "Krishna Events",
+        category: "Event Planning",
+        image: "public/screenshots/events.png",
+        link: "https://krishnaeventssample.pages.dev/"
+    },
+    {
+        title: "Krishna Tech",
+        category: "Technology",
+        image: "public/screenshots/tech.png",
+        link: "https://krishnatechsample.pages.dev/"
+    },
+    {
+        title: "Krishna Chronicles",
+        category: "Blog & Media",
+        image: "public/screenshots/blog.png",
+        link: "https://krishnablogsample.pages.dev/"
+    },
+    {
+        title: "Krishna Care",
+        category: "Non-Profit",
+        image: "public/screenshots/care.png",
+        link: "https://krishnacaresample.pages.dev/"
+    },
+    {
+        title: "Krishna Academy",
+        category: "Education",
+        image: "public/screenshots/academy.png",
+        link: "https://krishnaacademysample.pages.dev/"
+    },
+    {
         title: "Krishna Shoes",
         category: "Retail",
         image: "public/screenshots/shoes.png",

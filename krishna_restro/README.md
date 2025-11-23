@@ -1,6 +1,6 @@
 # 🍽️ Krishna Restaurant
 
-![Krishna Restaurant](./public/screenshot.png)
+![Krishna Restaurant](./screenshots/hero.png)
 
 > A culinary journey. Experience the fusion of tradition and innovation in every dish.
 

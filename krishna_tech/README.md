@@ -6,8 +6,8 @@
 
 <div align="center">
 
-<a href="#">
-  <img src="https://img.shields.io/badge/LIVE_PREVIEW-COMING_SOON-indigo?style=for-the-badge&logo=react&logoColor=white" alt="Live Preview" />
+<a href="https://krishnatechsample.pages.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/LIVE_PREVIEW-6366F1?style=for-the-badge&logo=react&logoColor=white" alt="Live Preview" />
 </a>
 
 </div>
@@ -18,6 +18,16 @@
 - **Automated Workflows**: Drag-and-drop builder for custom logic.
 - **Team Collaboration**: Built-in chat and task management.
 - **API Integration**: Seamless connection with 100+ tools.
+
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/img1.png" width="45%" alt="Dashboard" />
+  <img src="./screenshots/img2.png" width="45%" alt="Analytics" />
+  <img src="./screenshots/img3.png" width="45%" alt="Workflow Builder" />
+</div>
+
 
 ## 🛠️ Tech Stack
 

@@ -6,8 +6,8 @@
 
 <div align="center">
 
-<a href="#">
-  <img src="https://img.shields.io/badge/LIVE_PREVIEW-COMING_SOON-black?style=for-the-badge&logo=unsplash&logoColor=white" alt="Live Preview" />
+<a href="https://krishnalenssample.pages.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/LIVE_PREVIEW-1A1A1A?style=for-the-badge&logo=unsplash&logoColor=white" alt="Live Preview" />
 </a>
 
 </div>
@@ -18,6 +18,16 @@
 - **Lightbox View**: Immersive full-screen image viewing.
 - **Client Proofing**: Private galleries for client selection.
 - **Print Store**: Integrated e-commerce for selling prints.
+
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/img1.png" width="45%" alt="Photo Gallery" />
+  <img src="./screenshots/img2.png" width="45%" alt="Lightbox View" />
+  <img src="./screenshots/img3.png" width="45%" alt="Portfolio Grid" />
+</div>
+
 
 ## 🛠️ Tech Stack
 

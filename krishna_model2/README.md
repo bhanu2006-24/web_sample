@@ -1,6 +1,6 @@
 # 🌟 Model Agency 2
 
-![Model Agency 2](./public/screenshot.png)
+![Model Agency 2](./screenshots/hero.png)
 
 > The faces of tomorrow. A contemporary agency connecting unique talent with global brands.
 

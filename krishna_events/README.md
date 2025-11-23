@@ -6,8 +6,8 @@
 
 <div align="center">
 
-<a href="#">
-  <img src="https://img.shields.io/badge/LIVE_PREVIEW-COMING_SOON-pink?style=for-the-badge&logo=eventbrite&logoColor=white" alt="Live Preview" />
+<a href="https://krishnaeventssample.pages.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/LIVE_PREVIEW-FFE4E1?style=for-the-badge&logo=eventbrite&logoColor=5D4037" alt="Live Preview" />
 </a>
 
 </div>
@@ -18,6 +18,16 @@
 - **Service Packages**: Detailed options for every budget.
 - **Vendor Network**: Access to top-tier florists, caterers, and venues.
 - **RSVP Management**: Digital tools for guest list tracking.
+
+## 📸 Gallery
+
+<div align="center">
+  <img src="./screenshots/hero.png" width="45%" alt="Hero Section" />
+  <img src="./screenshots/img1.png" width="45%" alt="Event Portfolio" />
+  <img src="./screenshots/img2.png" width="45%" alt="Service Packages" />
+  <img src="./screenshots/img3.png" width="45%" alt="Venue Showcase" />
+</div>
+
 
 ## 🛠️ Tech Stack
 

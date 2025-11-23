@@ -1,6 +1,6 @@
 # 💄 Krishna Makeup
 
-![Krishna Makeup](./public/screenshot.png)
+![Krishna Makeup](./screenshots/hero.png)
 
 > Unveil your true radiance. Professional artistry for weddings, events, and editorial shoots.
 

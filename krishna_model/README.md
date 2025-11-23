@@ -1,6 +1,6 @@
 # 📸 Ethereal Models
 
-![Ethereal Models](./public/screenshot.png)
+![Ethereal Models](./screenshots/hero.png)
 
 > Redefining beauty and style. A premier portfolio for the world's top modeling talent.
 
